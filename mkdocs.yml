@@ -1,0 +1,51 @@
+site_name: The Causal Domain
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - content.code.annotate
+    - content.tabs.link
+    - content.tooltips
+    - search.suggest
+    - search.highlight
+
+nav:
+  - Home: index.md
+
+  - Manuscript: manuscript/
+
+  - Glossary: glossary/
+
+  - Figures: figures/
+
+  - Math: math/
+
+  - Notes: notes/
+
+
+markdown_extensions:
+  - admonition
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+plugins:
+  - search
+  - awesome-pages
+
+
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
