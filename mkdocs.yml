@@ -1,4 +1,6 @@
 site_name: The Causal Domain
+docs_dir: docs
+
 theme:
   name: material
   features:
@@ -14,15 +16,26 @@ theme:
 nav:
   - Home: index.md
 
-  - Manuscript: manuscript/
+  - Manuscript:
+      - Overview: manuscript/index.md
+      - All Pages: manuscript/
 
-  - Glossary: glossary/
+  - Glossary:
+      - Overview: glossary/index.md
+      - All Entries: glossary/
 
-  - Figures: figures/
+  - Figures:
+      - Overview: figures/index.md
+      - All Figures: figures/
 
-  - Math: math/
+  - Math:
+      - Overview: math/index.md
+      - All Math Pages: math/
 
-  - Notes: notes/
+  - Notes:
+      - Overview: notes/index.md
+      - All Notes: notes/
+
 
 
 markdown_extensions:
