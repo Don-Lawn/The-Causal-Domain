@@ -117,14 +117,20 @@ We explored multiple ways to visualise what had become either a cone or a hypers
 
 This was where the idea of **causal layering** began to crystallise.
 
-## **Matter as Precessional Energy**
+## **Matter as a 2nd Rotational Mode**
 
-We realised that matter is not a separate substance but a **precessional mode** of the same rotational system.
+We realised that matter is not a separate substance but a **second rotational mode** of the same rotational system.
 
 Two analogies helped anchor this:
 
-- [Gyroscope analogy](https://)
-- [Toroidal Smoke / Air-in-Water Rings](https://)
+- [Gyroscope analogy](TheGyroscopicAnalogy.md)
+- [The Q-Toroid - minimal stable object of RR](TheQ‑Toroid.md)
+
+This reframed mass as a geometric mode rather than a fundamental entity.
+
+Although this second‑rotation model was an essential early insight — correctly showing that matter arises from an inherited rotational mode rather than a separate substance — it was still incomplete. As the framework matured, this idea was refined into a fully closed and quantised geometry: the Q‑Toroid, which captures the same dual‑rotation behaviour in its complete and stable form. *(See: The Q‑Toroid — minimal stable object of RR.)*)
+
+
 
 This reframed mass as a geometric mode rather than a fundamental entity.
 
@@ -200,3 +206,9 @@ This was the first large‑scale natural phenomenon that visually resembled the 
 For those who cannot conceive of General relativity with Tensor math, there is a section expressing the causal domain in that form. 
 
 [Tensors]()
+
+# **The Layered Symmetry Framework**
+
+As the framework matured, a pattern began to reveal itself beneath the individual discoveries. Each breakthrough — Tempo, geometry, charge, mass, internal symmetries — seemed at first like a separate insight, but they shared a deeper structural rhythm. Every time a new degree of freedom appeared, a new symmetry appeared with it. And every time a new symmetry appeared, the universe gained both a new kind of behaviour and a new kind of boundary capable of constraining it. This repeating architecture was not obvious at first; it only emerged when the discoveries were placed side by side. What looked like unrelated phenomena — gravitational time‑lock, electromagnetic exclusion, color confinement — turned out to be different expressions of the same underlying rule. The next section formalises this pattern into a layered symmetry structure, using a simple P–S–Q notation to show how each layer introduces a new freedom, a new symmetry, and a new way for that symmetry to be locked.
+
+[Layered Symmetry Framework](LayeredSymmetry.md)

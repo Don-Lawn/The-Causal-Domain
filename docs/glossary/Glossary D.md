@@ -1,6 +1,8 @@
 ## **D**
 
+### **Dimensional Derivation (P–S–Q Structure)**
 
+The rule that each symmetry layer is defined by a primary axis Pi, its dynamical derivative Si, and a normal axis Qi that becomes the locus of symmetry locks. This triplet forms the geometric grammar of the layered symmetry framework. *See: “Dimensional Derivation (Pᵢ, Sᵢ, Qᵢ)” for full explanation.*
 
 ### Duality (x ↔ k)
 

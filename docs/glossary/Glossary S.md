@@ -213,3 +213,7 @@ Q‑axis, Polarisation, Phase Plane, Ribbon, Canonical Axes.
 
 Symmetry breaking is the moment a layer chooses its Q‑axis or phase orientation.  
 It turns a symmetric potential into a structured geometry and gives the layer its identity.
+
+## **Symmetry Lock (Q‑Lock)**
+
+A boundary‑induced constraint that restricts the Q‑axis of a symmetry layer without eliminating the symmetry itself. Q‑locks limit the expression of the Pi–Si freedom through horizons, boundaries, or internal constraints. *See: “Symmetry Locks (Q‑Locks)” for full explanation.*

@@ -143,7 +143,9 @@ Phase Circle, Polarisation, \(Q_p\), \(Q_c\), Relativity as Rotation, Observer F
 
 The circle of observers treats each observer as nothing more than a direction on the phase circle. When position is discarded and only direction is kept, every observer becomes an angle \(\theta\) around the same geometric object. Their differences—what they measure, how they slice time, how they interpret polarisation—are simply angular offsets. This makes relativity a rotational effect rather than a translational one: observers differ not by where they are, but by how they are oriented around the phase circle.
 
+### **Composition (Intra‑Layer Composition)**
 
+The assembly of structures within a single symmetry layer, without introducing new dimensions or new primary axes. Composition increases structural complexity but does not change the layer index. *See: “Composition vs Layering” for full explanation.*
 
 ### **Cross‑Domain Duality**
 
