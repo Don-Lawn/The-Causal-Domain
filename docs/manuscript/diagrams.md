@@ -19,19 +19,20 @@ A clean 2D unit circle in the **v–q plane**.
 - **Circle:** radius 1, centred at the origin.
 - **State vector:** a radius from the origin to a point on the circle at angle θ.
 - **Projection:**
-  - Horizontal projection = ϕ=cos⁡θ.
-  - Vertical projection = q=sin⁡θ.
+  - Horizontal projection = \(ϕ=cos⁡θ\).
+  - Vertical projection = \(q=sin⁡θ\).
 - **Labels:**
-  - “Observer sees: ϕ (length/Tempo projection)”
-  - “Hidden rotation: q”
-  - “Rotation angle: θ”
+  - “Observer sees: \(ϕ\) (length/Tempo projection)”
+  - “Hidden rotation: \(q\)”
+  - “Rotation angle: \(θ\)”
 
 ### **Caption**
 
 <figure>
   <img src="../figures/1. Lorentz Circle.png" alt="Figure 1. Lorentz Circle.png" style="zoom:80%;">
-  <figcaption>*Rotation into the Q‑axis produces Lorentz contraction and time dilation. The distortion factor* ϕ=cos⁡θ *is the projection of the state vector onto the real axis.*</figcaption>
+  <figcaption>*Rotation into the Q‑axis produces Lorentz contraction and time dilation. The distortion factor* \(ϕ=cos⁡θ\) *is the projection of the state vector onto the real axis.*</figcaption>
 </figure>
+
 
 
 
@@ -43,12 +44,14 @@ A clean 2D unit circle in the **v–q plane**.
 Special Relativity can be expressed as a **rotation of a unit State Vector** within the (ϕ,q) plane. This rotation does not describe motion through space. It describes how the *state of motion* changes as a system accelerates or decelerates.
 
 The State Vector always has unit length,
+$$
+ϕ^2 +q^2=1
+$$
 
-ϕ2+q2=1,
 
 so any change in motion must appear as a **rotation**, not a change in magnitude. The rotation angle is θ, defined by
 
-ϕ=cos⁡θ,q=sin⁡θ.
+ϕ=cos⁡θ, q=sin⁡θ.
 
 ## **2.1 Meaning of the Rotation Angle**
 
@@ -60,7 +63,7 @@ so any change in motion must appear as a **rotation**, not a change in magnitude
 - length‑reduction factor
 - time‑dilation factor
 
-A system at rest has θ=0, lying entirely along the ϕ-axis. As the system accelerates, θ increases and the State Vector rotates upward toward the Q‑axis. Deceleration rotates it downward toward the horizontal.
+A system at rest has \(θ=0\), lying entirely along the ϕ-axis. As the system accelerates, θ increases and the State Vector rotates upward toward the Q‑axis. Deceleration rotates it downward toward the horizontal.
 
 Because the State Vector must remain unit length, its tip is constrained to move **along the circular arc**.
 
@@ -78,21 +81,21 @@ The inward blue vector represents the physical cause of this rotation: it is the
 
 The projections of the State Vector give the observable quantities:
 
-- ϕ=cos⁡θ: the Tempo or contraction factor
-- q=sin⁡θ: the hidden rotational component
+- \(ϕ=cos⁡θ\): the Tempo or contraction factor
+- \(q=sin⁡θ\): the hidden rotational component
 
 These two values fully specify the SR state.
 
 ## **2.4 The SR Limit**
 
-As θ→90∘:
+As \(θ→90^∘\):
 
-- ϕ→0
-- q→1
+- \(ϕ→0\)
+- \(q→1\)
 - Tempo approaches zero
 - velocity approaches the speed of light
 
-This limit is marked with an **open circle**, indicating that it is an **unreachable asymptote**. No finite acceleration can rotate the State Vector all the way to ϕ=0.
+This limit is marked with an **open circle**, indicating that it is an **unreachable asymptote**. No finite acceleration can rotate the State Vector all the way to \(ϕ=0\).
 
 ## **2.5 Role of the SR Rotation Curve**
 
@@ -173,6 +176,9 @@ A 3‑axis diagram:
 # **4. Q‑Lock Schematic**
 
 **Document:** SymmetryLocks.md **Purpose:** Show how boundaries restrict Q‑axis freedom.
+P is Primary energy mode.
+S is secondary energy mode, which is \(dP/dQ\)
+Q is the Q dimension, inherited from a parent layer.
 
 ### **Diagram Description**
 
@@ -186,11 +192,22 @@ A simplified version of the P–S–Q diagram with a boundary:
 - **Forbidden region:** shaded region above the boundary.
 
 ### **Caption**
-*A Q‑lock restricts rotation along the Q‑axis without destroying the underlying symmetry. Boundaries, horizons, and confinement all act as Q‑locks.*
 
 
 <figure>
-  <img src="../figures/name.png" alt="Figure name.png" style="zoom:80%;">
+  <img src="../figures/Q-depthAndQ-slack.png" alt="Figure Q-depthAndQ-slack.png" style="zoom:80%;">
+  <figcaption>*The red band shows the portion of Q‑space already rotated into (used), while the green band shows the remaining slack (available). Their intersection at the state‑vector tip marks the point where further rotation becomes increasingly constrained, leading eventually to full Q‑lock.*</figcaption>
+</figure>
+
+<figure>
+  <img src="../figures/Boundary-constrainedQ-depth.png" alt="Figure Boundary-constrainedQ-depth.png" style="zoom:80%;">
+  <figcaption>*Figure Y: Boundary‑constrained Q‑depth.  
+The red region shows the physically allowed Q‑depth, bounded above by the tempo = 0 line. The hatched grey region represents the forbidden zone beyond this boundary. The ellipse flattens asymptotically against the boundary, marking the limit where Q‑slack vanishes and Q‑lock begins.*</figcaption>
+</figure>
+
+
+<figure>
+  <img src="../figures/phaseCircleProjection.png" alt="Figure phaseCircleProjection.png" style="zoom:80%;">
   <figcaption>*caption*</figcaption>
 </figure>
 

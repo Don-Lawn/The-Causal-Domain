@@ -63,7 +63,7 @@ $$
 $$
 
 ![Figure for Eqn \eqref{eq:ThetaIsInverseOfGamma}.  
-Inverting Lorentz's distortion factor gives a new one with more interesting geometry.](../figures/ThetaIsInverseOfGamma.png){#fig:ThetaIsInverseOfGamma}
+Inverting Lorentz's distortion factor gives a new one with more interesting geometry.](../figures/6.ThetaIsInverseOfGamma.png){#fig:ThetaIsInverseOfGamma}
 
 Setting \( c = 1 \) for natural units simplifies this to:
 
@@ -132,7 +132,6 @@ $$
 
 ![Figure for \eqref{eq:SpaceshipAtRest}.  
 The spaceship at rest lies along the real axis, with no presence in the Q dimension.](../figures/SpaceshipAtRest.png){#fig:SpaceshipAtRest}
-
 $$
 v_o = 0, \qquad
 \phi = 1, \qquad
@@ -145,7 +144,7 @@ $$
 
 As velocity increases, \( \phi \) decreases, and the observed length contracts accordingly.
 
-![Spaceship at \( v_o = \frac{c}{\sqrt{2}} \), giving a 45° rotation into the Q dimension, and an \( l_o \) reduced by \( \frac{1}{\sqrt{2}} \).](../figures/SpaceshipHalfRotated.png){#fig:SpaceShipHalfRotated}
+![Spaceship at \( v_o = \frac{c}{\sqrt{2}} \), giving a 45° rotation into the Q dimension, and an \( l_o \) reduced by \( \frac{1}{\sqrt{2}} \).](../figures/SpaceshipHalfRotatedWithCircle.png){#fig:SpaceShipHalfRotated}
 
 - \( \phi \) is now the horizontal axis, indicating length reduction as a function of rotation into the Q axis.  
 - The \( q \)-axis is vertical.  

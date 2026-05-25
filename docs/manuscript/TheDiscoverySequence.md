@@ -26,7 +26,7 @@ This is the foundational insight of the entire cosmogony.
 
 [The Q-dimension](TheHiddenQDimension.md)
 
-## **Universal Time T and Local Time Tempo**
+## **Universal Time T and Local Time Tempo (t)**
 
 From Q‑Depth, we recognised that time itself must have two components:
 
