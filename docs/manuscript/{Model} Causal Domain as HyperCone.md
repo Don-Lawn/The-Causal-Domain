@@ -11,6 +11,16 @@ phenomenal domain.
 Where the hypersphere encodes **rotation into Q**, the hypercone encodes **depth
 resulting from that rotation**.
 
+## Cluster Map
+
+This file is part of the Causal Geometry Cluster:
+
+- {Model} Hypersphere — rotation into Q
+- {Model} Hypercone — linearised depth
+- {Relationship} Hypersphere–Hypercone — unrolling the meridian
+- {Model} Phenomenal Domain — projection into r-space
+- {Thought Experiment} The Static Mass — baseline geometry
+
 ---
 
 ## 1. Purpose of the Hypercone Model
@@ -139,12 +149,13 @@ For details, see `((Relationship)) Hypersphere–Hypercone.md`.
 
 **Diagram: Hypercone Geometry**
 
-Description:
-
-A cone-like shape is drawn with apex at the top (q = 0) and base at the bottom
+<figure>
+  <img src="../figures/{Model} Causal Modelas Hypercone.png" alt="{Model} Causal Modelas Hypercone.png" style="zoom:80%;">
+  <figcaption>A cone-like shape is drawn with apex at the top (q = 0) and base at the bottom
 (q = 1). The central axis is labelled q. The base radius is labelled w = 1. Lines
 from apex to base represent unrolled meridians. The diagram shows the universal
-shape of the causal hypercone.
+shape of the causal hypercone.</figcaption
+</figure>
 
 ---
 
@@ -159,5 +170,5 @@ the hypercone provides the usable coordinate system.
 
 - [Causal Domain as Hypersphere](./{Model} Causal Domain as Hypersphere.md)
 - [Causal Domain as Hypercone](./{Model} Causal Domain as Hypercone.md)
-- [Hypersphere–Hypercone Relationship](./{Relationship} Hypersphere–Hypercone.md)
+- [Hypersphere–Hypercone Relationship](./{Relationship} Hypersphere to Hypercone.md)
 - [Thought Experiment: The Static Mass](./{Thought Experiment} The Static Mass.md)

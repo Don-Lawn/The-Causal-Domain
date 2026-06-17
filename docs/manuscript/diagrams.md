@@ -1055,3 +1055,19 @@ A three‑layer composite diagram:
   <img src="../figures/name.png" alt="Figure name.png" style="zoom:80%;">
   <figcaption>*caption*</figcaption>
 </figure>
+## 8. Diagram Placeholder
+
+**Diagram: Hypercone Geometry**
+
+Description:
+
+
+
+<figure>
+  <img src="../figures/{Model} Causal Modelas Hypercone.png" alt="{Model} Causal Modelas Hypercone.png" style="zoom:80%;">
+  <figcaption>A cone-like shape is drawn with apex at the top (q = 0) and base at the bottom
+(q = 1). The central axis is labelled q. The base radius is labelled w = 1. Lines
+from apex to base represent unrolled meridians. The diagram shows the universal
+shape of the causal hypercone.</figcaption
+</figure>
+

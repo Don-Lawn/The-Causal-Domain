@@ -98,5 +98,5 @@ This file is a conceptual placeholder. Further sections will describe:
 
 - [Causal Domain as Hypersphere](./{Model} Causal Domain as Hypersphere.md)
 - [Causal Domain as Hypercone](./{Model} Causal Domain as Hypercone.md)
-- [Hypersphere–Hypercone Relationship](./{Relationship} Hypersphere–Hypercone.md)
+- [Hypersphere–Hypercone Relationship](./{Relationship} Hypersphere to Hypercone.md)
 - [Thought Experiment: The Static Mass](./{Thought Experiment} The Static Mass.md)

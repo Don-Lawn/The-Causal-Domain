@@ -71,3 +71,10 @@ static deformation of the causal domain. The phenomenal domain is drawn as a
 radial 3D space surrounding the mass. Beneath or behind it, the causal domain is
 shown as a higher-dimensional structure whose curvature determines the shape of
 the phenomenal well.
+
+## Related Files
+
+- [Causal Domain as Hypersphere](./{Model} Causal Domain as Hypersphere.md)
+- [Causal Domain as Hypercone](./{Model} Causal Domain as Hypercone.md)
+- [Hypersphere–Hypercone Relationship](./{Relationship} Hypersphere to Hypercone.md)
+- [Thought Experiment: The Static Mass](./{Thought Experiment} The Static Mass.md)

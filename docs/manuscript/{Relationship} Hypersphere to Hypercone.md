@@ -1,6 +1,6 @@
 # {Relationship} 
 
-# Hypersphere → Hypercone
+# Hypersphere to Hypercone
 
 This file describes the geometric and conceptual relationship between the causal
 domain represented as a hypersphere and the same domain represented as a
