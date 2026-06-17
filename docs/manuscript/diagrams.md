@@ -231,15 +231,34 @@ Two stacked planes:
   - “Layer transition: Lᵢ → Lᵢ₊₁”
 
 ### **Caption**
-*A layer transition occurs when a new primary axis emerges orthogonally to the previous layer, expanding the dimensional structure of physics.*
-
+*A layer transition* Li→Li+1 *occurs when the generative field within the parent layer activates the emergent axis* Qi*, introducing a new degree of freedom. The child layer inherits its primary and secondary axes (*Pi+1,Si+1*) through this dimensional tension, representing a structured expansion of the system’s hierarchy.*
 
 <figure>
-  <img src="../figures/name.png" alt="Figure name.png" style="zoom:80%;">
-  <figcaption>*caption*</figcaption>
+  <img src="../figures/LayerTransition-Q.png" alt="Figure LayerTransition-Q.png" style="zoom:80%;">
+  <figcaption>A layer transition Li→Li+1 occurs when the generative field within the parent layer activates the emergent axis Qi, introducing a new degree of freedom. The child layer inherits its primary and secondary axes Pi+1,Si+1 through this dimensional tension, representing a structured expansion of the system’s hierarchy.</figcaption>
 </figure>
 
 
+# **6. Q‑Tilt Diagram (Qₚ → Q𝚌)**
+
+**Document:** LayerTransitions.md **Purpose:** Show how the child layer’s phase plane tilts relative to its parent, defining the emergent Q‑axis geometry.
+
+### **Diagram Description**
+
+Two phase planes within the embedding sphere:
+
+- **Upper plane:** Parent OP‑plane (E₀–T₀) with normal **Qₚ**.
+- **Lower tilted plane:** Child phase plane with normal **Q𝚌**, inclined by angle **θ**.
+- **Azimuthal rotation:** **φ**, defining the orientation of the child plane around the parent’s Q‑axis.
+- **Blue vertical line:** Shared Q‑axis reference linking parent and child domains.
+- **Green wedge:** Composite rotation between **θ** and **φ**, representing the generative tilt.
+- **Sphere:** Embedding domain of Q‑space curvature where the tilt occurs.
+
+### **Caption**
+
+*A Q‑tilt* (Qₚ→Q𝚌) *represents the angular displacement between parent and child phase planes. The tilt angles* (θ, φ) *encode the compound rotation that generates Q‑depth and phase‑orientation within the embedding sphere. This geometry defines how each layer inherits and re‑expresses its Q‑axis, establishing the dynamic linkage between generative potential and emergent dimensional structure.*
+
+<figure> <img src="../figures/LayerTransition-QTilt.png" alt="LayerTransition-QTilt.png" style="zoom:80%;"> <figcaption>A Q‑tilt (Qₚ→Q𝚌) represents the angular displacement between parent and child phase planes. The tilt angles (θ, φ) encode the compound rotation that generates Q‑depth and phase‑orientation within the embedding sphere. This geometry defines how each layer inherits and re‑expresses its Q‑axis, establishing the dynamic linkage between generative potential and emergent dimensional structure.</figcaption> </figure>
 
 # **6. L₀ — Tempo Layer Diagram**
 
