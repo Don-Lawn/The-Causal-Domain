@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RR Triad Demo</title>
+<style>
+    body {
+        margin: 0;
+        background: #111;
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    #frame-border {
+        padding: 25px;
+        border: 3px solid #5533AA;
+        background: #000;
+        width: 1485px;
+        height: 1050px;
+        box-sizing: content-box;
+    }
+
+    canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+</style>
+</head>
+
+<body>
+
+<div id="frame-border">
+    <canvas id="rr-canvas"></canvas>
+</div>
+
+<!-- Import map for Three.js -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.164.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.164.0/examples/jsm/"
+  }
+}
+</script>
+
+<!-- RR modules -->
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+import { 
+    setupRendererAndCamera,
+    resizeRendererToDisplaySize,
+    updateBillboards,
+    makeClock
+} from '../../assets/js/rr-core.js';
+
+import * as ABC from '../../assets/js/rr-abc.js';
+import * as XYZ from '../../assets/js/rr-xyz.js';
+import * as ABZ from '../../assets/js/rr-abz.js';
+
+
+// ===== SETUP =====
+const canvas = document.getElementById('rr-canvas');
+const { renderer, camera } = setupRendererAndCamera(canvas);
+
+const scene = new THREE.Scene();
+
+// Controls
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enablePan = false;
+controls.enableZoom = true;
+controls.enableRotate = true;
+
+// ===== DOMAIN STATES =====
+const abcState = ABC.initState();
+const xyzState = XYZ.initState();
+const abzState = ABZ.initState();
+
+// ===== BUILD DOMAINS =====
+ABC.build(scene);
+XYZ.build(scene);
+ABZ.build(scene);
+
+// ===== CLOCK =====
+const clock = makeClock();
+
+
+// ===== ANIMATION LOOP =====
+function animate() {
+    requestAnimationFrame(animate);
+
+    clock.update();
+    const time = clock.elapsed;
+
+    ABC.animateMe(scene, abcState, time);
+    XYZ.animateMe(scene, xyzState, time);
+    ABZ.animateMe(scene, abzState, time);
+
+    updateBillboards(scene, camera);
+
+    resizeRendererToDisplaySize(renderer, camera);
+
+    renderer.render(scene, camera);
+}
+
+animate();
+
+</script>
+
+</body>
+</html>
+

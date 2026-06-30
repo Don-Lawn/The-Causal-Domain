@@ -239,6 +239,25 @@ Two stacked planes:
 </figure>
 
 
+# **6. Sphere Diagram**
+
+
+This interactive diagram shows the RR sphere with rotation, camera controls, and animation.
+
+[Open the live animation](../figures/HTML/sphere/index.html)
+
+---
+
+### Inline View
+
+<iframe src="../figures/HTML/sphere/index.html"
+        width="600"
+        height="600"
+        style="border:none;">
+</iframe>
+
+
+
 # **6. Q‑Tilt Diagram (Qₚ → Q𝚌)**
 
 **Document:** LayerTransitions.md **Purpose:** Show how the child layer’s phase plane tilts relative to its parent, defining the emergent Q‑axis geometry.
@@ -1070,4 +1089,3 @@ Description:
 from apex to base represent unrolled meridians. The diagram shows the universal
 shape of the causal hypercone.</figcaption
 </figure>
-

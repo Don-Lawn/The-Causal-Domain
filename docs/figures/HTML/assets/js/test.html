@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RR Multi-Domain Test</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'/>">
+
+
+    <style>
+        body {
+            margin: 0;
+            background: #000;
+            color: #ccc;
+            font-family: sans-serif;
+            overflow: hidden;
+        }
+
+        #layout {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 4px;
+            padding: 4px;
+            box-sizing: border-box;
+        }
+
+        .panel {
+            border: 1px solid #444;
+            background: #111;
+        }
+
+        #rrCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+        }
+    </style>
+
+    <!-- ⭐ Import Map for THREE + OrbitControls -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/examples/jsm/controls/OrbitControls.js":
+                "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js"
+        }
+    }
+    </script>
+</head>
+<body>
+
+<div id="layout">
+    <div id="abcPanel" class="panel"></div>
+    <div id="xyzPanel" class="panel"></div>
+    <div id="abzPanel" class="panel"></div>
+    <canvas id="rrCanvas"></canvas>
+</div>
+
+<!-- Load the top-level module only -->
+<script type="module" src="./rr-test.js"></script>
+
+</body>
+</html>

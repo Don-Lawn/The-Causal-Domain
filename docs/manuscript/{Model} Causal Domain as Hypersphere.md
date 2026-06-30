@@ -83,6 +83,8 @@ meridian is highlighted from pole to equator. This meridian represents the causa
 descent direction (q-axis). The rest of the sphere shows the symmetry of all
 possible wells.
 
+
+
 ---
 
 ## Notes
