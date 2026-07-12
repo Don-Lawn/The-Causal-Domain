@@ -7,38 +7,71 @@
 
 
     <style>
-        body {
-            margin: 0;
-            background: #000;
-            color: #ccc;
-            font-family: sans-serif;
-            overflow: hidden;
-        }
-
-        #layout {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
+        .layout {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 4px;
-            padding: 4px;
-            box-sizing: border-box;
-        }
-
-        .panel {
-            border: 1px solid #444;
-            background: #111;
+            height: 400px; /* domains take top half */
+            position: relative; /* allows canvas overlay */
         }
 
         #rrCanvas {
             position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
+            width: 100%;
+            height: 100%; /* same as layout height */
+            background: transparent;
+            z-index: 2;    
         }
+
+        .ui-layer {
+            position: relative;
+            z-index: 1000;
+            margin-top: 20px;   /* spacing below the canvas */
+        }
+
+        .copyBtn {
+            z-index: 1000;
+        }
+
+
+        .panel {
+            position: relative;   /* THIS is the key */
+            background: #222;
+            border: 2px solid #666;   /* visible border */
+            box-sizing: border-box;   /* include border in width/height */            
+            z-index: 1;
+        }
+        #abcPanel { border-color: #f33; }
+        #xyzPanel { border-color: #3f3; }
+        #abzPanel { border-color: #33f; }
+
+
+        .copyBtn {
+            position: relative;
+            top: 2vh;
+            left: 2vh;
+            z-index: 10;
+
+            font-size: 2vh;      /* scales with window height */
+            padding: 1vh 2vh;    /* scales with window height */
+
+            border-radius: 1vh;
+            background: rgba(255,255,255,0.25);
+            color: #fff;
+            border: 0.3vh solid #aaa;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            z-index: 1000;
+        }
+
+
+
+
+        .copyBtn:hover {
+            background: rgba(255,255,255,0.45);
+        }
+
     </style>
 
     <!-- ⭐ Import Map for THREE + OrbitControls -->
@@ -54,12 +87,32 @@
 </head>
 <body>
 
-<div id="layout">
-    <div id="abcPanel" class="panel"></div>
-    <div id="xyzPanel" class="panel"></div>
-    <div id="abzPanel" class="panel"></div>
+<div class="layout">
+    <div id="abcPanel" class="panel">
+    </div>
+    <div id="xyzPanel" class="panel">
+    </div>
+    <div id="abzPanel" class="panel">
+    </div>
+
+    <!-- Canvas overlay -->
     <canvas id="rrCanvas"></canvas>
 </div>
+
+<div class="layout">
+    <div  class="panel">
+        <button class="copyBtn" data-domain="A">Copy A</button>
+    </div>
+    <div  class="panel">
+        <button class="copyBtn" data-domain="B">Copy B</button>
+    </div>
+    <div  class="panel">
+        <button class="copyBtn" data-domain="C">Copy C</button>
+    </div>
+
+</div>
+
+
 
 <!-- Load the top-level module only -->
 <script type="module" src="./rr-test.js"></script>
