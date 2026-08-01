@@ -51,7 +51,7 @@ class RendererBase {
     }
 
     setRotationZ(handle, hints) {
-        this.pearl.setRotationZ(handle, hints.radians);
+        this.pearl.setRotationZ(handle, hints.phase ?? 0);
     }
 
     applyColor(handle, hints) {

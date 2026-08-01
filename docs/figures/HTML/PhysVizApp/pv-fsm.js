@@ -13,6 +13,7 @@ export class PVFSM {
         this.definition = null;
         this.actionMap = {};
         this.guardMap = {};
+        this.triggered = new Set();
 
         if (definition) {
             this.configureFromDefinition(definition);
@@ -52,7 +53,8 @@ export class PVFSM {
         }
 
         this.definition = definition;
-        this.state = definition.initialState || this.state;
+        this.state = definition.initialStage || definition.initialState || this.state;
+        this.triggered = new Set();
 
         const definitionActions = Object.entries(definition.actions || {}).reduce((acc, [name, fn]) => {
             if (typeof fn === "function") {
@@ -119,6 +121,8 @@ export class PVFSM {
      * Internal event receiver
      */
      _receive(eventName, payload, evt) {
+        this._evaluateTriggers(payload, evt);
+
         const stateHandlers = this.handlers[this.state];
 
         if (!stateHandlers) {
@@ -149,6 +153,73 @@ export class PVFSM {
         }
     }
 
+    _evaluateTriggers(payload, evt) {
+        const triggers = this.definition?.triggers || [];
+        if (!Array.isArray(triggers) || triggers.length === 0) {
+            return;
+        }
+
+        const busName = this.logicalBus || "MASTER";
+
+        const operatorMap = {
+            ">=": (a, b) => a >= b,
+            "<=": (a, b) => a <= b,
+            "==": (a, b) => a === b,
+            ">": (a, b) => a > b,
+            "<": (a, b) => a < b
+        };
+
+        for (const trigger of triggers) {
+            if (trigger.state !== this.state) {
+                continue;
+            }
+
+            const currentValue = payload?.[trigger.field];
+            if (typeof currentValue !== "number") {
+                continue;
+            }
+
+            const key = `${trigger.state}:${trigger.field}:${trigger.operator || ">="}:${trigger.value}`;
+            if (this.triggered.has(key)) {
+                continue;
+            }
+
+            const matches = operatorMap[trigger.operator || ">="]?.(currentValue, trigger.value);
+            if (!matches) {
+                continue;
+            }
+
+            this.triggered.add(key);
+
+            if (trigger.emit) {
+                EventBusInstance.emit(trigger.emit, {
+                    fsm: this.name,
+                    state: this.state,
+                    field: trigger.field,
+                    value: currentValue,
+                    trigger
+                }, busName, "PVFSM._trigger");
+            }
+
+            const actionFn = this.actionMap?.[trigger.action];
+            if (typeof actionFn === "function") {
+                actionFn.call(this, {
+                    fsm: this.name,
+                    state: this.state,
+                    field: trigger.field,
+                    value: currentValue,
+                    trigger,
+                    payload,
+                    evt
+                }, payload, evt);
+            }
+
+            if (trigger.nextState) {
+                this.transition(trigger.nextState);
+            }
+        }
+    }
+
 
     /**
      * Transition to a new state
@@ -156,13 +227,16 @@ export class PVFSM {
     transition(newState) {
         const oldState = this.state;
         this.state = newState;
+        this.triggered = new Set();
+
+        const busName = this.logicalBus || "MASTER";
 
         EventBusInstance.emit("FSM_STATE_CHANGE", {
             fsm: this.name,
             from: oldState,
             to: newState
           }, 
-          this.logicalBus, "PVFSM._transition"); // does not need to be handled.
+          busName, "PVFSM._transition"); // does not need to be handled.
           
     }
 

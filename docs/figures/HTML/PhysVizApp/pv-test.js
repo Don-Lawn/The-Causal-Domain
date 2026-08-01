@@ -18,8 +18,8 @@ debugger;
 // ------------------------------------------------------------
 // 1. Logging monitor
 // ------------------------------------------------------------
-const logMonitor = new PVLogMonitor("eventLogPanel", 50);
-EventBusInstance.addMonitor(logMonitor);
+//const logMonitor = new PVLogMonitor("eventLogPanel", 50);
+//EventBusInstance.addMonitor(logMonitor);
 
 // ------------------------------------------------------------
 // 2. Master FSM

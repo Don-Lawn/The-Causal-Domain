@@ -5,22 +5,31 @@ class PhaseArrowRenderer_XYZ extends RendererBase {
     constructor (domain, pearl) {
         super(domain, pearl);
     }
- 
+
+    render(semanticObject, hints) {
+        super.render(semanticObject, hints);
+
+        if (semanticObject.trailEnabled) {
+            const handle = this.ensureHandle(semanticObject);
+            this.pearl.updateTrail(handle, semanticObject);
+        }
+    }
 
     ensureGeometry(handle) {
         if (handle.geometryBuilt) return;
 
         const pearl = this.pearl;
 
-        // Photon dot = small sphere
-        const radius = 0.15;
+        const core = pearl.makeSphere({ radius: 0.14, color: 0xffffff });
+        const front = pearl.makeSphere({ radius: 0.075, color: 0xffffff });
+        const back = pearl.makeSphere({ radius: 0.075, color: 0xffffff });
 
-        const sphere = pearl.makeSphere({
-            radius,
-            color: 0xffffff
-        });
+        pearl.setPosition(front, { x: 0, y: 0, z: 0.16 });
+        pearl.setPosition(back, { x: 0, y: 0, z: -0.16 });
 
-        handle.impl = sphere.impl;
+        const combined = pearl.combine([core, front, back]);
+        handle.impl = combined.impl;
+
         this.pearl.attachToDomain(handle);   // ⭐ REQUIRED ⭐
         handle.geometryBuilt = true;
     }
@@ -29,7 +38,7 @@ class PhaseArrowRenderer_XYZ extends RendererBase {
         this.pearl.setPosition(handle, {
             x: hints.x,
             y: hints.y,
-            z: 0
+            z: hints.z ?? 0
         });
     }
 

@@ -3,9 +3,9 @@
 
 export const PhaseArrowFSM = {
   name: "PhaseArrow",
-  initialState: "SPINNING",
-  states: ["SPINNING", "TRAILING", "PAUSED"],
-  events: ["TICK"],
+  initialStage: "STAGE1",
+  stages: ["STAGE1", "STAGE2", "STAGE3"],
+  events: ["TICK", "NEXTSTAGE"],
   actions: {
     beginSpin: () => {},
     activateTrail: () => {},
@@ -15,26 +15,49 @@ export const PhaseArrowFSM = {
     canAdvance: () => true,
     canPause: () => true
   },
+  triggers: [
+    {
+      state: "STAGE1",
+      field: "phase",
+      operator: ">=",
+      value: 2 * Math.PI,
+      emit: "NEXTSTAGE",
+      action: "activateTrail",
+      nextState: "STAGE2"
+    },
+    {
+      state: "STAGE2",
+      field: "phase",
+      operator: ">=",
+      value: 4 * Math.PI,
+      emit: "NEXTSTAGE",
+      nextState: "STAGE3"
+    },
+    {
+      state: "STAGE3",
+      field: "phase",
+      operator: ">=",
+      value: 22 * Math.PI,
+      emit: "NEXTSTAGE",
+      action: "freezeMotion",
+      nextState: "PAUSED"
+    }
+  ],
   transitions: {
-    SPINNING: {
+    STAGE1: {
       TICK: {
         guard: "canAdvance",
         action: "activateTrail",
-        nextState: "TRAILING"
+        nextState: "STAGE2"
       }
     },
-    TRAILING: {
+    STAGE2: {
       TICK: {
         guard: "canPause",
         action: "freezeMotion",
-        nextState: "PAUSED"
+        nextState: "STAGE3"
       }
     },
-    PAUSED: {
-      TICK: {
-        action: "freezeMotion",
-        nextState: "PAUSED"
-      }
-    }
+    STAGE3: {}
   }
 };

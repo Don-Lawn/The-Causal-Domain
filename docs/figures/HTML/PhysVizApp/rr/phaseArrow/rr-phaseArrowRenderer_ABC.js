@@ -24,7 +24,7 @@ class PhaseArrowRenderer_ABC extends RendererBase {
     }
 
     setRotationZ(handle, hints) {
-        this.pearl.setRotationZ(handle, hints.radians ?? hints.phase ?? 0);
+        this.pearl.setRotationZ(handle, hints.phase ?? 0);
     }
 
     ensureGeometry(handle) {

@@ -31,22 +31,34 @@ export class PhaseArrow extends SemanticObject {
         // Trail lifecycle
         this.trailEnabled = false;
         this.trailFadeEnabled = false; // disable decay for persistent phase-disk tracing
-        this.fadeRate = 0.05;
-        this.maxCycles = 3;
-        this.pauseAfterCycles = 4;
+        this.fadeRate = 0.02;
+        this.trailStartPhase = 2 * Math.PI;
+        this.pausePhase = 4 * Math.PI;
+        this.trailingRevolutions = 10;
         this.trailFrames = 0;
 
         // Renderer handle (renderer manages this)
         this._pvHandle = null;
+        this.domainName = null;
 
         this.fsm = new PVFSM(`${this.id}-phaseArrow`, "MASTER");
         this._configureFSM();
-        this.fsm.transition(this.fsm.definition?.initialState || "SPINNING");
+        this.fsm.transition(this.fsm.definition?.initialStage || this.fsm.definition?.initialState || "STAGE1");
     }
 
     attachToDomain(domain) {
         super.attachToDomain(domain);
+        this.domainName = domain?.name || null;
+        this.trailFadeEnabled = this.domainName === "XYZ";
         this.fsm.logicalBus = domain.name;
+
+        if (domain?.name === "ABZ") {
+            this.pausePhase = this.trailStartPhase + (this.trailingRevolutions * 2 * Math.PI);
+            const stage3Trigger = this.fsm.definition?.triggers?.find((t) => t.state === "STAGE3");
+            if (stage3Trigger) {
+                stage3Trigger.value = this.pausePhase;
+            }
+        }
     }
 
     _configureFSM() {
@@ -61,12 +73,13 @@ export class PhaseArrow extends SemanticObject {
                 this.trailFrames = 0;
             },
             freezeMotion: () => {
-                this.phaseVelocity = 0;
-                this.trailEnabled = true;
+                if (this.domainName === "ABC") {
+                    this.phaseVelocity = 0;
+                }
             }
         }, {
-            canAdvance: () => this.phase >= this.maxCycles * (2 * Math.PI),
-            canPause: () => this.phase >= this.pauseAfterCycles * (2 * Math.PI)
+            canAdvance: (context) => this.phase >= this.trailStartPhase && this.phase < this.pausePhase,
+            canPause: (context) => this.phase >= this.pausePhase
         });
     }
 
@@ -77,11 +90,21 @@ export class PhaseArrow extends SemanticObject {
             return;
         }
 
-        this.phase += this.phaseVelocity * seconds;
-        this.y = this.baseY + this.amplitude * Math.sin(this.phase);
-        this.z += this.c * seconds;
+        if (this.fsm.state !== "STAGE3" || this.domainName !== "ABC") {
+            this.phase += this.phaseVelocity * seconds;
 
-        this.fsm._receive("TICK");
+            if (this.domainName === "XYZ") {
+                this.x = 0;
+                this.y = 0;
+                this.z += this.c * seconds;
+            } else {
+                this.y = this.baseY + this.amplitude * Math.sin(this.phase);
+                this.z += this.c * seconds;
+            }
+        }
+
+        const payload = this.getRenderHints();
+        this.fsm._receive("TICK", payload);
     }
 
     // Semantic API
@@ -99,7 +122,6 @@ export class PhaseArrow extends SemanticObject {
             id: this.id,
             type: this.type,
             phase: this.phase,
-            radians: this.phase,
             x: this.x,
             y: this.y,
             z: this.z,

@@ -34,6 +34,36 @@
         "type": ["string", "function"]
       }
     },
+    "triggers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["state", "field", "value"],
+        "properties": {
+          "state": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string"
+          },
+          "operator": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          },
+          "emit": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "nextState": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "transitions": {
       "type": "object",
       "additionalProperties": {
