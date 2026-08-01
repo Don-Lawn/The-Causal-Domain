@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PhysViz FSM Definition",
+  "type": "object",
+  "required": ["name", "initialState", "states", "events", "transitions"],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "initialState": {
+      "type": "string"
+    },
+    "states": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "actions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": ["string", "function"]
+      }
+    },
+    "guards": {
+      "type": "object",
+      "additionalProperties": {
+        "type": ["string", "function"]
+      }
+    },
+    "transitions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object"
+      }
+    }
+  }
+}

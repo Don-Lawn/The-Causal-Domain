@@ -6,6 +6,13 @@
 import { Pearl } from './rr-pearl.js';
 import { Domain } from './rr-domain.js';
 import { RRPhaseArrow } from "./rr-phaseArrow.js";
+import { FSM } from "./rr-fsm.js";
+import { PhaseArrowDefinition } from "../PhysVizApp/rr/phaseArrow/phaseArrow-definition.js";
+import { PhaseArrowActions } from "../PhysVizApp/rr/phaseArrow/phaseArrow-actions.js";
+import { PhaseArrowGuards } from "../PhysVizApp/rr/phaseArrow/phaseArrow-guards.js";
+
+const phaseArrowFSM = new FSM(PhaseArrowDefinition, PhaseArrowActions, PhaseArrowGuards);
+
 
 // ------------------------------------------------------------
 // 1. Locate the shared canvas
@@ -74,17 +81,19 @@ pearl.setPosition(arrow.handle, { x: 0, y: 0, z: 0 });
 function animate() {
     requestAnimationFrame(animate);
 
+    const dt = clock.getDelta();
 
-    // Stop once phase exceeds 2π
-    if (arrow.phase > Math.PI * 2) {
-        return;   // animation stops, disk remains
-    }
+    phaseArrowFSM.update();
 
-    // Update semantic behaviour
-    domains.forEach(domain => domain.update(0.016));
+    abcDomain.update(dt);
+    xyzDomain.update(dt);
+    abzDomain.update(dt);
 
-    // Render each domain into its own viewport
-    domains.forEach(domain => domain.render());
+    abcDomain.render(pearl);
+    xyzDomain.render(pearl);
+    abzDomain.render(pearl);
+
+    renderer.render(scene, camera);
 }
 
 animate();

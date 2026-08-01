@@ -29,6 +29,7 @@ export class RRPhaseArrow extends RRObject {
         this.headLength      = opts.headLength      ?? 0.25;
         this.headRadius      = opts.headRadius      ?? 0.12;
         this.angularVelocity = opts.angularVelocity ?? 1.0;
+        this.spinning = false;
 
         // Semantic phase angle
         this.phase = 0;
@@ -84,11 +85,13 @@ export class RRPhaseArrow extends RRObject {
      * @param {any} threeData
      */
     update(dt, threeData) {
-        this.phase += this.angularVelocity * dt;
+        if (this.spinning) {
+            this.phase += this.angularVelocity * dt;
+        }
 
         if (this.handle && this.handle.impl) {
 
-            // Rotate
+            // Rotate using semantic phase
             this.handle.impl.rotation.z = this.phase;
 
             // Twice-speed colour cycle
@@ -104,6 +107,13 @@ export class RRPhaseArrow extends RRObject {
                 this.pearl.updateTrail(this.handle, threeData);
             }
         }
+    }
+    startSpin() {
+        this.spinning = true;
+    }
+
+    stopSpin() {
+        this.spinning = false;
     }
 
 }

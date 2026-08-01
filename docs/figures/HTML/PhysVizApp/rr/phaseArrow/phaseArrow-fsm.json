@@ -1,0 +1,37 @@
+{
+  "name": "PhaseArrow",
+  "initialState": "SPINNING",
+  "states": ["SPINNING", "TRAILING", "PAUSED"],
+  "events": ["TICK"],
+  "actions": {
+    "beginSpin": "beginSpin",
+    "activateTrail": "activateTrail",
+    "freezeMotion": "freezeMotion"
+  },
+  "guards": {
+    "canAdvance": "canAdvance",
+    "canPause": "canPause"
+  },
+  "transitions": {
+    "SPINNING": {
+      "TICK": {
+        "guard": "canAdvance",
+        "action": "activateTrail",
+        "nextState": "TRAILING"
+      }
+    },
+    "TRAILING": {
+      "TICK": {
+        "guard": "canPause",
+        "action": "freezeMotion",
+        "nextState": "PAUSED"
+      }
+    },
+    "PAUSED": {
+      "TICK": {
+        "action": "freezeMotion",
+        "nextState": "PAUSED"
+      }
+    }
+  }
+}

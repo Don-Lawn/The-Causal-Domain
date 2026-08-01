@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>RR Multi-Domain Test</title>
+    <title>PV Multi-Domain Test</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'/>">
 
 
@@ -14,40 +14,49 @@
             position: relative; /* allows canvas overlay */
         }
 
-        #rrCanvas {
+        .pvCanvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%; /* same as layout height */
             background: transparent;
-            z-index: 2;    
+            z-index: 2;   
         }
 
         .ui-layer {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0px;
+
             position: relative;
             z-index: 1000;
-            margin-top: 20px;   /* spacing below the canvas */
+            margin-top: 0px;
         }
 
-        .copyBtn {
-            z-index: 1000;
-        }
 
 
         .panel {
+            align-items: flex-start;
             position: relative;   /* THIS is the key */
             background: #222;
             border: 2px solid #666;   /* visible border */
             box-sizing: border-box;   /* include border in width/height */            
             z-index: 1;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* spacing between Copy B and masterControls */
         }
-        #abcPanel { border-color: #f33; }
-        #xyzPanel { border-color: #3f3; }
-        #abzPanel { border-color: #33f; }
+
+        #abcPanel { border-color: #f33;background-color: rgba(255, 200, 200, 0.3); /* light red */ }
+        #xyzPanel { border-color: #3f3; background-color: rgba(200, 255, 200, 0.3); /* light green */}
+        #abzPanel { border-color: #33f; background-color: rgba(200, 200, 255, 0.3); /* light blue */ }
 
 
         .copyBtn {
+            display: inline-block;
+            width: auto;
             position: relative;
             top: 2vh;
             left: 2vh;
@@ -66,6 +75,10 @@
         }
 
 
+        #eventLogPanel {
+            user-select: text;
+            white-space: pre-wrap;
+        }
 
 
         .copyBtn:hover {
@@ -87,36 +100,47 @@
 </head>
 <body>
 
+
+
 <div class="layout">
     <div id="abcPanel" class="panel">
+        <canvas id="abcCanvas" class="pvCanvas"></canvas>
     </div>
     <div id="xyzPanel" class="panel">
+        <canvas id="xyzCanvas" class="pvCanvas"></canvas>
     </div>
     <div id="abzPanel" class="panel">
+        <canvas id="abzCanvas" class="pvCanvas"></canvas>
     </div>
-
-    <!-- Canvas overlay -->
-    <canvas id="rrCanvas"></canvas>
 </div>
 
-<div class="layout">
+<div class="ui-layer">
     <div  class="panel">
         <button class="copyBtn" data-domain="A">Copy A</button>
-<div id="fsmState" style="color: yellow; font-family: monospace;">test</div>
+        <div id="fsmState" style="color: yellow; font-family: monospace;">test</div>
     </div>
     <div  class="panel">
         <button class="copyBtn" data-domain="B">Copy B</button>
+        <div id="masterControls">
+            <button id="startBtn" data-event="START">Start</button> 
+            <button data-event="PAUSE">Pause</button>
+            <button data-event="RESUME">Resume</button>
+            <button data-event="STOP">Stop</button>
+        </div>
     </div>
     <div  class="panel">
         <button class="copyBtn" data-domain="C">Copy C</button>
+        <div id="eventLogPanel" style="color: yellow; font-family: monospace; white-space: pre; overflow-y: auto; max-height: 200px;">
+        </div>
     </div>
-
 </div>
+
+
 
 
 
 <!-- Load the top-level module only -->
-<script type="module" src="./rr-test.js"></script>
+<script type="module" src="./pv-test.js"></script>
 
 </body>
 </html>
