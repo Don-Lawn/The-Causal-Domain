@@ -1,4 +1,5 @@
 // rr/phaseArrow/PhaseArrowRenderer_XYZ.js
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 import { RendererBase } from '../../pv-rendererBase.js';
 
 class PhaseArrowRenderer_XYZ extends RendererBase {
@@ -13,6 +14,12 @@ class PhaseArrowRenderer_XYZ extends RendererBase {
             const handle = this.ensureHandle(semanticObject);
             this.pearl.updateTrail(handle, semanticObject);
         }
+
+        this.pearl.updateSimpleTrail(semanticObject, {
+            x: hints.x ?? 0,
+            y: hints.y ?? 0,
+            z: hints.z ?? 0
+        });
     }
 
     ensureGeometry(handle) {

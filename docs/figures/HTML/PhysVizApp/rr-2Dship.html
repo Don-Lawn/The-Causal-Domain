@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PV rr-2Dship</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'/>">
+
+    <style>
+        :root {
+            --panel-height: 38vh;
+            --bg: #080808;
+            --panel: #171717;
+            --panel-border: #565656;
+            --text: #e9e9e9;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+        }
+
+        .stacked-layout {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            gap: 0;
+        }
+
+        .panel {
+            position: relative;
+            background: var(--panel);
+            border: 2px solid var(--panel-border);
+            box-sizing: border-box;
+            height: var(--panel-height);
+            overflow: hidden;
+        }
+
+        #topPanel { border-color: #3d2e1a; }
+        #bottomPanel { border-color: #1a2f3d; }
+
+        .pvCanvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 2;
+        }
+
+        .domain-title {
+            position: absolute;
+            top: 10px;
+            left: 14px;
+            z-index: 6;
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            color: #d8d8d8;
+            text-transform: uppercase;
+            pointer-events: none;
+            text-shadow: 0 1px 0 rgba(0,0,0,0.6);
+        }
+
+        .ui-layer {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0;
+        }
+
+        .ui-panel {
+            min-height: 180px;
+            border: 2px solid var(--panel-border);
+            box-sizing: border-box;
+            background: #202020;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            align-items: flex-start;
+            padding: 16px;
+        }
+
+        .copyBtn {
+            display: inline-block;
+            width: auto;
+            font-size: 16px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.18);
+            color: #fff;
+            border: 2px solid #9b9b9b;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .copyBtn:hover {
+            background: rgba(255, 255, 255, 0.32);
+        }
+
+        #masterControls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        #masterControls button {
+            padding: 7px 10px;
+            border-radius: 6px;
+            border: 1px solid #8f8f8f;
+            background: #2f2f2f;
+            color: #f0f0f0;
+            cursor: pointer;
+        }
+
+        #eventLogPanel {
+            color: #ffe766;
+            font-family: "Consolas", monospace;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            width: 100%;
+            max-height: 140px;
+        }
+
+        @media (max-width: 900px) {
+            :root { --panel-height: 34vh; }
+
+            .ui-layer {
+                grid-template-columns: 1fr;
+            }
+
+            .ui-panel {
+                min-height: auto;
+            }
+        }
+    </style>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/examples/jsm/controls/OrbitControls.js":
+                "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js"
+        }
+    }
+    </script>
+</head>
+<body>
+
+<div class="stacked-layout">
+    <div id="topPanel" class="panel">
+        <div class="domain-title">Top Domain: Overhead V-Q</div>
+        <canvas id="topCanvas" class="pvCanvas"></canvas>
+    </div>
+    <div id="bottomPanel" class="panel">
+        <div class="domain-title">Bottom Domain: Z-Axis View</div>
+        <canvas id="bottomCanvas" class="pvCanvas"></canvas>
+    </div>
+</div>
+
+<div class="ui-layer">
+    <div class="ui-panel">
+        <button class="copyBtn" data-domain="A">Copy A</button>
+    </div>
+    <div class="ui-panel">
+        <button class="copyBtn" data-domain="B">Copy B</button>
+        <div id="masterControls">
+            <button id="startBtn" data-event="START">Start</button>
+            <button data-event="PAUSE">Pause</button>
+            <button data-event="RESUME">Resume</button>
+            <button data-event="STOP">Stop</button>
+        </div>
+    </div>
+    <div class="ui-panel">
+        <button class="copyBtn" data-domain="C">Copy C</button>
+        <div id="eventLogPanel"></div>
+    </div>
+</div>
+
+<script type="module" src="./rr/rr-2Dship/main.js"></script>
+
+</body>
+</html>

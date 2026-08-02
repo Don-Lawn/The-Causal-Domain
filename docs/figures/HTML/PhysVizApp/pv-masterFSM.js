@@ -12,22 +12,25 @@ export class MasterFSM extends ActiveEntity {
         this.animationLoop = this.animationLoop.bind(this);
         
         this.fsm.on("READY", "START", () => {
+            this.lastTime = performance.now();
             this.animationLoop(performance.now());
         });
     }
 
-   
-
     animationLoop(now) {
-        if (this.fsm.state === "ACTIVE") {
-            const dt = now - this.lastTime;
-            this.lastTime = now;
-
-            EventBusInstance.emit("TICK", { dt }, "MASTER", "MASTER.animationLoop");
-            EventBusInstance.emit("RENDER", { dt }, "MASTER", "MASTER.animationLoop");
-            setTimeout(() => this.animationLoop(performance.now()), 33);
-
+        if (this.fsm.state === "STOPPED") {
+            return;
         }
+
+        const dt = now - this.lastTime;
+        this.lastTime = now;
+
+        if (this.fsm.state === "ACTIVE") {
+            EventBusInstance.emit("TICK", { dt }, "MASTER", "MASTER.animationLoop");
+        }
+
+        EventBusInstance.emit("RENDER", { dt }, "MASTER", "MASTER.animationLoop");
+        requestAnimationFrame(this.animationLoop);
     }
 }
 

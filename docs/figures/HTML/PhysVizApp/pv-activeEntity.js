@@ -79,9 +79,10 @@ export class ActiveEntity {
             this.fsm.transition("STOPPED");
         });
 
-        // Only ACTIVE entities respond to TICK and RENDER
+        // ACTIVE entities update; PAUSED entities can still render for controls/interactivity.
         this.fsm.on("ACTIVE", "TICK", ({ dt }) => this.update(dt));
         this.fsm.on("ACTIVE", "RENDER", ({ dt }) => this.render(dt));
+        this.fsm.on("PAUSED", "RENDER", ({ dt }) => this.render(dt));
     }
 
     // -----------------------------------------------------------------------

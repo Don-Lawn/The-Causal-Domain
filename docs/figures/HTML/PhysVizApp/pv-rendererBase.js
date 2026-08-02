@@ -15,6 +15,7 @@ class RendererBase {
 
         // 1. Ensure THREE handle exists
         const handle = this.ensureHandle(semanticObject);
+        this.pearl.syncLoopState(handle, semanticObject);
 
         // 2. Ensure geometry exists (ABC domain defines its own sizes)
         this.ensureGeometry(handle);

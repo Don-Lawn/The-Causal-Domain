@@ -60,7 +60,13 @@ export class PVDomain extends ActiveEntity {
 
     render(dt) {
         const phaseArrow = [...this.objects.values()].find((obj) => obj.type === "PhaseArrow");
-        this.pearl.updateCamera(dt, phaseArrow);
+        if (phaseArrow?.consumeCameraResetRequest?.()) {
+            this.pearl.resetCamera();
+        }
+
+        if (this.fsm.state !== "PAUSED") {
+            this.pearl.updateCamera(dt, phaseArrow);
+        }
 
         for (const obj of this.objects.values()) {
             const renderer = this.getRenderer(obj.type);

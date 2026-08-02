@@ -1,5 +1,5 @@
-// pv-test.js
-// Top-level PV test harness.
+// rr-phaseArrow1.js
+// Top-level PV harness for the phase-arrow view.
 // Wires together: EventBus, MasterFSM, Domains, Renderers, UI controls, logging.
 
 import EventBusInstance from "./pv-eventBus.js";
@@ -53,8 +53,8 @@ xyz.addObject(arrowXYZ);
 abz.addObject(arrowABZ);
 
 
-EventBusInstance.emit("LOAD", {}, "MASTER", "pv-test.js");
-EventBusInstance.emit("START", {}, "MASTER", "pv-test.js");
+EventBusInstance.emit("LOAD", {}, "MASTER", "rr-phaseArrow1.js");
+EventBusInstance.emit("START", {}, "MASTER", "rr-phaseArrow1.js");
 // ------------------------------------------------------------
 // 6. UI Buttons → Emit Master FSM events
 // ------------------------------------------------------------
@@ -136,10 +136,14 @@ document.querySelectorAll(".copyBtn").forEach(btn => {
             return;
         }
 
+        const shouldResumeAfterCopy = master?.fsm?.state === "ACTIVE";
+
         EventBusInstance.emit("PAUSE", {}, "MASTER", "UI");
         requestAnimationFrame(async () => {
             await copyCanvasToClipboard(canvasId);
-            EventBusInstance.emit("RESUME", {}, "MASTER", "UI");
+            if (shouldResumeAfterCopy) {
+                EventBusInstance.emit("RESUME", {}, "MASTER", "UI");
+            }
         });
     });
 });
@@ -148,5 +152,5 @@ document.querySelectorAll(".copyBtn").forEach(btn => {
 // 9. Resize handling
 // ------------------------------------------------------------
 window.addEventListener("resize", () => {
-    EventBusInstance.emit("MASTER_RESIZE",{},"MASTER","pv-test.js line 96");
+    EventBusInstance.emit("MASTER_RESIZE",{},"MASTER","rr-phaseArrow1.js");
 });

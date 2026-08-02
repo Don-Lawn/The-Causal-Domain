@@ -22,39 +22,65 @@ export class ThreePearl {
         // Domain-local scene
         this.scene = new THREE.Scene();
 
+        this.orthoHalfHeight = 2.5;
+        this.cameraZoom = 1.0;
+        this.axisOverlayLength = 1.4;
+        this.axisOverlayMargin = 0.35;
+
         // Domain-local camera (your orthographic setup preserved)
         this.camera = new THREE.OrthographicCamera(
-            -20, 20,
-            20, -20,
+            -10, 10,
+            10, -10,
             0.1, 1000
         );
 
-        this.camera.position.set(0, 0, 10);
-        this.camera.lookAt(0, 0, 0);
-        this.camera.up.set(0, 1, 0);
+        const domainName = (this.myDomain?.name || "").toUpperCase();
+
+        this.camera.position.set(0, 0, 5);
+        if (domainName === "XYZ") {
+            this.camera.position.set(4.0, 1.8, 10);
+        } else if (domainName === "VQTOP") {
+            this.orthoHalfHeight = 1.2;
+            this.camera.position.set(0.5, -8.0, 0.5);
+            this.camera.up.set(0, 0, 1);
+            this.camera.lookAt(0.5, 0, 0.5);
+        } else if (domainName === "ZQVIEW") {
+            this.orthoHalfHeight = 1.2;
+            this.camera.position.set(0.5, 0, 8.0);
+            this.camera.up.set(0, 1, 0);
+            this.camera.lookAt(0.5, 0, 0);
+        }
+
+        if (domainName !== "VQTOP" && domainName !== "ZQVIEW") {
+            this.camera.lookAt(0, 0, 0);
+            this.camera.up.set(0, 1, 0);
+        }
 
         this.cameraLiftTarget = Math.PI / 4;
-        this.cameraLiftStartPhase = 2 * Math.PI;
-        this.cameraLiftEndPhase = 22 * Math.PI;
+        this.cameraLiftStartTurns = 2;
+        this.cameraLiftEndTurns = this.cameraLiftStartTurns + 10;
+        this.cameraLiftStartPhase = this.cameraLiftStartTurns * 2 * Math.PI;
+        this.cameraLiftEndPhase = this.cameraLiftEndTurns * 2 * Math.PI;
 
-        this.camera.left   = -5;
-        this.camera.right  =  5;
-        this.camera.top    =  5;
-        this.camera.bottom = -5;
-        this.camera.zoom = 1.0;
-        this.camera.updateProjectionMatrix();
+        this._updateOrthographicFrustum();
 
         this.axisOverlay = this._createAxisOverlay(this.myDomain?.name || "XYZ");
-        this.root.add(this.axisOverlay);
+        this.scene.add(this.axisOverlay);
 
         // Domain-local controls
         this.controls = new OrbitControls(this.camera, this.canvas);
         this.controls.enableRotate = true;
         this.controls.enablePan = true;
         this.controls.enableZoom = true;
-        this.controls.enableDamping = true;
-        this.controls.dampingFactor = 0.05;
+        this.controls.enableDamping = false;
         this.controls.target.set(0, 0, 0);
+        this._updateAxisOverlayPosition();
+        this.initialCameraState = {
+            position: this.camera.position.clone(),
+            target: this.controls.target.clone(),
+            up: this.camera.up.clone(),
+            zoom: this.camera.zoom
+        };
 
         // Domain-local root/content groups
         this.root = new THREE.Group();
@@ -68,54 +94,103 @@ export class ThreePearl {
         this.scene.add(light);
     }
 
-    _createAxisOverlay(label) {
+    _updateOrthographicFrustum(width = this.canvas.clientWidth, height = this.canvas.clientHeight) {
+        const safeWidth = Math.max(width || 1, 1);
+        const safeHeight = Math.max(height || 1, 1);
+        const aspect = safeWidth / safeHeight;
+
+        this.camera.left = -this.orthoHalfHeight * aspect;
+        this.camera.right = this.orthoHalfHeight * aspect;
+        this.camera.top = this.orthoHalfHeight;
+        this.camera.bottom = -this.orthoHalfHeight;
+        this.camera.zoom = this.cameraZoom;
+        this.camera.updateProjectionMatrix();
+
+        this._updateAxisOverlayPosition();
+    }
+
+    _updateAxisOverlayPosition() {
+        if (!this.axisOverlay) {
+            return;
+        }
+
+        this.axisOverlay.position.set(
+            this.camera.left + this.axisOverlayMargin,
+            this.camera.top - this.axisOverlayMargin - this.axisOverlayLength,
+            this.controls?.target?.z ?? 0
+        );
+    }
+
+    _createAxisOverlay(domainName) {
         const group = new THREE.Group();
-        group.position.set(-3.2, 2.8, -1.0);
+        group.renderOrder = 1000;
 
-        const axesMaterial = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.95 });
-        const xGeom = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(0, 0, 0),
-            new THREE.Vector3(0.8, 0, 0)
-        ]);
-        const yGeom = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(0, 0, 0),
-            new THREE.Vector3(0, 0.8, 0)
-        ]);
-        const zGeom = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(0, 0, 0),
-            new THREE.Vector3(0, 0, 0.8)
-        ]);
+        const axisLength = this.axisOverlayLength;
+        const axesMaterial = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.95, depthTest: false });
+        const axisLabels = this._getAxisLabels(domainName);
 
-        const xAxis = new THREE.Line(xGeom, axesMaterial.clone());
-        xAxis.material.color.set(0xff8888);
-        const yAxis = new THREE.Line(yGeom, axesMaterial.clone());
-        yAxis.material.color.set(0x88ff88);
-        const zAxis = new THREE.Line(zGeom, axesMaterial.clone());
-        zAxis.material.color.set(0x8888ff);
+        const axisSpecs = [
+            { vector: new THREE.Vector3(axisLength, 0, 0), color: 0xff8888, label: axisLabels[0], position: new THREE.Vector3(0.95, 0.08, 0) },
+            { vector: new THREE.Vector3(0, axisLength, 0), color: 0x88ff88, label: axisLabels[1], position: new THREE.Vector3(-0.08, 0.95, 0) },
+            { vector: new THREE.Vector3(0, 0, axisLength), color: 0x8888ff, label: axisLabels[2], position: new THREE.Vector3(-0.08, -0.08, 0.95) }
+        ];
 
-        group.add(xAxis, yAxis, zAxis);
+        axisSpecs.forEach(spec => {
+            const geom = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(0, 0, 0),
+                spec.vector
+            ]);
+            const axis = new THREE.Line(geom, axesMaterial.clone());
+            axis.material.color.set(spec.color);
+            axis.material.depthTest = false;
+            axis.renderOrder = 1000;
+            group.add(axis);
 
+            const labelSprite = this._createAxisLabelSprite(spec.label, spec.color, spec.position);
+            group.add(labelSprite);
+        });
+
+        return group;
+    }
+
+    _getAxisLabels(domainName) {
+        const normalized = (domainName || "").toUpperCase();
+        if (normalized.includes("VQTOP")) {
+            return ["V", "Y", "Q"];
+        }
+        if (normalized.includes("ZQVIEW")) {
+            return ["V", "Y", "Q"];
+        }
+        if (normalized.includes("ABC")) {
+            return ["A", "B", "C"];
+        }
+        if (normalized.includes("ABZ")) {
+            return ["A", "B", "Z"];
+        }
+        return ["X", "Y", "Z"];
+    }
+
+    _createAxisLabelSprite(text, color, position) {
         const canvas = document.createElement("canvas");
-        canvas.width = 160;
-        canvas.height = 60;
+        canvas.width = 64;
+        canvas.height = 32;
         const ctx = canvas.getContext("2d");
+
         if (ctx) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = "rgba(0,0,0,0)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "rgba(255,255,255,0.9)";
-            ctx.font = "bold 24px sans-serif";
-            ctx.fillText(label, 8, 34);
+            ctx.fillStyle = `#${color.toString(16).padStart(6, "0")}`;
+            ctx.font = "bold 18px sans-serif";
+            ctx.fillText(text, 6, 22);
         }
 
         const texture = new THREE.CanvasTexture(canvas);
-        const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true });
+        const spriteMaterial = new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false });
         const sprite = new THREE.Sprite(spriteMaterial);
-        sprite.position.set(0.8, 1.15, 0);
-        sprite.scale.set(2.0, 0.7, 1);
-        group.add(sprite);
-
-        return group;
+        sprite.position.copy(position);
+        sprite.scale.set(0.7, 0.35, 1);
+        return sprite;
     }
 
     // ------------------------------------------------------------
@@ -154,6 +229,31 @@ export class ThreePearl {
         return new PVHandle(mesh);
     }
 
+    makeBox({ width = 1, height = 1, depth = 1, color = 0xffffff }) {
+        const geometry = new THREE.BoxGeometry(width, height, depth);
+        const material = new THREE.MeshBasicMaterial({ color });
+        const mesh = new THREE.Mesh(geometry, material);
+        return new PVHandle(mesh);
+    }
+
+    makeTrianglePrism({ width = 1, height = 1, depth = 0.02, color = 0xffffff }) {
+        const shape = new THREE.Shape();
+        shape.moveTo(-width / 2, -height / 2);
+        shape.lineTo(-width / 2, height / 2);
+        shape.lineTo(width / 2, 0);
+        shape.closePath();
+
+        const geometry = new THREE.ExtrudeGeometry(shape, {
+            depth,
+            bevelEnabled: false
+        });
+        geometry.translate(0, 0, -depth / 2);
+
+        const material = new THREE.MeshBasicMaterial({ color });
+        const mesh = new THREE.Mesh(geometry, material);
+        return new PVHandle(mesh);
+    }
+
 
     setPosition(handle, pos) {
         handle.impl.position.set(pos.x, pos.y, pos.z);
@@ -175,6 +275,60 @@ export class ThreePearl {
 
     attachToDomain(handle) {
         this.content.add(handle.impl);
+    }
+
+    syncLoopState(handle, semanticObject) {
+        if (!handle || !semanticObject) {
+            return;
+        }
+
+        const cycle = semanticObject.trailCycle ?? 0;
+
+        if (handle.loopCycle !== cycle) {
+            if (Array.isArray(handle.trail)) {
+                for (const ghost of handle.trail) {
+                    this.scene.remove(ghost);
+                }
+                handle.trail = [];
+            }
+            handle.loopCycle = cycle;
+        }
+
+        const id = semanticObject.id;
+        this.simpleTrailCycles = this.simpleTrailCycles || new Map();
+
+        if (this.simpleTrailCycles.get(id) !== cycle) {
+            this.simpleTrailCycles.set(id, cycle);
+
+            if (this.simpleTrails) {
+                this.simpleTrails.set(id, []);
+            }
+
+            const trail = this.simpleTrailObjects?.get(id);
+            if (trail) {
+                trail.geometry.dispose();
+                trail.geometry = new THREE.BufferGeometry();
+                trail.visible = false;
+            }
+        }
+    }
+
+    resetCamera() {
+        if (!this.initialCameraState) {
+            return;
+        }
+
+        this.camera.position.copy(this.initialCameraState.position);
+        this.camera.up.copy(this.initialCameraState.up);
+        this.camera.zoom = this.initialCameraState.zoom;
+        this.camera.updateProjectionMatrix();
+
+        if (this.controls) {
+            this.controls.target.copy(this.initialCameraState.target);
+            this.controls.update();
+        }
+
+        this._updateAxisOverlayPosition();
     }
 
     // ------------------------------------------------------------
@@ -218,6 +372,57 @@ export class ThreePearl {
         }
     }
 
+    updateSimpleTrail(semanticObject, point, options = {}) {
+        if (!semanticObject || !this.scene) {
+            return;
+        }
+
+        const id = semanticObject.id;
+        if (!this.simpleTrails) {
+            this.simpleTrails = new Map();
+        }
+
+        const history = this.simpleTrails.get(id) || [];
+        history.push(point);
+
+        while (history.length > 64) {
+            history.shift();
+        }
+
+        this.simpleTrails.set(id, history);
+
+        let trail = this.simpleTrailObjects?.get(id);
+        if (!trail) {
+            const geometry = new THREE.BufferGeometry();
+            const material = new THREE.LineBasicMaterial({
+                color: 0xffffff,
+                transparent: false,
+                opacity: 1.0,
+                depthTest: false,
+                depthWrite: false
+            });
+            trail = new THREE.Line(geometry, material);
+            trail.renderOrder = 900;
+            this.content.add(trail);
+            this.simpleTrailObjects = this.simpleTrailObjects || new Map();
+            this.simpleTrailObjects.set(id, trail);
+        }
+
+        const includeOrigin = options.includeOrigin ?? true;
+        const points = includeOrigin ? [{ x: 0, y: 0, z: 0 }, ...history] : history;
+        const positions = new Float32Array(points.length * 3);
+        points.forEach((p, index) => {
+            positions[index * 3 + 0] = p.x;
+            positions[index * 3 + 1] = p.y;
+            positions[index * 3 + 2] = p.z;
+        });
+
+        trail.geometry.dispose();
+        trail.geometry = new THREE.BufferGeometry();
+        trail.geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+        trail.visible = points.length > 1;
+    }
+
     applyColor(handle, r, g, b) {
         const color = new THREE.Color(r, g, b);
         handle.impl.children.forEach(child => {
@@ -235,25 +440,23 @@ export class ThreePearl {
             return;
         }
 
-        const phase = semanticObject.phase ?? 0;
-        const radius = 10;
-
-        if (phase < this.cameraLiftStartPhase) {
-            this.camera.position.set(0, 0, radius);
-            this.camera.lookAt(0, 0, 0);
+        const cameraDelta = semanticObject.cameraDelta;
+        if (!cameraDelta) {
             return;
         }
 
-        const liftSpan = Math.max(this.cameraLiftEndPhase - this.cameraLiftStartPhase, 0.0001);
-        const liftRatio = Math.min(1, Math.max(0, (phase - this.cameraLiftStartPhase) / liftSpan));
-        const cameraTilt = liftRatio * this.cameraLiftTarget;
+        if (!cameraDelta.active) {
+            return;
+        }
 
-        const x = Math.sin(cameraTilt) * radius;
-        const y = Math.cos(cameraTilt) * radius * 0.35;
-        const z = Math.cos(cameraTilt) * radius;
+        const positionDelta = cameraDelta.positionDelta || { x: 0, y: 0, z: 0 };
+        const targetZDelta = cameraDelta.targetZDelta ?? 0;
 
-        this.camera.position.set(x, y, z);
-        this.camera.lookAt(0, 0, 0);
+        this.camera.position.x += positionDelta.x;
+        this.camera.position.y += positionDelta.y;
+        this.camera.position.z += positionDelta.z + targetZDelta;
+
+        this.controls.target.z += targetZDelta;
     }
 
     // ------------------------------------------------------------
@@ -269,16 +472,14 @@ export class ThreePearl {
         // Resize renderer only if needed
         this.renderer.setSize(width, height, false);
 
-        // Update camera aspect
-        this.camera.aspect = width / height;
-        this.camera.updateProjectionMatrix();
+        // Orthographic magnification comes from frustum size and zoom, not camera distance.
+        this._updateOrthographicFrustum(width, height);
 
         // Full-canvas viewport
         this.renderer.setViewport(0, 0, width, height);
         this.renderer.setScissor(0, 0, width, height);
         this.renderer.setScissorTest(true);
 
-        this.controls.target.set(0, 0, 0);
         this.controls.update();
         this.renderer.render(this.scene, this.camera);
     }
