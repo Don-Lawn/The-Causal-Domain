@@ -7,7 +7,7 @@ export class RR2DShip extends SemanticObject {
         this.type = "RR2DShip";
 
         this.v = 0; // 0..1, velocity axis
-        this.q = 0; // abstract displacement
+        this.q = 0; // physics depth axis (Q == Z), positive values move into screen
         this.theta = 0; // angle to the x axis
         this.acceleration = 0.12; // units of c per second
         this.trailCycle = 0;
@@ -37,7 +37,8 @@ export class RR2DShip extends SemanticObject {
 
         const clampedV = Math.max(0, Math.min(1, this.v));
         this.theta = Math.asin(clampedV);
-    this.q = 1 - Math.cos(this.theta);
+        // Physics convention: deeper into screen means larger positive Q.
+        this.q = 1 - Math.cos(this.theta);
 
         // Shared spatial state for generic tooling. Domain-specific renderers map these differently.
         this.x = this.v;

@@ -46,6 +46,7 @@ export class ThreePearl {
             this.camera.lookAt(0.5, 0, 0.5);
         } else if (domainName === "ZQVIEW") {
             this.orthoHalfHeight = 1.2;
+            // Keep V orientation consistent with VQTOP.
             this.camera.position.set(0.5, 0, 8.0);
             this.camera.up.set(0, 1, 0);
             this.camera.lookAt(0.5, 0, 0);
@@ -121,6 +122,11 @@ export class ThreePearl {
         );
     }
 
+    _toThreeZ(physicsZ = 0) {
+        // Physics convention: +Z goes into the screen. Three.js: +Z comes out.
+        return -physicsZ;
+    }
+
     _createAxisOverlay(domainName) {
         const group = new THREE.Group();
         group.renderOrder = 1000;
@@ -132,7 +138,7 @@ export class ThreePearl {
         const axisSpecs = [
             { vector: new THREE.Vector3(axisLength, 0, 0), color: 0xff8888, label: axisLabels[0], position: new THREE.Vector3(0.95, 0.08, 0) },
             { vector: new THREE.Vector3(0, axisLength, 0), color: 0x88ff88, label: axisLabels[1], position: new THREE.Vector3(-0.08, 0.95, 0) },
-            { vector: new THREE.Vector3(0, 0, axisLength), color: 0x8888ff, label: axisLabels[2], position: new THREE.Vector3(-0.08, -0.08, 0.95) }
+            { vector: new THREE.Vector3(0, 0, this._toThreeZ(axisLength)), color: 0x8888ff, label: axisLabels[2], position: new THREE.Vector3(-0.08, -0.08, this._toThreeZ(0.95)) }
         ];
 
         axisSpecs.forEach(spec => {
@@ -256,7 +262,7 @@ export class ThreePearl {
 
 
     setPosition(handle, pos) {
-        handle.impl.position.set(pos.x, pos.y, pos.z);
+        handle.impl.position.set(pos.x, pos.y, this._toThreeZ(pos.z));
     }
 
     setRotationZ(handle, radians) { handle.impl.rotation.z = radians; }
@@ -414,7 +420,7 @@ export class ThreePearl {
         points.forEach((p, index) => {
             positions[index * 3 + 0] = p.x;
             positions[index * 3 + 1] = p.y;
-            positions[index * 3 + 2] = p.z;
+            positions[index * 3 + 2] = this._toThreeZ(p.z);
         });
 
         trail.geometry.dispose();
@@ -454,9 +460,9 @@ export class ThreePearl {
 
         this.camera.position.x += positionDelta.x;
         this.camera.position.y += positionDelta.y;
-        this.camera.position.z += positionDelta.z + targetZDelta;
+        this.camera.position.z += this._toThreeZ(positionDelta.z + targetZDelta);
 
-        this.controls.target.z += targetZDelta;
+        this.controls.target.z += this._toThreeZ(targetZDelta);
     }
 
     // ------------------------------------------------------------

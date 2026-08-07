@@ -14,7 +14,7 @@ class RR2DShipRenderer_TOP extends RendererBase {
             {
                 x: hints.v ?? 0,
                 y: 0,
-                z: hints.q ?? 0
+                z: -(hints.q ?? 0)
             },
             { includeOrigin: false }
         );
@@ -52,13 +52,13 @@ class RR2DShipRenderer_TOP extends RendererBase {
         this.pearl.setPosition(handle, {
             x: hints.v ?? 0,
             y: 0,
-            z: hints.q ?? 0
+            z: -(hints.q ?? 0)
         });
     }
 
     setRotationZ(handle, hints) {
-        // Directly use the angle-to-x-axis from the unit-circle mapping.
-        this.pearl.setRotationY(handle, hints.theta ?? 0);
+        // Positive theta should rotate the nose toward negative Q.
+        this.pearl.setRotationY(handle, -(hints.theta ?? 0));
     }
 
     applyColor(handle, hints) {

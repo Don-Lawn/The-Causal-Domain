@@ -37,12 +37,12 @@ class RR2DShipRenderer_ZQ extends RendererBase {
         this.pearl.setPosition(handle, {
             x: hints.v ?? 0,
             y: 0,
-            z: 0
+            z: hints.q ?? 0
         });
     }
 
     setRotationZ(handle, hints) {
-        // Directly use the angle-to-x-axis from the unit-circle mapping.
+        // ZQ camera/view orientation requires the opposite sign to preserve visible -Q turn.
         this.pearl.setRotationY(handle, hints.theta ?? 0);
     }
 
