@@ -3,6 +3,10 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
 import { PVHandle } from "../../pv-handle.js";
 import { RendererBase } from "../../pv-rendererBase.js";
 
+const CONE_RADIAL_SEGMENTS = 39;
+const CONE_HEIGHT_SEGMENTS = 18;
+const CONE_WIRE_HEIGHT_SEGMENTS = 9;
+
 class RRConeEllipseRenderer extends RendererBase {
     constructor(domain, pearl) {
         super(domain, pearl);
@@ -20,7 +24,7 @@ class RRConeEllipseRenderer extends RendererBase {
         const group = new THREE.Group();
 
         const coneSolid = new THREE.Mesh(
-            new THREE.ConeGeometry(1, 1, 64, 32),
+            new THREE.ConeGeometry(1, 1, CONE_RADIAL_SEGMENTS, CONE_HEIGHT_SEGMENTS),
             new THREE.MeshBasicMaterial({
                 color: 0x5ca7ff,
                 transparent: true,
@@ -31,7 +35,7 @@ class RRConeEllipseRenderer extends RendererBase {
         );
 
         const coneWire = new THREE.Mesh(
-            new THREE.ConeGeometry(1, 1, 64, 16),
+            new THREE.ConeGeometry(1, 1, CONE_RADIAL_SEGMENTS, CONE_WIRE_HEIGHT_SEGMENTS),
             new THREE.MeshBasicMaterial({
                 color: 0x9fd0ff,
                 wireframe: true,
@@ -56,6 +60,13 @@ class RRConeEllipseRenderer extends RendererBase {
         group.add(ellipse);
         group.add(marker);
 
+        if (this.domain?.name === "VQTOP") {
+            coneSolid.visible = false;
+            coneWire.visible = true;
+            ellipse.visible = false;
+            marker.visible = false;
+        }
+
         handle.impl = group;
         handle.coneSolid = coneSolid;
         handle.coneWire = coneWire;
@@ -72,21 +83,71 @@ class RRConeEllipseRenderer extends RendererBase {
         super.render(semanticObject, hints);
 
         const handle = this.ensureHandle(semanticObject);
+        if (this.domain?.name === "VQTOP") {
+            this.updateTopDomainCone(handle);
+            return;
+        }
+
         this.updateCone(handle, hints);
         this.updateEllipse(handle, hints);
         this.updateMarker(handle, hints);
     }
 
     setPosition(handle, hints) {
+        if (this.domain?.name === "VQTOP") {
+            // Lift by +0.5 in physics depth so rotated cone apex lands at Q=0 (Three Z=0).
+            this.pearl.setPosition(handle, { x: 0, y: 0, z: 0.5 });
+            return;
+        }
+
         this.pearl.setPosition(handle, { x: 0, y: 0, z: 0 });
     }
 
     setRotationZ(handle, hints) {
+        if (this.domain?.name === "VQTOP") {
+            this.pearl.setRotationX(handle, Math.PI / 2);
+            this.pearl.setRotationZ(handle, 0);
+            return;
+        }
+
+        this.pearl.setRotationX(handle, 0);
         this.pearl.setRotationZ(handle, 0);
     }
 
     applyColor(handle, hints) {
         return;
+    }
+
+    updateTopDomainCone(handle) {
+        const radius = 1;
+        const height = 1;
+
+        if (handle.lastConeRadius === radius && handle.lastConeHeight === height) {
+            return;
+        }
+
+        if (handle.coneSolid.geometry) {
+            handle.coneSolid.geometry.dispose();
+        }
+        if (handle.coneWire.geometry) {
+            handle.coneWire.geometry.dispose();
+        }
+
+        handle.coneSolid.geometry = new THREE.ConeGeometry(radius, height, CONE_RADIAL_SEGMENTS, CONE_HEIGHT_SEGMENTS);
+        handle.coneWire.geometry = new THREE.ConeGeometry(radius, height, CONE_RADIAL_SEGMENTS, CONE_WIRE_HEIGHT_SEGMENTS);
+
+        handle.coneSolid.visible = false;
+        handle.coneWire.visible = true;
+
+        handle.coneWire.material = new THREE.MeshBasicMaterial({
+            color: 0x4a90ff,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.35,
+            depthWrite: false
+        });
+        handle.lastConeRadius = radius;
+        handle.lastConeHeight = height;
     }
 
     updateCone(handle, hints) {
@@ -105,7 +166,8 @@ class RRConeEllipseRenderer extends RendererBase {
                 mesh.geometry.dispose();
             }
 
-            const geometry = new THREE.ConeGeometry(radius, height, 64, 32);
+            const heightSegments = mesh === handle.coneWire ? CONE_WIRE_HEIGHT_SEGMENTS : CONE_HEIGHT_SEGMENTS;
+            const geometry = new THREE.ConeGeometry(radius, height, CONE_RADIAL_SEGMENTS, heightSegments);
             // Three.js cone points +Y. Rotate/translate so apex is at origin and axis is +Z.
             geometry.rotateX(-Math.PI / 2);
             geometry.translate(0, 0, height / 2);

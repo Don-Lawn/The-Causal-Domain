@@ -11,6 +11,8 @@ export class RR2DShip extends SemanticObject {
         this.theta = 0; // angle to the x axis
         this.acceleration = 0.12; // units of c per second
         this.trailCycle = 0;
+        this.sequencePhase = 1; // 1 = full, 2 = reduced/trail, 3 = frozen pause
+        this.sequencePauseRemainingMs = 0;
 
         this.x = 0;
         this.y = 0;
@@ -21,17 +23,52 @@ export class RR2DShip extends SemanticObject {
     }
 
     update(dt) {
-        const seconds = (dt || 0) / 1000;
+        const elapsedMs = dt || 0;
+        const seconds = elapsedMs / 1000;
 
-        this.v += this.acceleration * seconds;
-        if (this.v > 1) {
+        if (this.sequencePauseRemainingMs > 0) {
+            this.sequencePauseRemainingMs = Math.max(0, this.sequencePauseRemainingMs - elapsedMs);
+            if (this.sequencePauseRemainingMs > 0) {
+                return;
+            }
+
+            this.sequencePauseRemainingMs = 0;
+            this.sequencePhase = 1;
+            this.trailCycle += 1;
             this.v = 0;
             this.q = 0;
             this.theta = 0;
             this.x = 0;
             this.y = 0;
             this.z = this.q;
-            this.trailCycle += 1;
+            return;
+        }
+
+        this.v += this.acceleration * seconds;
+        if (this.v > 1) {
+            this.v = 1;
+            this.theta = Math.asin(this.v);
+            this.q = 1 - Math.cos(this.theta);
+            this.x = this.v;
+            this.y = 0;
+            this.z = this.q;
+
+            if (this.sequencePhase === 1) {
+                this.v = 0;
+                this.q = 0;
+                this.theta = 0;
+                this.x = 0;
+                this.y = 0;
+                this.z = this.q;
+                this.trailCycle += 1;
+                this.sequencePhase = 2;
+                return;
+            }
+
+            if (this.sequencePhase === 2) {
+                this.sequencePhase = 3;
+                this.sequencePauseRemainingMs = 3000;
+            }
             return;
         }
 
@@ -57,6 +94,9 @@ export class RR2DShip extends SemanticObject {
             y: this.y,
             z: this.z,
             trailCycle: this.trailCycle,
+            sequencePhase: this.sequencePhase,
+            sequencePaused: this.sequencePauseRemainingMs > 0,
+            sequencePauseRemainingMs: this.sequencePauseRemainingMs,
             color: this.color,
             visible: this.visible
         });

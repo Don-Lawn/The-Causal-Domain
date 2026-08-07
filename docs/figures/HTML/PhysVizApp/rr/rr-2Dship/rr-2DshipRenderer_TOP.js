@@ -8,6 +8,18 @@ class RR2DShipRenderer_TOP extends RendererBase {
     render(semanticObject, hints) {
         super.render(semanticObject, hints);
 
+        const sequenceCycle = hints.trailCycle ?? 0;
+        const reducedPhase = sequenceCycle % 2 === 1;
+        const isPaused = (hints.sequencePauseRemainingMs ?? 0) > 0 || hints.sequencePhase === 3;
+
+        const handle = this.ensureHandle(semanticObject);
+        // Keep Z thickness unchanged; reduce ship planform (length + width) to one third.
+        handle.impl.scale.set(reducedPhase ? 1 / 3 : 1, reducedPhase ? 1 / 3 : 1, 1);
+
+        if (!reducedPhase || isPaused) {
+            return;
+        }
+
         // Draw the relativistic path in the V-Q plane.
         this.pearl.updateSimpleTrail(
             semanticObject,
@@ -16,7 +28,7 @@ class RR2DShipRenderer_TOP extends RendererBase {
                 y: 0,
                 z: -(hints.q ?? 0)
             },
-            { includeOrigin: false }
+            { includeOrigin: true, maxPoints: 2048 }
         );
     }
 

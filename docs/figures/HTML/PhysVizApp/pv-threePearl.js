@@ -41,13 +41,14 @@ export class ThreePearl {
             this.camera.position.set(4.0, 1.8, 10);
         } else if (domainName === "VQTOP") {
             this.orthoHalfHeight = 1.2;
-            this.camera.position.set(0.5, -8.0, 0.5);
-            this.camera.up.set(0, 0, 1);
-            this.camera.lookAt(0.5, 0, 0.5);
+            // Oblique causal-domain view: ~30 deg above the Wx/Wy plane.
+            this.camera.position.set(0.5, -6.93, 4.0);
+            this.camera.up.set(0, 1, 0);
+            this.camera.lookAt(0.5, 0, 0);
         } else if (domainName === "ZQVIEW") {
             this.orthoHalfHeight = 1.2;
-            // Keep V orientation consistent with VQTOP.
-            this.camera.position.set(0.5, 0, 8.0);
+            // Oblique phenomenal-domain view: ~30 deg above the XY plane.
+            this.camera.position.set(0.5, 6.93, 4.0);
             this.camera.up.set(0, 1, 0);
             this.camera.lookAt(0.5, 0, 0);
         }
@@ -162,10 +163,10 @@ export class ThreePearl {
     _getAxisLabels(domainName) {
         const normalized = (domainName || "").toUpperCase();
         if (normalized.includes("VQTOP")) {
-            return ["V", "Y", "Q"];
+            return ["Wx", "Wy", "Q"];
         }
         if (normalized.includes("ZQVIEW")) {
-            return ["V", "Y", "Q"];
+            return ["Rx", "Ry", "Z"];
         }
         if (normalized.includes("ABC")) {
             return ["A", "B", "C"];
@@ -343,12 +344,15 @@ export class ThreePearl {
 
     updateTrail(handle, semanticObject) {
         const ghost = handle.impl.clone(true);
+        const preserveSourceOpacity = semanticObject?.trailUseSourceOpacity === true;
 
         ghost.traverse(node => {
             if (node.material) {
                 node.material = node.material.clone();
                 node.material.transparent = true;
-                node.material.opacity = 1.0;
+                if (!preserveSourceOpacity) {
+                    node.material.opacity = 1.0;
+                }
             }
         });
 
@@ -391,7 +395,8 @@ export class ThreePearl {
         const history = this.simpleTrails.get(id) || [];
         history.push(point);
 
-        while (history.length > 64) {
+        const maxPoints = Number.isFinite(options.maxPoints) ? Math.max(1, Math.floor(options.maxPoints)) : 64;
+        while (history.length > maxPoints) {
             history.shift();
         }
 

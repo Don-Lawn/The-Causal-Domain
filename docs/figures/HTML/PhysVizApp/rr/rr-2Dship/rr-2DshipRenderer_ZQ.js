@@ -5,6 +5,32 @@ class RR2DShipRenderer_ZQ extends RendererBase {
         super(domain, pearl);
     }
 
+    render(semanticObject, hints) {
+        super.render(semanticObject, hints);
+
+        const sequenceCycle = hints.trailCycle ?? 0;
+        const reducedPhase = sequenceCycle % 2 === 1;
+        const isPaused = (hints.sequencePauseRemainingMs ?? 0) > 0 || hints.sequencePhase === 3;
+
+        const handle = this.ensureHandle(semanticObject);
+        // Keep Z thickness unchanged; reduce ship planform (length + width) to one third.
+        handle.impl.scale.set(reducedPhase ? 1 / 3 : 1, reducedPhase ? 1 / 3 : 1, 1);
+
+        if (!reducedPhase || isPaused) {
+            return;
+        }
+
+        this.pearl.updateSimpleTrail(
+            semanticObject,
+            {
+                x: hints.v ?? 0,
+                y: 0,
+                z: hints.q ?? 0
+            },
+            { includeOrigin: true, maxPoints: 2048 }
+        );
+    }
+
     ensureGeometry(handle) {
         if (handle.geometryBuilt) return;
 
