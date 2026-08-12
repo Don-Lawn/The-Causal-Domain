@@ -1,5 +1,5 @@
 // rr/coneEllipse/rr-coneEllipse.js
-import { SemanticObject } from "../../pv-object.js";
+import { SemanticObject } from "../../../pv-object.js";
 import { registerAnimation3 } from "./rr-coneEllipseAnimation3.js";
 
 class RRConeEllipse extends SemanticObject {

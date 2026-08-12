@@ -1,5 +1,5 @@
 // rr/phaseArrow/PhaseArrowRenderer_ABC.js
-import { RendererBase } from '../../pv-rendererBase.js';
+import { RendererBase } from '../../../pv-rendererBase.js';
 
 class PhaseArrowRenderer_ABC extends RendererBase {    
     constructor (domain, pearl) {

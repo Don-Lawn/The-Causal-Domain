@@ -1,4 +1,4 @@
-import { SemanticObject } from "../../pv-object.js";
+import { SemanticObject } from "../../../pv-object.js";
 
 export class RR2DShip extends SemanticObject {
     constructor(id) {

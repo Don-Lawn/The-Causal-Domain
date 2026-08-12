@@ -31,6 +31,7 @@ export const PhaseArrowFSM = {
       operator: ">=",
       value: 4 * Math.PI,
       emit: "NEXTSTAGE",
+      action: "startCameraLift",
       nextState: "STAGE3"
     },
     {

@@ -1,6 +1,6 @@
-import { RendererBase } from "../../pv-rendererBase.js";
+import { RendererBase } from "../../../pv-rendererBase.js";
 
-class RR2DShipRenderer_TOP extends RendererBase {
+class RR2DShipRenderer_ZQ extends RendererBase {
     constructor(domain, pearl) {
         super(domain, pearl);
     }
@@ -20,13 +20,12 @@ class RR2DShipRenderer_TOP extends RendererBase {
             return;
         }
 
-        // Draw the relativistic path in the V-Q plane.
         this.pearl.updateSimpleTrail(
             semanticObject,
             {
                 x: hints.v ?? 0,
                 y: 0,
-                z: -(hints.q ?? 0)
+                z: hints.q ?? 0
             },
             { includeOrigin: true, maxPoints: 2048 }
         );
@@ -39,19 +38,19 @@ class RR2DShipRenderer_TOP extends RendererBase {
         const depth = 0.03;
 
         const body = pearl.makeBox({
-            width: 0.58,
-            height: 0.10,
+            width: 0.64,
+            height: 0.12,
             depth,
             color: 0xffffff
         });
 
         const nose = pearl.makeTrianglePrism({
-            width: 0.22,
-            height: 0.22,
+            width: 0.24,
+            height: 0.24,
             depth,
             color: 0xff3b30
         });
-        pearl.setPosition(nose, { x: 0.40, y: 0, z: 0 });
+        pearl.setPosition(nose, { x: 0.44, y: 0, z: 0 });
 
         const ship = pearl.combine([body, nose]);
         handle.impl = ship.impl;
@@ -64,13 +63,13 @@ class RR2DShipRenderer_TOP extends RendererBase {
         this.pearl.setPosition(handle, {
             x: hints.v ?? 0,
             y: 0,
-            z: -(hints.q ?? 0)
+            z: hints.q ?? 0
         });
     }
 
     setRotationZ(handle, hints) {
-        // Positive theta should rotate the nose toward negative Q.
-        this.pearl.setRotationY(handle, -(hints.theta ?? 0));
+        // ZQ camera/view orientation requires the opposite sign to preserve visible -Q turn.
+        this.pearl.setRotationY(handle, hints.theta ?? 0);
     }
 
     applyColor(handle, hints) {
@@ -88,4 +87,4 @@ class RR2DShipRenderer_TOP extends RendererBase {
     }
 }
 
-export { RR2DShipRenderer_TOP };
+export { RR2DShipRenderer_ZQ };

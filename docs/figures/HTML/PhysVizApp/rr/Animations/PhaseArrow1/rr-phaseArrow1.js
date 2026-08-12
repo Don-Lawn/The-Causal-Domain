@@ -2,11 +2,11 @@
 // Top-level PV harness for the phase-arrow view.
 // Wires together: EventBus, MasterFSM, Domains, Renderers, UI controls, logging.
 
-import EventBusInstance from "./pv-eventBus.js";
-import { MasterFSM } from "./pv-masterFSM.js";
-import { PVLogMonitor } from "./pv-logMonitor.js";
-import { PVDomain } from "./pv-domain.js";
-import { RendererRegistry } from "./pv-rendererRegistry.js";
+import EventBusInstance from "../../../pv-eventBus.js";
+import { MasterFSM } from "../../../pv-masterFSM.js";
+import { PVLogMonitor } from "../../../pv-logMonitor.js";
+import { PVDomain } from "../../../pv-domain.js";
+import { RendererRegistry } from "../../../pv-rendererRegistry.js";
 
 import { PhaseArrow } from "./rr/phaseArrow/rr-phaseArrow.js";
 import { PhaseArrowRenderer_ABC } from "./rr/phaseArrow/rr-phaseArrowRenderer_ABC.js";

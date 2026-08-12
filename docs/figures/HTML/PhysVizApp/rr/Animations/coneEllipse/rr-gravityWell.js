@@ -1,5 +1,5 @@
 // rr/coneEllipse/rr-gravityWell.js
-import { SemanticObject } from "../../pv-object.js";
+import { SemanticObject } from "../../../pv-object.js";
 
 class RRGravityWell extends SemanticObject {
     constructor(id, params = {}) {

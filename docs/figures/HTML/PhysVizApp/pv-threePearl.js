@@ -3,8 +3,12 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
 import { OrbitControls } from 'https://unpkg.com/three@0.164.0/examples/jsm/controls/OrbitControls.js';
 import { PVHandle } from "./pv-handle.js";
 
+// ThreePearl
+// Owns the Three.js scene, camera, primitives, controls, and trail state for one domain.
 export class ThreePearl {
 
+    // ThreePearl constructor
+    // Builds the domain-local renderer, scene, camera, controls, and overlay helpers.
     constructor(canvas, domain) {
         this.canvas = canvas;
         this.myDomain = domain;
@@ -96,6 +100,8 @@ export class ThreePearl {
         this.scene.add(light);
     }
 
+    // ThreePearl _updateOrthographicFrustum
+    // Recomputes the orthographic camera bounds from the current canvas size.
     _updateOrthographicFrustum(width = this.canvas.clientWidth, height = this.canvas.clientHeight) {
         const safeWidth = Math.max(width || 1, 1);
         const safeHeight = Math.max(height || 1, 1);
@@ -111,6 +117,8 @@ export class ThreePearl {
         this._updateAxisOverlayPosition();
     }
 
+    // ThreePearl _updateAxisOverlayPosition
+    // Pins the axis overlay to the visible corner of the camera frustum.
     _updateAxisOverlayPosition() {
         if (!this.axisOverlay) {
             return;
@@ -123,11 +131,15 @@ export class ThreePearl {
         );
     }
 
+    // ThreePearl _toThreeZ
+    // Converts physics-space Z into Three.js Z by flipping the sign.
     _toThreeZ(physicsZ = 0) {
         // Physics convention: +Z goes into the screen. Three.js: +Z comes out.
         return -physicsZ;
     }
 
+    // ThreePearl _createAxisOverlay
+    // Creates the small labeled axis overlay for the current domain.
     _createAxisOverlay(domainName) {
         const group = new THREE.Group();
         group.renderOrder = 1000;
@@ -160,6 +172,8 @@ export class ThreePearl {
         return group;
     }
 
+    // ThreePearl _getAxisLabels
+    // Maps the domain name to the axis labels used by the overlay.
     _getAxisLabels(domainName) {
         const normalized = (domainName || "").toUpperCase();
         if (normalized.includes("VQTOP")) {
@@ -177,6 +191,8 @@ export class ThreePearl {
         return ["X", "Y", "Z"];
     }
 
+    // ThreePearl _createAxisLabelSprite
+    // Renders a text sprite so the overlay labels stay lightweight.
     _createAxisLabelSprite(text, color, position) {
         const canvas = document.createElement("canvas");
         canvas.width = 64;
@@ -204,6 +220,8 @@ export class ThreePearl {
     // Primitives (unchanged)
     // ------------------------------------------------------------
 
+    // ThreePearl makeCylinder
+    // Creates a basic cylinder primitive and wraps it in a PVHandle.
     makeCylinder(params) {
         const geom = new THREE.CylinderGeometry(
             params.radiusTop,
@@ -217,6 +235,8 @@ export class ThreePearl {
     }
 
 
+    // ThreePearl makeCone
+    // Creates a basic cone primitive and wraps it in a PVHandle.
     makeCone(params) {
         const geom = new THREE.ConeGeometry(
             params.radius,
@@ -229,6 +249,8 @@ export class ThreePearl {
     }
 
 
+    // ThreePearl makeSphere
+    // Creates a sphere primitive for simple semantic objects.
     makeSphere({ radius = 1, color = 0xffffff }) {
         const geometry = new THREE.SphereGeometry(radius, 32, 16);
         const material = new THREE.MeshBasicMaterial({ color });
@@ -236,6 +258,8 @@ export class ThreePearl {
         return new PVHandle(mesh);
     }
 
+    // ThreePearl makeBox
+    // Creates a box primitive with the requested dimensions and color.
     makeBox({ width = 1, height = 1, depth = 1, color = 0xffffff }) {
         const geometry = new THREE.BoxGeometry(width, height, depth);
         const material = new THREE.MeshBasicMaterial({ color });
@@ -243,6 +267,8 @@ export class ThreePearl {
         return new PVHandle(mesh);
     }
 
+    // ThreePearl makeTrianglePrism
+    // Extrudes a triangle profile into a thin prism primitive.
     makeTrianglePrism({ width = 1, height = 1, depth = 0.02, color = 0xffffff }) {
         const shape = new THREE.Shape();
         shape.moveTo(-width / 2, -height / 2);
@@ -261,30 +287,51 @@ export class ThreePearl {
         return new PVHandle(mesh);
     }
 
+    // ThreePearl makeTriangularPrism
+    // Alias retained for callers that use the alternate spelling.
+    makeTriangularPrism(params) {
+        return this.makeTrianglePrism(params);
+    }
 
+    // ThreePearl setPosition
+    // Applies a physics-space position after converting Z into Three.js space.
     setPosition(handle, pos) {
         handle.impl.position.set(pos.x, pos.y, this._toThreeZ(pos.z));
     }
 
+    // ThreePearl setRotationZ
+    // Rotates a handle around the Z axis in radians.
     setRotationZ(handle, radians) { handle.impl.rotation.z = radians; }
+    // ThreePearl setRotationX
+    // Rotates a handle around the X axis in radians.
     setRotationX(handle, radians) { handle.impl.rotation.x = radians; }
+    // ThreePearl setRotationY
+    // Rotates a handle around the Y axis in radians.
     setRotationY(handle, radians) { handle.impl.rotation.y = radians; }
 
+    // ThreePearl setVisibility
+    // Shows or hides the underlying Three.js object.
     setVisibility(handle, visible) {
         handle.impl.visible = visible;
     }
 
+    // ThreePearl combine
+    // Groups multiple handles under a single Three.js parent.
     combine(handles) {
         const group = new THREE.Group();
         for (const h of handles) group.add(h.impl);
         return new PVHandle(group);
     }
 
+    // ThreePearl attachToDomain
+    // Adds a handle to the domain content group for rendering.
     attachToDomain(handle) {
         this.content.add(handle.impl);
     }
 
-    syncLoopState(handle, semanticObject) {
+    // ThreePearl resetTrailCycleState
+    // Clears looped trail state when the semantic object enters a new cycle.
+    resetTrailCycleState(handle, semanticObject) {
         if (!handle || !semanticObject) {
             return;
         }
@@ -320,6 +367,8 @@ export class ThreePearl {
         }
     }
 
+    // ThreePearl resetCamera
+    // Restores the camera and controls to the saved initial state.
     resetCamera() {
         if (!this.initialCameraState) {
             return;
@@ -342,6 +391,8 @@ export class ThreePearl {
     // Trails (unchanged)
     // ------------------------------------------------------------
 
+    // ThreePearl updateTrail
+    // Clones the current mesh into a fading ghost trail.
     updateTrail(handle, semanticObject) {
         const ghost = handle.impl.clone(true);
         const preserveSourceOpacity = semanticObject?.trailUseSourceOpacity === true;
@@ -382,6 +433,8 @@ export class ThreePearl {
         }
     }
 
+    // ThreePearl updateSimpleTrail
+    // Rebuilds the lightweight polyline trail from stored history points.
     updateSimpleTrail(semanticObject, point, options = {}) {
         if (!semanticObject || !this.scene) {
             return;
@@ -434,6 +487,8 @@ export class ThreePearl {
         trail.visible = points.length > 1;
     }
 
+    // ThreePearl applyColor
+    // Copies a color onto every material in the handle hierarchy.
     applyColor(handle, r, g, b) {
         const color = new THREE.Color(r, g, b);
         handle.impl.children.forEach(child => {
@@ -441,27 +496,15 @@ export class ThreePearl {
         });
     }
 
-    updateCamera(dt, semanticObject) {
-        if (!semanticObject) {
+    // ThreePearl applyCamera
+    // Applies camera motion hints from the semantic object.
+    applyCamera(hints) {
+        if (!hints?.active) {
             return;
         }
 
-        const domainName = this.myDomain?.name;
-        if (domainName !== "ABZ" && domainName !== "XYZ") {
-            return;
-        }
-
-        const cameraDelta = semanticObject.cameraDelta;
-        if (!cameraDelta) {
-            return;
-        }
-
-        if (!cameraDelta.active) {
-            return;
-        }
-
-        const positionDelta = cameraDelta.positionDelta || { x: 0, y: 0, z: 0 };
-        const targetZDelta = cameraDelta.targetZDelta ?? 0;
+        const positionDelta = hints.positionDelta || { x: 0, y: 0, z: 0 };
+        const targetZDelta  = hints.targetZDelta ?? 0;
 
         this.camera.position.x += positionDelta.x;
         this.camera.position.y += positionDelta.y;
@@ -474,6 +517,8 @@ export class ThreePearl {
     // Rendering (rewritten)
     // ------------------------------------------------------------
 
+    // ThreePearl render
+    // Resizes the canvas, updates the frustum, and draws the domain scene.
     render() {
         // Use the full canvas extent — no panelRect, no offsets
         const rect = this.canvas.getBoundingClientRect();
@@ -499,12 +544,17 @@ export class ThreePearl {
     // Mesh creation (unchanged)
     // ------------------------------------------------------------
 
+    // ThreePearl createMeshFor
+    // Chooses the correct mesh builder for the semantic object type.
     createMeshFor(semanticObject) {
         let handle = null;
 
         switch (semanticObject.type) {
             case "PhaseArrow":
                 handle = this._createPhaseArrowMesh(semanticObject);
+                break;
+            case "PhaseWedge":
+                handle = this._createPhaseWedgeMesh(semanticObject);
                 break;
             case "Sphere":
                 handle = this.makeSphere(semanticObject);
@@ -521,7 +571,48 @@ export class ThreePearl {
         return handle;
     }
 
+    // ThreePearl _createPhaseWedgeMesh
+    // Builds a half-triangular wedge split along the long meridian
+    _createPhaseWedgeMesh(obj) {
+        const color = obj?.color ?? 0xff0000;
+
+        const width = 1.0;   // X direction
+        const height = 0.2;  // Y direction
+        const depth = 0.05;  // Z extrusion thickness
+
+        // --- Define the triangle shape (CCW winding) ---
+        const shape = new THREE.Shape();
+        shape.moveTo(0, 0);          // tip
+        shape.lineTo(width, 0);      // bottom-back
+        shape.lineTo(width, height); // top-back
+        shape.lineTo(0, 0);          // close
+
+        // --- Extrude into a wedge ---
+        const geometry = new THREE.ExtrudeGeometry(shape, {
+            depth: depth,
+            bevelEnabled: false
+        });
+
+        const material = new THREE.MeshStandardMaterial({ color });
+        const mesh = new THREE.Mesh(geometry, material);
+
+        // Center the extrusion so Z=0 is mid-plane
+        mesh.position.z = -depth / 2;
+
+        // --- Rotate 90° around X-axis ---
+        mesh.rotation.x = Math.PI / 2;
+
+        return mesh;
+    }
+
+
+
+
+    // ThreePearl _createPhaseArrowMesh
+    // Builds the standard arrow shaft-and-head geometry used by PhaseArrow.
     _createPhaseArrowMesh(obj) {
+        const color = obj?.color ?? 0xff0000;
+
         const shaftLength = 1;
         const shaftRadius = 0.05;
         const headLength = 0.15;
@@ -531,7 +622,7 @@ export class ThreePearl {
             radiusTop: shaftRadius,
             radiusBottom: shaftRadius,
             height: shaftLength,
-            color: 0xff0000
+            color
         });
         this.setPosition(shaft, {
             x: 0,
@@ -542,14 +633,19 @@ export class ThreePearl {
         const head = this.makeCone({
             radius: headRadius,
             height: headLength,
-            color: 0xff0000
+            color
         });
         this.setPosition(head, {
             x: 0,
             y: shaftLength + headLength / 2,
+            
             z: 0
         });
 
         return this.combine([shaft, head]);
+    }
+
+    setScaleZ(handle, hints) {
+        handle.scale.z = Math.sin(hints.localZrotation);
     }
 }

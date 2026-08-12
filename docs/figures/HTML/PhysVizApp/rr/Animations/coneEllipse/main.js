@@ -1,14 +1,14 @@
-import EventBusInstance from "../../pv-eventBus.js";
-import { MasterFSM } from "../../pv-masterFSM.js";
-import { PVDomain } from "../../pv-domain.js";
-import { RendererRegistry } from "../../pv-rendererRegistry.js";
+import EventBusInstance from "../../../pv-eventBus.js";
+import { MasterFSM } from "../../../pv-masterFSM.js";
+import { PVDomain } from "../../../pv-domain.js";
+import { RendererRegistry } from "../../../pv-rendererRegistry.js";
 
 import { RRConeEllipse } from "./rr-coneEllipse.js";
 import { RRConeEllipseRenderer } from "./rr-coneEllipseRenderer.js";
 import { RRGravityWell } from "./rr-gravityWell.js";
 import { RRGravityWellRenderer } from "./rr-gravityWellRenderer.js";
-import { RRCausalPhaseArrow } from "./rr-causalPhaseArrow.js";
 import { RRCausalPhaseArrowRenderer } from "./rr-causalPhaseArrowRenderer.js";
+import { PhaseWedge } from "../../phaseArrow/rr-phaseWedge.js";
 
 const master = new MasterFSM();
 
@@ -17,14 +17,14 @@ registry.register("VQTOP", "RRConeEllipse", RRConeEllipseRenderer);
 registry.register("ZQVIEW", "RRConeEllipse", RRConeEllipseRenderer);
 registry.register("VQTOP", "RRGravityWell", RRGravityWellRenderer);
 registry.register("ZQVIEW", "RRGravityWell", RRGravityWellRenderer);
-registry.register("VQTOP", "RRCausalPhaseArrow", RRCausalPhaseArrowRenderer);
+registry.register("VQTOP", "PhaseWedge", RRCausalPhaseArrowRenderer);
 
 const vqTop = new PVDomain("VQTOP", "topPanel", "topCanvas", registry);
 const zqView = new PVDomain("ZQVIEW", "bottomPanel", "bottomCanvas", registry);
 
 const coneTop = new RRConeEllipse("ConeTop");
 //const coneBottom = new RRConeEllipse("ConeBottom");
-const phaseArrowTop = new RRCausalPhaseArrow("PhaseArrowTop", {
+const phaseArrowTop = new PhaseWedge("PhaseArrowTop", {
     color: 0xff2b2b,
     opacity: 0.5,
     pulseEnabled: true,
@@ -40,7 +40,7 @@ const phaseArrowTop = new RRCausalPhaseArrow("PhaseArrowTop", {
     circleRadius: 0.5,
     omega: 1.4
 });
-const phaseArrowTopGreen = new RRCausalPhaseArrow("PhaseArrowTopGreen", {
+const phaseArrowTopGreen = new PhaseWedge("PhaseArrowTopGreen", {
     color: 0x22cc55,
     opacity: 0.5,
     pulseEnabled: true,

@@ -15,7 +15,7 @@ class RendererBase {
 
         // 1. Ensure THREE handle exists
         const handle = this.ensureHandle(semanticObject);
-        this.pearl.syncLoopState(handle, semanticObject);
+        this.pearl.resetTrailCycleState(handle, semanticObject);
 
         // 2. Ensure geometry exists (ABC domain defines its own sizes)
         this.ensureGeometry(handle);
@@ -35,7 +35,9 @@ class RendererBase {
         const id = semanticObject.id;
 
         if (this.handles.has(id)) {
-            return this.handles.get(id);
+            const existingHandle = this.handles.get(id);
+            semanticObject._pvHandle = existingHandle;
+            return existingHandle;
         }
 
         return this.createHandle(semanticObject);
@@ -65,9 +67,10 @@ class RendererBase {
 
     createHandle(semanticObject) {
         const mesh = this.pearl.createMeshFor(semanticObject);
-        const handle = new PVHandle(mesh);
+        const handle = mesh instanceof PVHandle ? mesh : new PVHandle(mesh);
 
         this.handles.set(semanticObject.id, handle);
+        semanticObject._pvHandle = handle;
         return handle;
     }
 

@@ -1,7 +1,7 @@
-import EventBusInstance from "../../pv-eventBus.js";
-import { MasterFSM } from "../../pv-masterFSM.js";
-import { PVDomain } from "../../pv-domain.js";
-import { RendererRegistry } from "../../pv-rendererRegistry.js";
+import EventBusInstance from "../../../pv-eventBus.js";
+import { MasterFSM } from "../../../pv-masterFSM.js";
+import { PVDomain } from "../../../pv-domain.js";
+import { RendererRegistry } from "../../../pv-rendererRegistry.js";
 
 import { RR2DShip } from "./rr-2Dship.js";
 import { RR2DShipRenderer_TOP } from "./rr-2DshipRenderer_TOP.js";

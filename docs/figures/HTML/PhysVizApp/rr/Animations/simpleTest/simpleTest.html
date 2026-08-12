@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PV rr-phaseArrow1</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'/>">
+
+
+    <style>
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            height: 400px; /* domains take top half */
+            position: relative; /* allows canvas overlay */
+        }
+
+        .pvCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%; /* same as layout height */
+            background: transparent;
+            z-index: 2;   
+        }
+
+        .ui-layer {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0px;
+
+            position: relative;
+            z-index: 1000;
+            margin-top: 0px;
+        }
+
+
+
+        .panel {
+            align-items: flex-start;
+            position: relative;   /* THIS is the key */
+            background: #222;
+            border: 2px solid #666;   /* visible border */
+            box-sizing: border-box;   /* include border in width/height */            
+            z-index: 1;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* spacing between Copy B and masterControls */
+        }
+
+        #abcPanel { border-color: #3d1a1a; background-color: #080808; }
+        #xyzPanel { border-color: #1a3d1a; background-color: #080808; }
+        #abzPanel { border-color: #1a1a3d; background-color: #080808; }
+
+
+        .copyBtn {
+            display: inline-block;
+            width: auto;
+            position: relative;
+            top: 2vh;
+            left: 2vh;
+            z-index: 10;
+
+            font-size: 2vh;      /* scales with window height */
+            padding: 1vh 2vh;    /* scales with window height */
+
+            border-radius: 1vh;
+            background: rgba(255,255,255,0.25);
+            color: #fff;
+            border: 0.3vh solid #aaa;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            z-index: 1000;
+        }
+
+
+        #eventLogPanel {
+            user-select: text;
+            white-space: pre-wrap;
+        }
+
+
+        .copyBtn:hover {
+            background: rgba(255,255,255,0.45);
+        }
+
+    </style>
+
+    <!-- ⭐ Import Map for THREE + OrbitControls -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/examples/jsm/controls/OrbitControls.js":
+                "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js"
+        }
+    }
+    </script>
+</head>
+<body>
+
+
+
+<div class="layout">
+    <div id="abcPanel" class="panel">
+        <canvas id="abcCanvas" class="pvCanvas"></canvas>
+    </div>
+</div>
+
+<div class="ui-layer">
+    <div  class="panel">
+        <button class="copyBtn" data-domain="A">Copy A</button>
+        <div id="masterControls">
+            <button id="startBtn" data-event="START">Start</button> 
+            <button data-event="PAUSE">Pause</button>
+            <button data-event="RESUME">Resume</button>
+            <button data-event="STOP">Stop</button>
+        </div>
+        <div id="eventLogPanel" style="color: yellow; font-family: monospace; white-space: pre; overflow-y: auto; max-height: 200px;">
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- Load the top-level module only -->
+<script type="module" src="./simpleTest.js"></script>
+
+</body>
+</html>

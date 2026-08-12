@@ -37,19 +37,19 @@ export class ActiveEntity {
     // ACTIVEENTITY._REGISTERLIFECYCLEEVENTS.
     // This routine registers handlers to deliver events to the associated FSM.
     _registerLifecycleEvents() {
-        EventBusInstance.on(this.bus, "LOAD", (p) => this.fsm._receive("LOAD", p));
-        EventBusInstance.on(this.bus, "START", (p) => this.fsm._receive("START", p));
-        EventBusInstance.on(this.bus, "PAUSE", (p) => this.fsm._receive("PAUSE", p));
-        EventBusInstance.on(this.bus, "RESUME", (p) => this.fsm._receive("RESUME", p));
-        EventBusInstance.on(this.bus, "STOP", (p) => this.fsm._receive("STOP", p));
+        EventBusInstance.on(this.bus, "LOAD", (p, evt) => this.fsm._receive("LOAD", p, evt));
+        EventBusInstance.on(this.bus, "START", (p, evt) => this.fsm._receive("START", p, evt));
+        EventBusInstance.on(this.bus, "PAUSE", (p, evt) => this.fsm._receive("PAUSE", p, evt));
+        EventBusInstance.on(this.bus, "RESUME", (p, evt) => this.fsm._receive("RESUME", p, evt));
+        EventBusInstance.on(this.bus, "STOP", (p, evt) => this.fsm._receive("STOP", p, evt));
     }
 
     _registerTickEvents() {
-        EventBusInstance.on(this.bus, "TICK", (p) => this.fsm._receive("TICK", p));
+        EventBusInstance.on(this.bus, "TICK", (p, evt) => this.fsm._receive("TICK", p, evt));
     }
 
     _registerRenderEvents() {
-        EventBusInstance.on(this.bus, "RENDER", (p) => this.fsm._receive("RENDER", p));
+        EventBusInstance.on(this.bus, "RENDER", (p, evt) => this.fsm._receive("RENDER", p, evt));
     }
 
     // -----------------------------------------------------------------------

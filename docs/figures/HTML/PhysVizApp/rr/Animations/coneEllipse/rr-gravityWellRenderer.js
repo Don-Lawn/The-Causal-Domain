@@ -1,7 +1,7 @@
 // rr/coneEllipse/rr-gravityWellRenderer.js
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
-import { PVHandle } from "../../pv-handle.js";
-import { RendererBase } from "../../pv-rendererBase.js";
+import { PVHandle } from "../../../pv-handle.js";
+import { RendererBase } from "../../../pv-rendererBase.js";
 
 class RRGravityWellRenderer extends RendererBase {
     constructor(domain, pearl) {
