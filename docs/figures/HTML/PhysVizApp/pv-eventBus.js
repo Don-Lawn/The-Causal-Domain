@@ -46,14 +46,12 @@ class EventBus {
         const bus = this.buses.get(busName);
         if (!bus) throw new Error(`EventBus: Bus '${busName}' does not exist`);
 
-        // No special wildcard logic — "*" is stored normally
         if (!bus.handlers.has(eventName)) {
             bus.handlers.set(eventName, []);
         }
 
         const handlers = bus.handlers.get(eventName);
 
-        // Prevent duplicate registration of the same callback
         if (!handlers.includes(callback)) {
             handlers.push(callback);
         }
@@ -62,7 +60,7 @@ class EventBus {
     // -----------------------------------------------------------------------
     // Emit an event on a bus (downward propagation)
     // -----------------------------------------------------------------------
-    emit(eventName, payload, busName, senderName) {
+    emit(eventName, payload, busName, senderName, hints = null) {
         const bus = this.buses.get(busName);
         if (!bus) throw new Error(`EventBus: Bus '${busName}' does not exist`);
 
@@ -71,7 +69,8 @@ class EventBus {
             eventName,
             payload,
             bus: busName,
-            sender: senderName
+            sender: senderName,
+            hints
         };
 
         // Notify monitors
@@ -93,11 +92,6 @@ class EventBus {
     forward(evt, deliveredBus, targetBus) {
         const target = this.buses.get(targetBus);
         if (!target) throw new Error(`EventBus: Bus '${targetBus}' does not exist`);
-
-        // Notify monitors
-//        for (const monitor of this.monitors) {
-//            monitor.handle(targetBus, evt, "F");
-//        }
 
         // ⭐ Unified dispatch: specific + wildcard
         const specific = target.handlers.get(evt.eventName) || [];

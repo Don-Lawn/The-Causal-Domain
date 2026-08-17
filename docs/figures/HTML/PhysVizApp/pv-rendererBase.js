@@ -11,7 +11,17 @@ class RendererBase {
         this.handles = new Map();
     }
 
-    render(semanticObject, hints) {
+    /**
+     * @param {SemanticObject} semanticObject
+     * @param {Object} renderHints  // flattened hints from getRenderHints()
+     */
+    render(semanticObject, renderHints) {
+
+        // Merge semantic hint bag into the render hint envelope
+        const hints = {
+            ...renderHints,
+            semanticHints: semanticObject.hints ?? []
+        };
 
         // 1. Ensure THREE handle exists
         const handle = this.ensureHandle(semanticObject);
@@ -28,8 +38,8 @@ class RendererBase {
         this.applyColor(handle, hints);
         this.applyVisibility(handle, hints);
     }
-    ensureGeometry(handle) {  // override me
-    }
+
+    ensureGeometry(handle) { /* override me */ }
 
     ensureHandle(semanticObject) {
         const id = semanticObject.id;
@@ -42,8 +52,6 @@ class RendererBase {
 
         return this.createHandle(semanticObject);
     }
-
-
 
     setPosition(handle, hints) {
         this.pearl.setPosition(handle, {
@@ -74,7 +82,6 @@ class RendererBase {
         return handle;
     }
 
-
     // Utility: HSL → hex
     hslToHex(h, s, l) {
         const a = s * Math.min(l, 1 - l);
@@ -85,7 +92,6 @@ class RendererBase {
         };
         return (f(0) << 16) | (f(8) << 8) | f(4);
     }
-
 }
 
 export { RendererBase };

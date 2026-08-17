@@ -1,5 +1,4 @@
 // rr/phaseArrow/PhaseArrowRenderer_XYZ.js
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 import { RendererBase } from '../../pv-rendererBase.js';
 
 class PhaseArrowRenderer_XYZ extends RendererBase {

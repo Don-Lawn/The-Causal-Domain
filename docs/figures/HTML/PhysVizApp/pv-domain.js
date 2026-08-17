@@ -72,15 +72,23 @@ export class PVDomain extends ActiveEntity {
         for (const obj of this.objects.values()) {
             const renderer = this.getRenderer(obj.type);
 
-            // Domain fetches the hint
-            const hints = obj.getRenderHints(dt);
+            // 1. Domain fetches the flattened render hints
+            const renderHints = obj.getRenderHints(dt);
 
-           // Renderer consumes it
-            renderer.render(obj, hints);
+            // 2. Merge domain-level + semantic-level + render-level hints
+            const mergedHints = {
+                ...renderHints,
+                semanticHints: obj.hints ?? [],
+                domainHints: this.getRenderHints()?.domainHints ?? []
+            };
+
+            // 3. Renderer consumes unified hint envelope
+            renderer.render(obj, mergedHints);
         }
 
         this.pearl.render();
     }
+
 
     getPanelRect () {        
         const canvasRect = this.myCanvas.getBoundingClientRect();

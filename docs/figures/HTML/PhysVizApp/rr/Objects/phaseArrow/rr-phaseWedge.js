@@ -8,7 +8,7 @@ export class PhaseWedge extends PhaseIndicator {
             color: params.color ?? 0xff2b2b,
             opacity: params.opacity ?? 0.5,
             trailEnabled: params.trailEnabled ?? true,
-            trailFadeEnabled: params.trailFadeEnabled ?? false,
+            trailFadeEnabled: params.trailFadeEnabled ?? true,
             fadeRate: params.fadeRate ?? 0.001,
             trailUseSourceOpacity: params.trailUseSourceOpacity ?? true,
             trailCycle: params.trailCycle ?? 0,
@@ -26,8 +26,9 @@ export class PhaseWedge extends PhaseIndicator {
         this.qLevel = params.qLevel ?? -0.5;
         this.circleRadius = params.circleRadius ?? 1;
 
-        this.theta = params.theta ?? 0;
-        this.omega = params.omega ?? 1.2;
+        this.theta = params.theta ?? this.phaseOffset;
+        this.omega = params.omega ?? 0.1;   //radians per sec?
+
     }
 
     update(dtMs) {

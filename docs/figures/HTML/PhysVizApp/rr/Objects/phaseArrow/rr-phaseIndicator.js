@@ -1,11 +1,24 @@
 import { SemanticObject } from "../../../pv-object.js";
 
+/**
+ * @typedef {Object} HintShape
+ * @property {string} id
+ * @property {string} title
+ * @property {string} summary
+ * @property {string} detail
+ * @property {string} category
+ * @property {Object<string, any>=} data
+ */
+
 export class PhaseIndicator extends SemanticObject {
-    constructor(id, type, params = {}) {
+    constructor(id, type, params = {}, hints = []) {
         super(id);
 
         this.id = id;
         this.type = type;
+
+        /** @type {HintShape[]} */
+        this.hints = hints;
 
         this.visible = params.visible ?? true;
         this.color = params.color ?? 0xff0000;
@@ -23,8 +36,38 @@ export class PhaseIndicator extends SemanticObject {
         this.domainName = null;
 
         this.phase = params.phase ?? 0; 
-        this.phaseOffset= params.phaseOffset ?? 0
+        this.phaseOffset = params.phaseOffset ?? 0;
     }
+
+    // ------------------------------------------------------------
+    // Hint accessors
+    // ------------------------------------------------------------
+
+    /**
+     * @returns {HintShape[]}
+     */
+    getHints() {
+        return this.hints;
+    }
+
+    /**
+     * @param {HintShape} hint
+     */
+    addHint(hint) {
+        this.hints.push(hint);
+    }
+
+    /**
+     * @param {string} category
+     * @returns {HintShape[]}
+     */
+    getHintsByCategory(category) {
+        return this.hints.filter(h => h.category === category);
+    }
+
+    // ------------------------------------------------------------
+    // Domain attachment
+    // ------------------------------------------------------------
 
     attachToDomain(domain) {
         super.attachToDomain(domain);

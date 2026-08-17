@@ -14,8 +14,8 @@ import { PhaseWedgeRenderer_ABC } from "../../Objects/phaseArrow/rr-phaseWedgeRe
 // ------------------------------------------------------------
 // 1. Logging monitor
 // ------------------------------------------------------------
-//const logMonitor = new PVLogMonitor("eventLogPanel", 50);
-//EventBusInstance.addMonitor(logMonitor);
+const logMonitor = new PVLogMonitor("eventLogPanel", 50);
+EventBusInstance.addMonitor(logMonitor);
 
 // ------------------------------------------------------------
 // 2. Master FSM
@@ -36,15 +36,27 @@ const abc = new PVDomain("ABC", "abcPanel", "abcCanvas", registry);
 // ------------------------------------------------------------
 // 5. Semantic objects
 // ------------------------------------------------------------
-const wedgeP = new PhaseWedge("PrimaryFoE_ABC",{ phaseOffset: 0,  color: 0xff2b2b}); // red
-const wedgeD = new PhaseWedge("PrimaryFoE_ABC",{ phaseOffset: Math.PI / 2, color: 0x22cc55 });  //green
+const wedgeP = new PhaseWedge("PrimaryFoE_ABC",{ 
+                                phaseOffset: 0,  
+                                color: 0xff2b2b, 
+                                trailEnabled:true,
+                                trailFadeEnabled:true,
+                                fadeRate: 0.01
+                            }); // red
+const wedgeD = new PhaseWedge(  "DerivedFoE_ABC",{ 
+                                phaseOffset: 0-Math.PI / 2, 
+                                color: 0x22cc55 , 
+                                trailEnabled:true,
+                                trailFadeEnabled:true,
+                                fadeRate: 0.01
+                            });  //green
 
 abc.addObject(wedgeP);
 abc.addObject(wedgeD);
 
 
 EventBusInstance.emit("LOAD", {}, "MASTER", "simpleTest.js");
-//EventBusInstance.emit("START", {}, "MASTER", "simpleTest.js");
+EventBusInstance.emit("START", {}, "MASTER", "simpleTest.js");
 // ------------------------------------------------------------
 // 6. UI Buttons → Emit Master FSM events
 // ------------------------------------------------------------
