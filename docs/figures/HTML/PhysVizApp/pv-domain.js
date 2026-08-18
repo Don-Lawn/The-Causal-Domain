@@ -1,10 +1,11 @@
 // pv-domain.js
 import { PVFSM } from "./pv-fsm.js";
 import { ThreePearl } from "./pv-threePearl.js";
+import { ThreePearlDispatch } from "./pv-threePearlDispatch.js";
 import { ActiveEntity } from "./pv-activeEntity.js";
 
 export class PVDomain extends ActiveEntity {
-    constructor(name, panelName, canvasName, rendererRegistry) {
+    constructor(name, panelName, canvasName, rendererRegistry, hints={}) {
         super(name, "MASTER");
         this.configureDefaultLifecycle();
 
@@ -26,7 +27,10 @@ export class PVDomain extends ActiveEntity {
         this.objects = new Map();
 
         this.registry = rendererRegistry;
-        this.pearl = new ThreePearl(this.myCanvas, this /* domain*/);
+
+        this.pearl = new ThreePearlDispatch(this.myCanvas, this, hints);
+
+
 
         this.renderers = new Map(); // Map<semanticType, rendererInstance>
         for (const type of rendererRegistry.typesForDomain(this.name)) {
@@ -79,8 +83,9 @@ export class PVDomain extends ActiveEntity {
             const mergedHints = {
                 ...renderHints,
                 semanticHints: obj.hints ?? [],
-                domainHints: this.getRenderHints()?.domainHints ?? []
+                domainHints: this.hints ?? []
             };
+
 
             // 3. Renderer consumes unified hint envelope
             renderer.render(obj, mergedHints);

@@ -49,10 +49,29 @@ export class PVCamera extends SemanticObject {
         });
     }
 
-    /** Point the camera at a semantic object and follow its Z drift each frame. */
-    setFollowObject(obj) {
-        this.followObject     = obj;
-        this._previousFollowZ = obj?.z ?? 0;
+
+    /** Domain calls this after each loop reset to trigger pearl.resetCamera(). */
+    consumeResetRequest() {
+        const r = this._resetRequested;
+        this._resetRequested = false;
+        return r;
+    }
+
+    getRenderHints() {
+        const active =
+            this._liftState === "LIFTING" ||
+            Math.abs(this._positionDelta.x) > 0 ||
+            Math.abs(this._positionDelta.y) > 0 ||
+            Math.abs(this._positionDelta.z) > 0 ||
+            Math.abs(this._targetZDelta) > 0;
+
+        return Object.freeze({
+            id:            this.id,
+            type:          this.type,
+            positionDelta: this._positionDelta,
+            targetZDelta:  this._targetZDelta,
+            active
+        });
     }
 
     update(dtMs) {
@@ -83,49 +102,5 @@ export class PVCamera extends SemanticObject {
         this._targetZDelta      = (currentFollowZ - this._previousFollowZ) * this.zFollowFactor;
         this._previousFollowZ   = currentFollowZ;
         this._previousTilt      = currentTilt;
-    }
-
-    _tiltToOffset(tilt) {
-        return {
-            x: Math.sin(tilt) * this.cameraRadius,
-            y: Math.sin(tilt) * this.cameraRadius * 0.35,
-            z: Math.cos(tilt) * this.cameraRadius,
-        };
-    }
-
-    _doReset() {
-        this._liftState       = "IDLE";
-        this._liftElapsed     = 0;
-        this._previousTilt    = 0;
-        this._positionDelta   = { x: 0, y: 0, z: 0 };
-        this._targetZDelta    = 0;
-        this._resetRequested  = true;
-        if (this.followObject) {
-            this._previousFollowZ = this.followObject.z ?? 0;
-        }
-    }
-
-    /** Domain calls this after each loop reset to trigger pearl.resetCamera(). */
-    consumeResetRequest() {
-        const r = this._resetRequested;
-        this._resetRequested = false;
-        return r;
-    }
-
-    getRenderHints() {
-        const active =
-            this._liftState === "LIFTING" ||
-            Math.abs(this._positionDelta.x) > 0 ||
-            Math.abs(this._positionDelta.y) > 0 ||
-            Math.abs(this._positionDelta.z) > 0 ||
-            Math.abs(this._targetZDelta) > 0;
-
-        return Object.freeze({
-            id:            this.id,
-            type:          this.type,
-            positionDelta: this._positionDelta,
-            targetZDelta:  this._targetZDelta,
-            active
-        });
     }
 }

@@ -1,12 +1,19 @@
 // pv-threePearlDispatch.js
 import { ThreePearl } from "./pv-threePearl.js";
-import { HintHelper } from "./pv-HintHelper.js";
+import { HintHelper } from "../../pv-HintHelper.js";
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
 
 export class ThreePearlDispatch extends ThreePearl {
 
     constructor(canvas, domain, callerHints = {}) {
-        super(canvas, domain);
+        // IMPORTANT: Do not merge hints before calling super().
+        // Pearl must initialise its engine state (camera, scene, renderer,
+        // axis overlay, trails) using the raw callerHints. Dispatch then
+        // reads Pearl’s initialised values to build defaultHints and merges
+        // callerHints afterward. Merging before super() would give Pearl
+        // incorrect or premature values and break the hint pipeline.
+
+        super(canvas, domain, callerHints);
 
         // ------------------------------------------------------------
         // Build default hints from engine state
@@ -30,8 +37,10 @@ export class ThreePearlDispatch extends ThreePearl {
             },
             axisOverlay: {
                 length: this.axisOverlayLength,
-                margin: this.axisOverlayMargin
+                margin: this.axisOverlayMargin,
+                labels: ["X", "Y", "Z"]
             }
+
         };
 
         // ------------------------------------------------------------

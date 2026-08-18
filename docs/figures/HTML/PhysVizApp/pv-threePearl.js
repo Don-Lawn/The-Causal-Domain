@@ -1,15 +1,48 @@
 // pv-threePearl.js
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
 import { OrbitControls } from "https://unpkg.com/three@0.164.0/examples/jsm/controls/OrbitControls.js";
-import { PVHandle } from "./pv-handle.js";
+import { PVHandle } from "../pv-handle.js";
+
+import * as MeshFactory from "./ThreePearl/threePearlMeshFactory.js";
+import * as PearlTrails from "./ThreePearl/threePearlTrails.js";
+import * as PearlCamera from "./ThreePearl/threePearlCamera.js";
+import * as PearlOverlay from "./ThreePearl/threePearlOverlay.js";
+import * as PearlPrimitives from "./ThreePearl/threePearlPrimitives.js";
+import * as PearlUtils from "./ThreePearl/threePearlUtils.js";
+
 
 // ThreePearl
 // Pure rendering engine: scene, camera, renderer, controls, primitives.
 export class ThreePearl {
+// NOTE: ThreePearl still contains several hard‑coded rendering constants
+// (camera zoom, ortho half‑height, axis overlay sizes, trail defaults, etc.).
+// These should eventually be replaced with values supplied via the hierarchical
+// hints system so Domain/Semantic/Renderer layers can configure Pearl without
+// modifying engine code.
+//
+// For now we add a `hints` parameter (currently unused) so the call signature
+// is ready for migration. The actual hint‑driven replacements will be wired in
+// later once Dispatch and RendererBase are fully modernised.
 
-    constructor(canvas, domain) {
+    constructor(canvas, domain, hints ={}) {
         this.canvas = canvas;
         this.myDomain = domain;
+
+        
+        // bind scattered functions to this instance
+        this.createMeshFor = MeshFactory.createMeshFor.bind(this);
+        this.updateTrail = PearlTrails.updateTrail.bind(this);
+        this.updateSimpleTrail = PearlTrails.updateSimpleTrail.bind(this);
+        this.resetTrailCycleState = PearlTrails.resetTrailCycleState.bind(this);
+
+        this.applyCamera = PearlCamera.applyCamera.bind(this);
+        this._createAxisOverlay = PearlOverlay.createAxisOverlay.bind(this);
+        this._createAxisLabelSprite = PearlOverlay.createAxisLabelSprite.bind(this);
+        this._updateAxisOverlayPosition = PearlOverlay.updateAxisOverlayPosition.bind(this);
+
+
+        this._toThreeZ = PearlUtils._toThreeZ.bind(this);
+        this._updateOrthographicFrustum = PearlUtils._updateOrthographicFrustum.bind(this);
 
         // Renderer
         this.renderer = new THREE.WebGLRenderer({
@@ -69,8 +102,13 @@ export class ThreePearl {
         // Light
         const light = new THREE.AmbientLight(0xffffff, 0.6);
         this.scene.add(light);
+
+
     }
 
+
+
+/*
     // Frustum update
     _updateOrthographicFrustum(width = this.canvas.clientWidth, height = this.canvas.clientHeight) {
         const safeWidth = Math.max(width || 1, 1);
@@ -98,10 +136,7 @@ export class ThreePearl {
         );
     }
 
-    // Physics Z → Three.js Z
-    _toThreeZ(physicsZ = 0) {
-        return -physicsZ;
-    }
+ 
 
     // Axis overlay (generic XYZ)
     _createAxisOverlay() {
@@ -242,9 +277,7 @@ export class ThreePearl {
         return new PVHandle(group);
     }
 
-    attachToDomain(handle) {
-        this.content.add(handle.impl);
-    }
+
 
     resetCamera() {
         if (!this.initialCameraState) return;
@@ -260,8 +293,10 @@ export class ThreePearl {
         }
 
         this._updateAxisOverlayPosition();
+    }*/
+    attachToDomain(handle) {
+        this.content.add(handle.impl);
     }
-
     // Rendering
     render() {
         const rect = this.canvas.getBoundingClientRect();

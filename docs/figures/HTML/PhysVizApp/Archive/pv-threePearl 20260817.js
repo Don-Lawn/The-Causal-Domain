@@ -1,50 +1,80 @@
-// pv-threePearl.js
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
-import { OrbitControls } from "https://unpkg.com/three@0.164.0/examples/jsm/controls/OrbitControls.js";
+// threePearl.js
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.164.0/examples/jsm/controls/OrbitControls.js';
 import { PVHandle } from "./pv-handle.js";
 
-// ThreePearl
-// Pure rendering engine: scene, camera, renderer, controls, primitives.
 export class ThreePearl {
 
     constructor(canvas, domain) {
         this.canvas = canvas;
         this.myDomain = domain;
 
-        // Renderer
+        // Domain-local renderer
         this.renderer = new THREE.WebGLRenderer({
             canvas: this.canvas,
             alpha: true,
             antialias: true
         });
+
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setScissorTest(true);
 
-        // Scene
+        // Domain-local scene
         this.scene = new THREE.Scene();
 
-        // Camera + frustum parameters
         this.orthoHalfHeight = 2.5;
         this.cameraZoom = 1.0;
         this.axisOverlayLength = 1.4;
         this.axisOverlayMargin = 0.35;
 
+        // Domain-local camera (your orthographic setup preserved)
         this.camera = new THREE.OrthographicCamera(
             -10, 10,
             10, -10,
             0.1, 1000
         );
+
+        const domainName = (this.myDomain?.name || "").toUpperCase();
+
         this.camera.position.set(0, 0, 5);
-        this.camera.lookAt(0, 0, 0);
-        this.camera.up.set(0, 1, 0);
+        if (domainName === "XYZ") {
+            this.camera.position.set(4.0, 1.8, 10);
+        } else if (domainName === "VQTOP") {
+            this.orthoHalfHeight = 1.2;
+            this.camera.position.set(0.5, -8.0, 0.5);
+            this.camera.up.set(0, 0, 1);
+            this.camera.lookAt(0.5, 0, 0.5);
+            // Oblique causal-domain view: ~30 deg above the Wx/Wy plane.
+            this.camera.position.set(0.5, -6.93, 4.0);
+            this.camera.up.set(0, 1, 0);
+            this.camera.lookAt(0.5, 0, 0);
+        } else if (domainName === "ZQVIEW") {
+            this.orthoHalfHeight = 1.2;
+            // Keep V orientation consistent with VQTOP.
+            this.camera.position.set(0.5, 0, 8.0);
+            // Oblique phenomenal-domain view: ~30 deg above the XY plane.
+            this.camera.position.set(0.5, 6.93, 4.0);
+            this.camera.up.set(0, 1, 0);
+            this.camera.lookAt(0.5, 0, 0);
+        }
+
+        if (domainName !== "VQTOP" && domainName !== "ZQVIEW") {
+            this.camera.lookAt(0, 0, 0);
+            this.camera.up.set(0, 1, 0);
+        }
+
+        this.cameraLiftTarget = Math.PI / 4;
+        this.cameraLiftStartTurns = 2;
+        this.cameraLiftEndTurns = this.cameraLiftStartTurns + 10;
+        this.cameraLiftStartPhase = this.cameraLiftStartTurns * 2 * Math.PI;
+        this.cameraLiftEndPhase = this.cameraLiftEndTurns * 2 * Math.PI;
 
         this._updateOrthographicFrustum();
 
-        // Axis overlay
-        this.axisOverlay = this._createAxisOverlay();
+        this.axisOverlay = this._createAxisOverlay(this.myDomain?.name || "XYZ");
         this.scene.add(this.axisOverlay);
 
-        // Controls
+        // Domain-local controls
         this.controls = new OrbitControls(this.camera, this.canvas);
         this.controls.enableRotate = true;
         this.controls.enablePan = true;
@@ -52,7 +82,6 @@ export class ThreePearl {
         this.controls.enableDamping = false;
         this.controls.target.set(0, 0, 0);
         this._updateAxisOverlayPosition();
-
         this.initialCameraState = {
             position: this.camera.position.clone(),
             target: this.controls.target.clone(),
@@ -60,18 +89,18 @@ export class ThreePearl {
             zoom: this.camera.zoom
         };
 
-        // Root/content groups
+        // Domain-local root/content groups
         this.root = new THREE.Group();
         this.content = new THREE.Group();
         this.root.add(this.content);
         this.scene.add(this.root);
 
-        // Light
-        const light = new THREE.AmbientLight(0xffffff, 0.6);
+        // Domain-local light
+        const light = new THREE.DirectionalLight(0xffffff, 1.0);
+        light.position.set(5, 5, 5);
         this.scene.add(light);
     }
 
-    // Frustum update
     _updateOrthographicFrustum(width = this.canvas.clientWidth, height = this.canvas.clientHeight) {
         const safeWidth = Math.max(width || 1, 1);
         const safeHeight = Math.max(height || 1, 1);
@@ -87,9 +116,10 @@ export class ThreePearl {
         this._updateAxisOverlayPosition();
     }
 
-    // Axis overlay position
     _updateAxisOverlayPosition() {
-        if (!this.axisOverlay) return;
+        if (!this.axisOverlay) {
+            return;
+        }
 
         this.axisOverlay.position.set(
             this.camera.left + this.axisOverlayMargin,
@@ -98,28 +128,23 @@ export class ThreePearl {
         );
     }
 
-    // Physics Z → Three.js Z
     _toThreeZ(physicsZ = 0) {
+        // Physics convention: +Z goes into the screen. Three.js: +Z comes out.
         return -physicsZ;
     }
 
-    // Axis overlay (generic XYZ)
-    _createAxisOverlay() {
+    _createAxisOverlay(domainName) {
         const group = new THREE.Group();
         group.renderOrder = 1000;
 
         const axisLength = this.axisOverlayLength;
-        const axesMaterial = new THREE.LineBasicMaterial({
-            color: 0xffffff,
-            transparent: true,
-            opacity: 0.95,
-            depthTest: false
-        });
+        const axesMaterial = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.95, depthTest: false });
+        const axisLabels = this._getAxisLabels(domainName);
 
         const axisSpecs = [
-            { vector: new THREE.Vector3(axisLength, 0, 0), color: 0xff8888, label: "X", position: new THREE.Vector3(0.95, 0.08, 0) },
-            { vector: new THREE.Vector3(0, axisLength, 0), color: 0x88ff88, label: "Y", position: new THREE.Vector3(-0.08, 0.95, 0) },
-            { vector: new THREE.Vector3(0, 0, this._toThreeZ(axisLength)), color: 0x8888ff, label: "Z", position: new THREE.Vector3(-0.08, -0.08, this._toThreeZ(0.95)) }
+            { vector: new THREE.Vector3(axisLength, 0, 0), color: 0xff8888, label: axisLabels[0], position: new THREE.Vector3(0.95, 0.08, 0) },
+            { vector: new THREE.Vector3(0, axisLength, 0), color: 0x88ff88, label: axisLabels[1], position: new THREE.Vector3(-0.08, 0.95, 0) },
+            { vector: new THREE.Vector3(0, 0, this._toThreeZ(axisLength)), color: 0x8888ff, label: axisLabels[2], position: new THREE.Vector3(-0.08, -0.08, this._toThreeZ(0.95)) }
         ];
 
         axisSpecs.forEach(spec => {
@@ -138,6 +163,25 @@ export class ThreePearl {
         });
 
         return group;
+    }
+
+    _getAxisLabels(domainName) {
+        const normalized = (domainName || "").toUpperCase();
+        if (normalized.includes("VQTOP")) {
+            return ["V", "Y", "Q"];
+            return ["Wx", "Wy", "Q"];
+        }
+        if (normalized.includes("ZQVIEW")) {
+            return ["V", "Y", "Q"];
+            return ["Rx", "Ry", "Z"];
+        }
+        if (normalized.includes("ABC")) {
+            return ["A", "B", "C"];
+        }
+        if (normalized.includes("ABZ")) {
+            return ["A", "B", "Z"];
+        }
+        return ["X", "Y", "Z"];
     }
 
     _createAxisLabelSprite(text, color, position) {
@@ -163,7 +207,10 @@ export class ThreePearl {
         return sprite;
     }
 
-    // Primitives
+    // ------------------------------------------------------------
+    // Primitives (unchanged)
+    // ------------------------------------------------------------
+
     makeCylinder(params) {
         const geom = new THREE.CylinderGeometry(
             params.radiusTop,
@@ -176,6 +223,7 @@ export class ThreePearl {
         return new PVHandle(mesh);
     }
 
+
     makeCone(params) {
         const geom = new THREE.ConeGeometry(
             params.radius,
@@ -186,6 +234,7 @@ export class ThreePearl {
         const mesh = new THREE.Mesh(geom, mat);
         return new PVHandle(mesh);
     }
+
 
     makeSphere({ radius = 1, color = 0xffffff }) {
         const geometry = new THREE.SphereGeometry(radius, 32, 16);
@@ -219,11 +268,7 @@ export class ThreePearl {
         return new PVHandle(mesh);
     }
 
-    makeTriangularPrism(params) {
-        return this.makeTrianglePrism(params);
-    }
 
-    // Basic transforms
     setPosition(handle, pos) {
         handle.impl.position.set(pos.x, pos.y, this._toThreeZ(pos.z));
     }
@@ -246,8 +291,12 @@ export class ThreePearl {
         this.content.add(handle.impl);
     }
 
+ 
+
     resetCamera() {
-        if (!this.initialCameraState) return;
+        if (!this.initialCameraState) {
+            return;
+        }
 
         this.camera.position.copy(this.initialCameraState.position);
         this.camera.up.copy(this.initialCameraState.up);
@@ -262,20 +311,124 @@ export class ThreePearl {
         this._updateAxisOverlayPosition();
     }
 
-    // Rendering
+ 
+
+    applyColor(handle, r, g, b) {
+        const color = new THREE.Color(r, g, b);
+        handle.impl.children.forEach(child => {
+            if (child.material) child.material.color.copy(color);
+        });
+    }
+
+    updateCamera(dt, semanticObject) {
+        if (!semanticObject) {
+            return;
+        }
+
+        const domainName = this.myDomain?.name;
+        if (domainName !== "ABZ" && domainName !== "XYZ") {
+            return;
+        }
+
+        const cameraDelta = semanticObject.cameraDelta;
+        if (!cameraDelta) {
+            return;
+        }
+
+        if (!cameraDelta.active) {
+            return;
+        }
+
+        const positionDelta = cameraDelta.positionDelta || { x: 0, y: 0, z: 0 };
+        const targetZDelta = cameraDelta.targetZDelta ?? 0;
+
+        this.camera.position.x += positionDelta.x;
+        this.camera.position.y += positionDelta.y;
+        this.camera.position.z += this._toThreeZ(positionDelta.z + targetZDelta);
+
+        this.controls.target.z += this._toThreeZ(targetZDelta);
+    }
+
+    // ------------------------------------------------------------
+    // Rendering (rewritten)
+    // ------------------------------------------------------------
+
     render() {
+        // Use the full canvas extent — no panelRect, no offsets
         const rect = this.canvas.getBoundingClientRect();
         const width = rect.width;
         const height = rect.height;
 
+        // Resize renderer only if needed
         this.renderer.setSize(width, height, false);
+
+        // Orthographic magnification comes from frustum size and zoom, not camera distance.
         this._updateOrthographicFrustum(width, height);
 
+        // Full-canvas viewport
         this.renderer.setViewport(0, 0, width, height);
         this.renderer.setScissor(0, 0, width, height);
         this.renderer.setScissorTest(true);
 
         this.controls.update();
         this.renderer.render(this.scene, this.camera);
+    }
+
+    // ------------------------------------------------------------
+    // Mesh creation (unchanged)
+    // ------------------------------------------------------------
+
+    createMeshFor(semanticObject) {
+        let handle = null;
+
+        switch (semanticObject.type) {
+            case "PhaseArrow":
+                handle = this._createPhaseArrowMesh(semanticObject);
+                break;
+            case "Sphere":
+                handle = this.makeSphere(semanticObject);
+                break;
+            default:
+                console.warn(`Unsupported semantic object type: ${semanticObject.type}`);
+                return null;
+        }
+
+        if (!handle) {
+            return null;
+        }
+
+        return handle;
+    }
+
+    _createPhaseArrowMesh(obj) {
+        const shaftLength = 1;
+        const shaftRadius = 0.05;
+        const headLength = 0.15;
+        const headRadius = 0.10;
+
+        const shaft = this.makeCylinder({
+            radiusTop: shaftRadius,
+            radiusBottom: shaftRadius,
+            height: shaftLength,
+            color: 0xff0000
+        });
+        this.setPosition(shaft, {
+            x: 0,
+            y: shaftLength / 2,
+            z: 0
+        });
+
+        const head = this.makeCone({
+            radius: headRadius,
+            height: headLength,
+            color: 0xff0000
+        });
+        this.setPosition(head, {
+            x: 0,
+            y: shaftLength + headLength / 2,
+            z: 0
+        });
+
+        return this.combine([shaft, head]);
     }
 }

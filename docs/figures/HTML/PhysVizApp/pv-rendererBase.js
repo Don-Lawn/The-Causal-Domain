@@ -17,27 +17,26 @@ class RendererBase {
      */
     render(semanticObject, renderHints) {
 
-        // Merge semantic hint bag into the render hint envelope
         const hints = {
             ...renderHints,
             semanticHints: semanticObject.hints ?? []
         };
 
-        // 1. Ensure THREE handle exists
         const handle = this.ensureHandle(semanticObject);
         this.pearl.resetTrailCycleState(handle, semanticObject);
 
-        // 2. Ensure geometry exists (ABC domain defines its own sizes)
         this.ensureGeometry(handle);
 
-        // 3. Apply transforms (ABC ignores z)
-        this.setRotationZ(handle, hints);
-        this.setPosition(handle, hints);
+        // NEW: unified hint-driven transform pipeline
+        this.pearl.applyHints(handle, hints);
 
-        // 4. Appearance
-        this.applyColor(handle, hints);
-        this.applyVisibility(handle, hints);
+
+        // Trails remain manual
+        if (semanticObject.trailEnabled) {
+            this.pearl.updateTrail(handle, semanticObject);
+        }
     }
+
 
     ensureGeometry(handle) { /* override me */ }
 
@@ -51,26 +50,6 @@ class RendererBase {
         }
 
         return this.createHandle(semanticObject);
-    }
-
-    setPosition(handle, hints) {
-        this.pearl.setPosition(handle, {
-            x: hints.x,
-            y: hints.y,
-            z: hints.z
-        });
-    }
-
-    setRotationZ(handle, hints) {
-        this.pearl.setRotationZ(handle, hints.phase ?? 0);
-    }
-
-    applyColor(handle, hints) {
-        this.pearl.applyColor(handle, hints.color);
-    }
-
-    applyVisibility(handle, hints) {
-        this.pearl.setVisibility(handle, hints.visible);
     }
 
     createHandle(semanticObject) {
