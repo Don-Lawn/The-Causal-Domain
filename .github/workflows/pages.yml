@@ -5,6 +5,11 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -14,7 +19,7 @@ jobs:
         with:
           python-version: 3.x
 
-      # Pin all versions to avoid MkDocs 2.0
+      # Pin MkDocs to avoid MkDocs 2.0
       - run: pip install mkdocs==1.6.1
       - run: pip install mkdocs-material==9.5.17
       - run: pip install mkdocs-awesome-pages-plugin==2.9.2
