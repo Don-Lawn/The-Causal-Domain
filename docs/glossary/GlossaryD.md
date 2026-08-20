@@ -54,7 +54,7 @@ Duality expresses the symmetry between spatial and energy distributions, with th
 
 For maximum simplicity, we may reduce the four dimensions of x and k domains to just two.
 
- <img src="../figures/Typora/2D hyperspheres.png" alt="2D hyperspheres" style="zoom: 50%;" />
+ <img src="../figures/Typora/2D-hyperspheres.png" alt="2D hyperspheres" style="zoom: 50%;" />
 
 ### **Duality Domains 3D**
 
