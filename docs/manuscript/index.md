@@ -28,19 +28,23 @@ Different readers prefer different entry points. Choose the path that suits your
 
 ### **1. The Discovery Sequence**
 
-Follow the same path we took — beginning with the circular nature of Special Relativity and building upward. `[Looks like the result wasn't safe to show. Let's switch things up and try something else!]`
+Follow the same path we took — beginning with the circular nature of Special Relativity and building upward.  
+See: [The Discovery Sequence](TheDiscoverySequence.md)
 
 ### **2. The Problem Space**
 
-A survey of unresolved issues in standard physics that motivate the need for a unified geometric model. `[Looks like the result wasn't safe to show. Let's switch things up and try something else!]`
+A survey of unresolved issues in standard physics that motivate the need for a unified geometric model. 
+See: [The Problem Space](ProblemSpace.md)
 
 ### **3. The Solution Sequence**
 
-A more formal, scientific presentation: problem → solution → consequences. This is the most direct but also the most abrupt. `[Looks like the result wasn't safe to show. Let's switch things up and try something else!]`
+A more formal, scientific presentation: problem → solution → consequences. This is the most direct but also the most abrupt. 
+See: [The Solution](The-Solution.md)
 
 ### **4. Reference Section**
 
-Definitions, terminology, and conceptual anchors. `[Looks like the result wasn't safe to show. Let's switch things up and try something else!]`
+Definitions, terminology, and conceptual anchors. 
+See: [The Glossary](../glossary/index.md)
 
 ## Roadmap
 
