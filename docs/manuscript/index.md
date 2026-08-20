@@ -1,26 +1,64 @@
-# Different views of the one theory.
+# RR / Q Phase Geometry — Exploratory Notes
 
-This theory is quite extensive,  hence its presentation as hyperlinked documents.
-There are several ways of approaching understanding of it.
+> **Work in Progress — Exploratory Geometry Ahead**
+>
+> These documents present an evolving investigation into RR quadrature, the Q‑axis, spherical phase geometry, and their connections to energy modes, hexature, SU(3) colour topology, and cosmological dynamics.
+>
+> Some sections are complete, others are sketches, and many are placeholders for ideas still forming.
+>
+> The goal is clarity, not finality — to make the geometry visible enough that readers can follow the thread as the theory develops.
 
-Firstly, you may choose to follow the same path we took, beginning with the circular nature of Special Relativity.
+## Overview
 
-[The Discovery Sequence](TheDiscoverySequence.md)
+RR/Q Phase Geometry begins with a simple observation: **Special Relativity is circular.**   Once that circle is lifted into 3D phase space, a new axis — **Q** — emerges naturally. From this, a consistent geometric structure unfolds:
 
+- the phase disk becomes a **phase sphere**
+- three orthogonal **Fields of Emergence** define the geometry
+- the spherical triangle with three right angles yields the **1/8 sphere**
+- hexature arises as a natural rotational mode
+- SU(3) colour topology appears as a geometric consequence
+- the photon becomes a **spiralling ribbon** in spacetime
+- Tempo (dt/dT) reframes cosmological time and redshift
 
+This landing page provides multiple pathways into the theory depending on the reader’s background and curiosity.
 
-Following that, we enumerate the problem space:  unresolved issues in standard physics, implying the need for a unified model.
+## How to Approach the Theory
 
-[Problem Space](ProblemSpace.md)
+Different readers prefer different entry points. Choose the path that suits your style.
 
+### **1. The Discovery Sequence**
 
+Follow the same path we took — beginning with the circular nature of Special Relativity and building upward. `[Looks like the result wasn't safe to show. Let's switch things up and try something else!]`
 
-Next, there is a sequence that presents problem, solution, and consequences in logical sequence, but it may be too abrupt for many readers. It does follow the more rigorous scientific approach.
+### **2. The Problem Space**
 
-[The Solution](TheSolution.md)
+A survey of unresolved issues in standard physics that motivate the need for a unified geometric model. `[Looks like the result wasn't safe to show. Let's switch things up and try something else!]`
 
+### **3. The Solution Sequence**
 
+A more formal, scientific presentation: problem → solution → consequences. This is the most direct but also the most abrupt. `[Looks like the result wasn't safe to show. Let's switch things up and try something else!]`
 
-Lastly, there is a reference section, providing definitions for terms and concepts.
+### **4. Reference Section**
 
-[Glossary](../glossary/index.md)
+Definitions, terminology, and conceptual anchors. `[Looks like the result wasn't safe to show. Let's switch things up and try something else!]`
+
+## Roadmap
+
+| Section               | Status   |
+| --------------------- | -------- |
+| Phase Sphere          | Draft    |
+| Spherical Triangle    | Complete |
+| RR/Q Rotor Stack      | Draft    |
+| Hexature              | Draft    |
+| SU(3) Mapping         | Draft    |
+| Photon Ribbon         | Notes    |
+| Energy Exchange Modes | Notes    |
+| Tempo & Cosmology     | Notes    |
+
+## Purpose of This Site
+
+This is not a finished textbook. It is a **living research notebook** documenting the emergence of a unified geometric model. Expect updates, refinements, and new connections as the work continues.
+
+## Support the Project
+If you find this work valuable, you can support ongoing development:
+[Support This Project](SUPPORT.md)
