@@ -1,4 +1,4 @@
-# Part 2 - An Alternate View of General Relativity 
+# An Alternate View of General Relativity
 
 # Abstract
 
@@ -6,8 +6,8 @@ This work extends the Rotational Special Relativity (RSR) framework to gravitati
 
 ## Background
 
-Einsteinian general relativity
-Rotational Special Relativity (RSR)
+Einsteinian general relativity.
+[Rotational Special Relativity (RSR)](RSR.md)
 
 ## Introduction
 
@@ -61,7 +61,7 @@ We collapse the full four‑dimensional spacetime picture into a two‑dimension
 # Step 2 - Recognition of the q axis
 
 Here is a typical spatial distortion image, 
-![A typical wireframe diagram of the rubber sheet model of space, with a gravitation well caused by a massive body.](..\figures\RGR\TypicalGravitationalDistortionOfSpace.png){#Fig:TypicalGravitationalDistortionOfSpace}
+![A typical wireframe diagram of the rubber sheet model of space, with a gravitation well caused by a massive body.](..\figures\TypicalGravitationalDistortionOfSpace.png){#Fig:TypicalGravitationalDistortionOfSpace}
 
 which works by 
 
@@ -94,7 +94,7 @@ We can simplify the diagram via recognition of radial symmetry. All that we need
 
 # Step 2 - Derivation
 
-We start by applying our axiom, and converting RSR from dependence on kinetic energy ***k\****,* to gravitational potential energy.
+We start by applying our axiom, and converting RSR from dependence on kinetic energy ***k*** to gravitational potential energy.
 
  We start with the final equation from RSR
 $$
@@ -105,7 +105,7 @@ And exchange gravitational potential energy *U* for kinetic energy *k.*
 $$
 cos\left(\theta\right)=\ \varphi=\ \sqrt{1-2U/m}
 $$
-At this point, we note that kinetic energy is always a positive value, whereas gravitational potential energy is negative, approaching zero at infinite distance. This shifts the area of interest for graphs from the top right quadrant, to the bottom right quadrant. This will have impacts on the sign of sine values, and hence tangent and slope.
+At this point, we note that kinetic energy is always a positive value, whereas gravitational potential energy is negative, approaching zero at infinite distance. This shifts the area of interest for graphs from the top right quadrant, to the bottom left quadrant. This will have impacts on the sign of sine values, and hence tangent and slope.
 
 Equation 2 was obtained by integrating the tangent of θ. Because gravitational potential energy  is negative, the corresponding depth into Q is negative, keeping θ positive (anticlockwise), and placing the vector in quadrant III of the unit circle. This mirrors the velocity rotation in quadrant I, and the two vectors are equal and opposite — cancelling each other to yield flat spacetime. Therefore equation 2 becomes 
 
@@ -125,7 +125,7 @@ By tradition, U is zero at infinity, with closer distances corresponding to nega
 $$
 U\left(r\right)=-\frac{GMm}{r}
 $$
-We note at this time the concepts of black holes and Swartzchild Radius  (the radius of the event horizon)
+We note at this time the concepts of black holes and Schwarzschild Radius  (the radius of the event horizon)
 
 $$
 R_{s\ }=\ \frac{2GM}{c^2}
@@ -147,67 +147,53 @@ $$
 F\left(r\right)=\frac{-GMm}{r^2}\Rightarrow U\left(r^\ast\right)=\frac{-m}{{2r}^\ast}
 $$
 
-   ![GravitationalForceAndEnergyVsRadius](F:\Projects\Physics\Relativity\My relativity\figures\RGR\GravitationalForceAndEnergyVsRadius.png)
+   ![Gravitational Force And Energy Vs Radius](F:\Projects\Physics\Relativity\MyRelativity\Github\The-Causal-Domain\docs\figures\GravitationalForceAndEnergyVsRadius.png)
 
-## Quadrant conventions
+## Quadrant Conventions
 
- The horizontal axis is the positive radius r, measuring distance to the centre; the vertical axis shows gravitational quantities. To make contraction visually positive, force is plotted as its inward component, \( F(r) = +1/r² \), which grows rapidly as r approaches the centre. The potential energy \( U(r) = −1/r \) is negative throughout, decreasing in magnitude toward the centre and tending to zero at large r, reflecting a standard attractive field. For cosmogony distortions, the auxiliary w-coordinate is \( w(r) = −2GM/(r c²) \), keeping w negative and monotonic inward; the local square-root factor collapses as \( φ(r) = \sqrt(1 + w(r))\), linking the geometric depth of the well to tempo without sign conflicts.
-
-In r‑space, gravitational potential energy is negative and force is inward‑positive. To align with rotational symmetry, we re‑parameterize using the distortion coordinate 
+The horizontal axis is the positive radius r, measuring distance to the centre; the vertical axis shows gravitational quantities. In r‑space, gravitational potential energy is negative and the inward force is plotted as positive,
 $$
-w=-1/x
+F(r) = +1/r^2
 $$
-which increases monotonically as the test mass moves inward from the left. In this convention, gravitational energy maps to 
+
 $$
-U\left(w\right)=\frac{mw}{2}
+U(r) = -1/r
 $$
- and the rotation angle satisfies 
+so contraction appears visually positive as the test mass moves inward.
+
+For cosmogony distortions, we introduce the auxiliary coordinate
 $$
-\cos{\theta}=\varphi=\sqrt{1+w} 
+w = -1/r^*
 $$
-Because U is negative, the corresponding distortion variable w is also negative, placing the rotation in the upper‑left quadrant of the unit circle. Thus the gravitational rotation angle satisfies \(\theta _g<0\), in contrast to the velocity rotation where \(\theta _v>0\).”
 
+a monotonic inverse‑radius variable chosen to keep gravitational quantities in the **lower‑left quadrant** of the unit circle. Although r∗>0, the negative sign places the gravitational branch opposite the kinetic branch (RSR), preserving the orthogonality of the two domains. Conceptually, gravity draws a test mass inward **from the left**, while the RSR spacecraft accelerates **to the right**; energy increases consistently from left to right in both cases.
 
-
-##   Converting to w Coordinate
-
-Equation 11 has some “unpleasant” features, compared with the Kinetic energy equivalent from SRS.
-
-Its   \(r^\ast\ =>  ∞,\)  and \(  U  => -∞ \)
-
-A substitution for the independent variable is chosen as 
+Under this substitution, gravitational energy maps cleanly to
 $$
-w\ =-\ \frac{1}{r^\ast}
+U(w)=-\frac{mw}{2}
 $$
-Note that while \(r^\ast\ \)· is positive, it is more intuitive to think of a slice through the gravity well. The well is symmetrical about its centre 0, and so the profile of the left radius can serve equally well as the right. We can make the swap from right to left by setting \(w = -1/r\), rather than \(w=1/r\) to the right. This keeps RSR and RGR separated into different quadrants.
- Conceptually, gravity is drawing a test mass in from the left, and the RSR spaceship is accelerating to the right, all movement is from left to right, and energy increases from left to right.
 
- 
-
-As this is a negative energy, and w, although inverse spatial, is also related to energy via multiplication with m.
-Therefore by convention we will put the RGR curve into the left top quadrant, by setting 
+so negative gravitational energy corresponds to negative w. The rotation angle in the RGR domain satisfies
 $$
-w=-1/x
+\cos\theta_g=φ=\sqrt{1+w}
 $$
- This results in monotonically increasing energy from left to right.
- This can be thought of as the test mass m approaching from the left, and falling into the energy well.
-
-
-
-
+with \(w<0\) ensuring \(θ_g<0\). This contrasts with the velocity rotation in RSR, where \(θ_v>0\). The square‑root factor \(\varphi\) links geometric depth to tempo without sign conflicts, and the compactified coordinate w avoids the unpleasant limits of the raw r‑space expression (r∗→∞, U→−∞).
 
 
 Substituting into 11 and 12
+$$
+\begin{align}
+F(w) &= -w^2 \\
+U(w) &= -\frac{mw}{2}
+\end{align}
+$$
 
-$$
-F\left(w\right)&=-w \\
-U\left(w\right)&=\frac{-mw}{2}
-$$
-![GravitationalForceAndEnergyVsW](F:\Projects\Physics\Relativity\My relativity\figures\RGR\GravitationalForceAndEnergyVsW.png)
+
 
  (mnemonic: w is chosen because it is the next letter after v, and v is the independent variable in RSR. We will find that using w gives function shapes identical to RSR)
+![GravitationalForceAndEnergyVsW](../figures/GravitationalForceAndEnergyVsW.png)
 
-# Calculation of θ and ϕ
+# Calculation of \(\theta\) and \(\phi\)
 
 
  When we plug this version into eqn 3,
@@ -231,19 +217,17 @@ $$
 
 
 
-###  **Rotation (θ) and Distortion (ϕ) vs. w**
+###  **Rotation (\(\theta\)) and Distortion (\(\phi\)) vs. w**
 
  This diagram shows how gravitational potential (negative w) induces clockwise rotation into the q-dimension, yielding real, positive distortion factors   The symmetry with RSR is preserved, but the quadrant orientation is reversed. 
 
- ![RotationAndDistortionVsW](F:\Projects\Physics\Relativity\My relativity\figures\RGR\RotationAndDistortionVsW.png)
+![RotationAndDistortionVsW](../figures/RotationAndDistortionVsW.png)
 
 We can easily compare this with the equivalent formula for velocity from Part 1
-
 $$
 cos\left(\theta\right)=\ \varphi=\ \sqrt{1-v_o^2}
 => v_o^2\ \leftrightarrow w
 $$
-
 
 Except that in RSR, w is positive over the range [0,1), 
  and in RGR, w is negative over the range (-1,0]
@@ -255,7 +239,7 @@ It is striking that the algebra reverts to the same square‑root form regardles
 
 Thus, gravitational rotation mirrors velocity rotation: both reduce to the same square‑root geometry, differing only in quadrant orientation. The algebra is invariant; only the sign of w or v determines whether rotation is drawn upward or downward in q.
 
-# Quick derivation: cancellation of rotations
+# Quick derivation: Cancellation of Rotations
 
 Start from the two distortion factors:
 
@@ -270,7 +254,6 @@ $$
 $$
 \varphi=\cos{\left(\theta_g\right)}=\sqrt{1+w}, w<0
 $$
-
 
 
 Both give the same positive   , but the angles have opposite signs.
@@ -298,14 +281,14 @@ This is the **escape (velocity) condition**: kinetic rotation cancels gravitatio
 
 Step 3 — Interpret physically
 
-- Distortion factors remain     positive (                                                                                                                                  ) on both sides.
+- Distortion factors remain positive (+ve) on both sides.
 
 - The sign of \theta encodes     orientation into the q-dimension.
 
-- When the two rotations     cancel, the traveller’s path returns to flat spacetime — no net rotation     into q.
+- When the two rotations cancel, the traveller’s path returns to flat spacetime — no net rotation into q.
 
-  ![EscapeCondition](F:\Projects\Physics\Relativity\My relativity\figures\RGR\EscapeCondition.png)
+  ![EscapeCondition](../figures/EscapeCondition.png)
 
-Displacements are plotted in the w–q plane, with horizontal axis w (energy-derived distortion) and vertical axis q (rotational displacement). Velocity rotation (Trevor) lies in the first quadrant with , ; gravitational rotation (Olwyn) lies in the third quadrant with , . The vectors from the origin to each point are equal and opposite, so their sum is zero. This geometric symmetry encodes the escape condition: when kinetic and gravitational distortions cancel, the traveller returns to flat spacetime.
+Displacements are plotted in the w–q plane, with horizontal axis w (energy-derived distortion) and vertical axis q (rotational displacement). Velocity rotation (Traveller) lies in the first quadrant with \(w>0\); gravitational rotation (Observer) lies in the third quadrant with \(w<0). The vectors from the origin to each point are equal and opposite, so their sum is zero. This geometric symmetry encodes the escape condition: when kinetic and gravitational distortions cancel, the traveller returns to flat spacetime.
 
-Here we see the concept of phase difference between Trevor and Olwyn. With opposing phase angle, their energies are exactly out of phase, and so cancel. The result should be an inertial frame of reference, with no relativistic distortion.
+Here we see the concept of phase difference between Traveller and Observer. With opposing phase angle, their energies are exactly out of phase, and so cancel. The result should be an inertial frame of reference, with no relativistic distortion.

@@ -1,4 +1,4 @@
-# Part 1 — An Alternate View of Special Relativity
+# An Alternate View of Special Relativity
 
 ## Abstract
 
@@ -52,23 +52,23 @@ We begin by noting that the reciprocal of the Lorentz factor is the equation of 
 The Lorentz factor is:
 
 $$
-\gamma = \frac{1}{\sqrt{1 - v_o^2 / c^2}}
+\gamma (v_o) = \frac{1}{\sqrt{1 - v_o^2 / c^2}}
 \label{eq:lorentzFactor}
 $$
 
 Define the distortion factor \( \phi \) as:
 
 $$
-\phi = \frac{1}{\gamma}
+\phi(\gamma) = \frac{1}{\gamma}
 $$
 
 ![Figure for Eqn \eqref{eq:ThetaIsInverseOfGamma}.  
-Inverting Lorentz's distortion factor gives a new one with more interesting geometry.](../figures/6.ThetaIsInverseOfGamma.png){#fig:ThetaIsInverseOfGamma}
+Inverting Lorentz's distortion factor gives a new one with more interesting geometry.](../figures/ThetaIsInverseOfGamma.png){#fig:ThetaIsInverseOfGamma}
 
 Setting \( c = 1 \) for natural units simplifies this to:
 
 $$
-\phi = \sqrt{1 - v_o^2}
+\phi(v_o) = \sqrt{1 - v_o^2}
 \label{eq:ThetaIsInverseOfGamma}
 $$
 
@@ -80,7 +80,7 @@ This dimension forms an orthogonal axis to reality, in this case \( v_o \), allo
 We define \( q \) through the unit‑circle identity:
 
 $$
-q = \sqrt{1 - \phi^2}
+q(v_o) = \sqrt{1 - v_o^2}
 \label{eq:qDef}
 $$
 
@@ -264,7 +264,6 @@ $$
 
 At \( v = 0 \), the ship is aligned with the real axis, so \( q = 0 \).  
 Thus:
-
 $$
 q(v) = \sqrt{1 - v^2}
 \label{eq:monorail}
