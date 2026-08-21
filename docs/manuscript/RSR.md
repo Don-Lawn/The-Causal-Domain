@@ -273,7 +273,7 @@ This is the equation of a **quarter circle**.
 
 ---
 
-<img src="figures/Monorail.png" alt="Figure for \eqref{eq:monorail}.  
+<img src="docs/figures/Monorail.png" alt="Figure for \eqref{eq:monorail}.  
 This graph shows the circular nature of the monorail.  
 The Traveller at 0.8c has a Q‑dimension displacement represented by the red arrow, tangent to the monorail." style="zoom: 80%;" />
 
@@ -296,7 +296,7 @@ This gives a compact geometric representation of the Traveller’s relativistic 
 
 ---
 
-<img src="figures/TranslatedStateVector.png" alt="A diagram showing how the Traveller’s vector of motion in the v–q dimension is translated to become a q‑state vector on the rotation diagram." style="zoom: 43%;" />
+<img src="docs/figures/TranslatedStateVector.png" alt="A diagram showing how the Traveller’s vector of motion in the v–q dimension is translated to become a q‑state vector on the rotation diagram." style="zoom: 43%;" />
 
 The diagram on the right is in \( q(v) \) coordinates, commonly referred to as a **circle diagram**.
 
