@@ -1,4 +1,4 @@
-### **The Missing Q Dimension**
+# **The Hidden Q Dimension**
 
 The Lorentz circle and its projection make one thing unmistakably clear: Special Relativity behaves as if a moving system has rotated away from its rest configuration. But this raises an immediate question.
 
