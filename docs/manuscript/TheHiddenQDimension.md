@@ -64,17 +64,28 @@ In the next section, we show how Tempo itself emerges as a consequence of:
 
 Tempo becomes the quantity that unifies motion, gravity, energy, and electromagnetic boundaries.
 
+#### The Lorentz Circle
 
+![Lorentz circle](../figures/LorentzCircle.png)
+
+The Lorentz circle shows a unit rest vector rotated by an angle \(\theta\),
+with horizontal projection \(\cos\theta\) and vertical projection \(\sin\theta\).
+In standard SR this is treated as a purely algebraic device; in this work
+we treat the rotation as real, into a hidden Q dimension.
+(Trevor is a mnemonic for the Traveller, as opposed to Olwyn who is the observer)
 
 #### **Depth in Q**
 
-The Lorentz circle shows that energy causes a rotation into the Q dimension. This results in a ‘depth’ in the Q dimension for the spaceship. At constant velocity / kinetic energy, the depth remains constant. But if the ship accelerates, the rotation increases. For a constantly accelerating ship, we can integrate angle wrt. velocity, to produce a curve that mas velocity to angle into Q, and depth within Q. WE refer to this curve as the monorail, as it controls ship attitude and depth as a function of velocity (and a nod to Einstein’s rail metaphor)
+The Lorentz circle makes clear the circular of the Lorentz/Einstein equations. 
+This results in a ‘depth’ in the Q dimension for the spaceship.  At constant velocity / kinetic energy, the depth remains constant. But if the ship accelerates, the rotation increases. For a constantly accelerating ship, we can integrate angle w..rt. velocity, to produce a curve that mas velocity to angle into Q, and depth within Q. We refer to this curve as the monorail, as it controls ship attitude and depth as a function of velocity (and a nod to Einstein’s rail metaphor)
 
-![Monorail](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image002.png) The projection interpretation shows that length contraction is the shadow of that rotation. The Q dimension now allows the rotation to occur as it must in order to explain length and Tempo reduction.
+![Monorail](../figures/Monorail.png) 
+
+The projection interpretation shows that length contraction is the shadow of that rotation. The Q dimension now allows the rotation to occur as it must in order to explain length and Tempo reduction.
 
 Now we can finally say what Tempo *is*.
 
-**Tempo is the projection of ship time from its location and direction on the monorail, onto the real axis**. distances of travel are reduced, and so Tempo is reduce, all by the same factor phi.
+**Tempo is the projection of ship time from its location and direction on the monorail, onto the real axis**. distances of travel are reduced, and so Tempo is reduce, all by the same factor \( \phi \).
 
 If the Q dimension is an imaginary axis, then what the observer sees is the projection into the real (horizontal) axis. When a system is at rest, its worldline points entirely along horizontal velocity axis. Its projection onto the rest axis is maximal. Its Tempo is maximal. Its internal processes unfold at their natural rate.
 
@@ -94,17 +105,18 @@ Tempo is not a clock reading. Tempo is not a coordinate. Tempo is the projection
 
 #### **Rotation Controls Tempo**
 
-Let the rotation angle into the hidden dimension be ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image004.png) . Then:
+Let the rotation angle into the hidden dimension be \(\theta\)
+Then:
 
-·   the projection onto the rest axis is ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image006.png)
+·   the projection onto the rest axis is \(\phi\)
 
-·   the projection onto the Q axis is ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image008.png)
+·   the projection onto the Q axis is \( sin( \theta ) \)
 
-·   the Lorentz factor is 1![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image010.png)
+·   the Lorentz factor is  \(  \gamma = \frac {1} {cos (\theta)} = \frac {1} {\phi} \)
 
-·   the contracted length ratio is ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image006.png)
+·   the contracted length ratio is \(  \frac {L}{L_0} = cos⁡θ = \phi  \)
 
-·   the reduced Tempo is also ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image006.png)
+·   the reduced Tempo is also \(  \frac {Tempo}{Tempo_0} = cos⁡\theta = \phi  \)
 
 The same rotation that contracts length also slows Tempo. They are not separate effects. They are two shadows of the same geometric move.
 
@@ -112,7 +124,9 @@ The same rotation that contracts length also slows Tempo. They are not separate 
 
 #### **Energy Determines the Rotation**
 
-Every form of energy — kinetic, gravitational, internal, electromagnetic — increases the rotation angle ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image004.png) . As ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image004.png) increases:
+Every form of energy — kinetic, gravitational, internal, electromagnetic — increases the rotation angle \(\theta \) . 
+
+As \(\theta \) increases:
 
 ·     the projection onto the rest axis shrinks
 
