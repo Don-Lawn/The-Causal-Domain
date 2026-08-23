@@ -20,17 +20,18 @@ Tempo is not a clock reading. Tempo is not a coordinate. Tempo is the projection
 
 #### **Rotation Controls Tempo**
 
-Let the rotation angle into the hidden dimension be ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image002.png) . Then:
+Let the rotation angle into the hidden dimension be \(\theta\)
+Then:
 
-·   the projection onto the rest axis is ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image004.png)
+·   the projection onto the rest axis is \(\phi\)
 
-·   the projection onto the Q axis is ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image006.png)
+·   the projection onto the Q axis is \( sin( \theta ) \)
 
-·   the Lorentz factor is 1![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image008.png)
+·   the Lorentz factor is  \(  \gamma = \frac {1} {cos (\theta)} = \frac {1} {\phi} \)
 
-·   the contracted length ratio is ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image004.png)
+·   the contracted length ratio is \(  \frac {L}{L_0} = cos⁡θ = \phi  \)
 
-·   the reduced Tempo is also ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image004.png)
+·   the reduced Tempo is also \(  \frac {Tempo}{Tempo_0} = cos⁡\theta = \phi  \)
 
 The same rotation that contracts length also slows Tempo. They are not separate effects. They are two shadows of the same geometric move.
 
@@ -38,7 +39,9 @@ The same rotation that contracts length also slows Tempo. They are not separate 
 
 #### **Energy Determines the Rotation**
 
-Every form of energy — kinetic, gravitational, internal, electromagnetic — increases the rotation angle ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image002.png) . As ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image002.png) increases:
+Every form of energy — kinetic, gravitational, internal, electromagnetic — increases the rotation angle \(\theta \) . 
+
+As \(\theta \) increases:
 
 ·     the projection onto the rest axis shrinks
 
@@ -62,7 +65,9 @@ A photon forced into a cavity mode loses degrees of freedom.
 
 A perfect conductor forces electromagnetic fields into orthogonal modes.
 
-In every case, the boundary condition forces the rotation angle toward ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image010.png). At ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image010.png), the projection onto the rest axis becomes zero. Tempo becomes zero.
+In every case, the boundary condition forces the rotation angle toward \(  \theta = \frac {\pi}{2}  \). 
+
+At \(  \theta = \frac {\pi}{2}  \), the projection onto the rest axis becomes zero. Tempo becomes zero.
 
 And if Tempo is zero, then the ship is frozen in time. It is this effect that allows the monorail curve to terminate neatly at (1,1). The deeper into Q, the slower its tempo.
 
@@ -78,11 +83,12 @@ Special Relativity shows how motion rotates a system into the Q‑dimension and 
 
 In Newtonian gravity, the potential (r) measures how much energy per unit mass is stored at a location. In Q‑geometry, the same information is carried by the local rotation angle (r) into Q, and therefore by the local Tempo factor
 
-![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image002.png)
+$$
+\phi(r) = \cos\theta(r)
+$$
+·   Far from mass: \(\theta(r) \to 0, \qquad \phi(r) \to 1 \).  	Tempo is maximal.
 
-·   Far from mass: ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image004.png). Tempo is maximal.
-
-·   Near mass: ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image006.png) increases, ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image008.png) decreases. Tempo slows.
+·   Near mass: \( \theta(r) \text{ increases}, \qquad \phi(r) = \cos\theta(r) \text{ decreases} \).  Tempo slows.
 
 This gives gravitational time dilation its geometric meaning:
 
@@ -112,7 +118,13 @@ In the full (x,Q) geometry:
 
 This is the equivalence principle in geometric form:
 
-**free fall is inertial motion in the full** ![img](file:///C:/Users/don_l/AppData/Local/Temp/msohtmlclip1/01/clip_image010.png) **geometry; gravity is what appears when we ignore Q and look only at the projection.**
+**free fall is inertial motion in the full \((x,Q)\) geometry; 
+gravity is what appears when we ignore Q and look only at the projection.**
+
+At the limiting angle \(\theta = \frac{\pi}{2}\), the projection onto the rest axis becomes zero, 
+and Tempo goes to zero.
+
+
 
 *(Diagram placeholder: worldline straight in (x,Q), curved in x alone.)*
 
