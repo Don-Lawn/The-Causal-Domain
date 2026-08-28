@@ -2,56 +2,54 @@
     // Mesh creation (unchanged)
     // ------------------------------------------------------------
 
-    export function createMeshFor(semanticObject) {
-        let handle = null;
+    export function createPhaseWedgeMesh(hints) {
+        const mesh=  this.makeTriangularPrism(hints);
 
-        switch (semanticObject.type) {
-            case "PhaseArrow":
-                handle = this._createPhaseArrowMesh(semanticObject);
-                break;
-            case "Sphere":
-                handle = this.makeSphere(semanticObject);
-                break;
-            default:
-                console.warn(`Unsupported semantic object type: ${semanticObject.type}`);
-                return null;
-        }
+        mesh.rotation.x = Math.PI / 2;
+        mesh.rotation.z = hints.theta + hints.phaseOffset;
 
-        if (!handle) {
-            return null;
-        }
+        return mesh;
 
-        return handle;
     }
 
-    export function _createPhaseArrowMesh(obj) {
-        const shaftLength = 1;
-        const shaftRadius = 0.05;
-        const headLength = 0.15;
-        const headRadius = 0.10;
 
+
+
+    export function createPhaseArrowMesh(semanticObject, hints = {}) {
+        // Semantic defaults
+        const shaftLength     = hints.shaftLength     ?? semanticObject.shaftLength     ?? 1.0;
+        const shaftRadius     = hints.shaftRadius     ?? semanticObject.shaftRadius     ?? 0.05;
+        const headLength      = hints.headLength      ?? semanticObject.headLength      ?? 0.25;
+        const headRadius      = hints.headRadius      ?? semanticObject.headRadius      ?? 0.12;
+        const color           = hints.color           ?? semanticObject.color           ?? 0xffffff;
+
+        // Shaft
         const shaft = this.makeCylinder({
-            radiusTop: shaftRadius,
+            radiusTop:    shaftRadius,
             radiusBottom: shaftRadius,
-            height: shaftLength,
-            color: 0xff0000
+            height:       shaftLength,
+            color
         });
+
         this.setPosition(shaft, {
             x: 0,
             y: shaftLength / 2,
             z: 0
         });
 
+        // Head
         const head = this.makeCone({
             radius: headRadius,
             height: headLength,
-            color: 0xff0000
+            color
         });
+
         this.setPosition(head, {
             x: 0,
             y: shaftLength + headLength / 2,
             z: 0
         });
 
+        // Composite
         return this.combine([shaft, head]);
     }

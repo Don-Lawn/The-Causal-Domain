@@ -27,7 +27,7 @@ class RRGravityWell extends SemanticObject {
         return;
     }
 
-    getRenderHints() {
+    getSemanticHints() {
         return Object.freeze({
             id: this.id,
             type: this.type,

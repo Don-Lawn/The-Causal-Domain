@@ -28,49 +28,11 @@ class PhaseArrowRenderer_ABC extends RendererBase {
     }
 
     ensureGeometry(handle) {
-        if (handle.geometryBuilt) return;
-
-        // ABC domain geometry (small, icon-like arrow)
-        const shaftLength = 0.4;
-        const shaftRadius = 0.05;
-        const headLength  = 0.15;
-        const headRadius  = 0.10;
-
-        const pearl = this.pearl;
-
-        const shaft = pearl.makeCylinder({
-            radiusTop:    shaftRadius,
-            radiusBottom: shaftRadius,
-            height:       shaftLength,
-            color:        0xffffff
-        });
-
-        pearl.setPosition(shaft, {
-            x: 0,
-            y: shaftLength / 2,
-            z: 0
-        });
-
-        const head = pearl.makeCone({
-            radius: headRadius,
-            height: headLength,
-            color: 0xffffff
-        });
-
-        pearl.setPosition(head, {
-            x: 0,
-            y: shaftLength + headLength / 2,
-            z: 0
-        });
-
-        const combined = pearl.combine([shaft, head]);
-        
-        // Replace only the mesh, not the handle object
-        handle.impl = combined.impl;
-
-        this.pearl.attachToDomain(handle);   // ⭐ REQUIRED ⭐
-
-        handle.geometryBuilt = true;
+        if (!handle.impl) {
+            const semantic = handle.semanticObject;
+            const hints = semantic.hints ?? {};
+            handle.impl = this.pearl.meshFactory.createPhaseArrowMesh(semantic, hints);
+        }
     }
 
     

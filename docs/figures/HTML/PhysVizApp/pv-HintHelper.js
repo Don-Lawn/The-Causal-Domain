@@ -44,35 +44,52 @@ export class HintHelper {
     // ------------------------------------------------------------
     // mergeHints(defaults, overrides)
     // ------------------------------------------------------------
-    // Deep merges hierarchical hint objects.
-    // Caller overrides always win.
-    // ------------------------------------------------------------
     static mergeHints(defaults = {}, overrides = {}) {
-        const result = {};
+        const result = {
+            semantic: {},
+            geometric: {},
+            render: {}
+        };
 
-        for (const key of Object.keys(defaults)) {
-            const defVal = defaults[key];
-            const overVal = overrides[key];
-
-            if (overVal !== undefined) {
-                if (HintHelper.isPlainObject(defVal) && HintHelper.isPlainObject(overVal)) {
-                    result[key] = HintHelper.mergeHints(defVal, overVal);
-                } else {
-                    result[key] = overVal;
-                }
-            } else {
-                result[key] = defVal;
-            }
-        }
-
-        for (const key of Object.keys(overrides)) {
-            if (!(key in defaults)) {
-                result[key] = overrides[key];
-            }
-        }
+        // Deep merge each layer independently.
+        result.semantic  = HintHelper.deepMerge(defaults.semantic  || {}, overrides.semantic  || {});
+        result.geometric = HintHelper.deepMerge(defaults.geometric || {}, overrides.geometric || {});
+        result.render    = HintHelper.deepMerge(defaults.render    || {}, overrides.render    || {});
 
         return result;
     }
+
+
+    static deepMerge(target, override) {
+        if (override === null || typeof override !== "object" || Array.isArray(override)) {
+            return override;
+        }
+
+        if (target === null || typeof target !== "object" || Array.isArray(target)) {
+            target = {};
+        }
+
+        for (const key of Object.keys(override)) {
+            const overVal = override[key];
+            const tgtVal = target[key];
+
+            if (
+                typeof overVal === "object" &&
+                overVal !== null &&
+                !Array.isArray(overVal) &&
+                typeof tgtVal === "object" &&
+                tgtVal !== null &&
+                !Array.isArray(tgtVal)
+            ) {
+                target[key] = HintHelper.deepMerge(tgtVal, overVal);
+            } else {
+                target[key] = overVal;
+            }
+        }
+
+        return target;
+    }
+
 
 
     // ------------------------------------------------------------
@@ -81,4 +98,6 @@ export class HintHelper {
     static isPlainObject(obj) {
         return obj && typeof obj === "object" && !Array.isArray(obj);
     }
+
+
 }

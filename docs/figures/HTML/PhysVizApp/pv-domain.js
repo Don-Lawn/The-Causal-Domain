@@ -70,14 +70,14 @@ export class PVDomain extends ActiveEntity {
         }
 
         if (this.fsm.state !== "PAUSED" && camera) {
-            this.pearl.applyCamera(camera.getRenderHints());
+            this.pearl.applyCamera(camera.getSemanticHints());
         }
 
         for (const obj of this.objects.values()) {
             const renderer = this.getRenderer(obj.type);
 
             // 1. Domain fetches the flattened render hints
-            const renderHints = obj.getRenderHints(dt);
+            const renderHints = obj.getSemanticHints(dt);
 
             // 2. Merge domain-level + semantic-level + render-level hints
             const mergedHints = {

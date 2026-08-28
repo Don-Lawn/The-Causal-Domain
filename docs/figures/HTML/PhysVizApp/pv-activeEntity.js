@@ -40,20 +40,6 @@ export class ActiveEntity {
         EventBusInstance.emit(eventName, payload, this.bus, this.bus, this.hints);
     }
 
-    // -----------------------------------------------------------------------
-    // Hint accessors
-    // -----------------------------------------------------------------------
-    getHints() {
-        return this.hints;
-    }
-
-    addHint(hint) {
-        this.hints.push(hint);
-    }
-
-    getHintsByCategory(category) {
-        return this.hints.filter(h => h.category === category);
-    }
 
     // -----------------------------------------------------------------------
     // Local bus → FSM event handling

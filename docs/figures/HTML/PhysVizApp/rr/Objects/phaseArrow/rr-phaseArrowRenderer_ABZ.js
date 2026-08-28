@@ -1,5 +1,5 @@
-// rr/phaseArrow/PhaseArrowRenderer_ABZ.js
-import { RendererBase } from '../../pv-rendererBase.js';
+    // rr/phaseArrow/PhaseArrowRenderer_ABZ.js
+    import { RendererBase } from '../../../pv-rendererBase.js';
 
 class PhaseArrowRenderer_ABZ extends RendererBase {
     constructor (domain, pearl) {
@@ -29,44 +29,32 @@ class PhaseArrowRenderer_ABZ extends RendererBase {
         this.pearl.setRotationZ(handle, hints.phase ?? 0);
     }
 
-    ensureGeometry(handle) {
-        if (handle.geometryBuilt) return;
+   createPhaseArrowHelixMesh(semanticObject, hints = {}) {
+        const turns     = hints.turns     ?? semanticObject.turns     ?? 3;
+        const radius    = hints.radius    ?? semanticObject.radius    ?? 0.2;
+        const pitch     = hints.pitch     ?? semanticObject.pitch     ?? 0.1;
+        const tubeRadius= hints.tubeRadius?? semanticObject.tubeRadius?? 0.03;
+        const color     = hints.color     ?? semanticObject.color     ?? 0xffffff;
 
-        const pearl = this.pearl;
+        // Build helix curve
+        const points = [];
+        const segments = 100;
 
-        const shaftLength = 0.4;
-        const shaftRadius = 0.05;
-        const headLength = 0.15;
-        const headRadius = 0.10;
+        for (let i = 0; i <= segments; i++) {
+            const t = (i / segments) * (Math.PI * 2 * turns);
+            const x = radius * Math.cos(t);
+            const y = pitch * t;
+            const z = radius * Math.sin(t);
+            points.push(new THREE.Vector3(x, y, z));
+        }
 
-        const shaft = pearl.makeCylinder({
-            radiusTop: shaftRadius,
-            radiusBottom: shaftRadius,
-            height: shaftLength,
-            color: 0xffffff
-        });
-        pearl.setPosition(shaft, {
-            x: 0,
-            y: shaftLength / 2,
-            z: 0
-        });
+        const curve = new THREE.CatmullRomCurve3(points);
 
-        const head = pearl.makeCone({
-            radius: headRadius,
-            height: headLength,
-            color: 0xffffff
-        });
-        pearl.setPosition(head, {
-            x: 0,
-            y: shaftLength + headLength / 2,
-            z: 0
-        });
+        // Tube geometry along the helix
+        const geometry = new THREE.TubeGeometry(curve, 200, tubeRadius, 8, false);
+        const material = new THREE.MeshStandardMaterial({ color });
 
-        const combined = pearl.combine([shaft, head]);
-        handle.impl = combined.impl;
-
-        this.pearl.attachToDomain(handle);   // ⭐ REQUIRED ⭐
-        handle.geometryBuilt = true;
+        return new THREE.Mesh(geometry, material);
     }
 
     // Convert phase (radians) → colour
@@ -76,6 +64,14 @@ class PhaseArrowRenderer_ABZ extends RendererBase {
         const hex = this.hslToHex(hue, 1.0, 0.5);
         this.pearl.applyColor(handle, hex);
     }
+
+    ensureGeometry(handle) {
+    if (!handle.impl) {
+        const semantic = handle.semanticObject;
+        const hints = semantic.hints ?? {};
+        handle.impl = this.pearl.meshFactory.createPhaseArrowHelixMesh(semantic, hints);
+    }
+}
 
 }
 

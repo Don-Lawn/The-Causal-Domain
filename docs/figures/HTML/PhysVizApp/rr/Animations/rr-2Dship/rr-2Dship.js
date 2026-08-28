@@ -83,7 +83,7 @@ export class RR2DShip extends SemanticObject {
         this.z = this.q;
     }
 
-    getRenderHints() {
+    getSemanticHints() {
         return Object.freeze({
             id: this.id,
             type: this.type,

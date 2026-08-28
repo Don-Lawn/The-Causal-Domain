@@ -1,7 +1,8 @@
 // pv-threePearlDispatch.js
 import { ThreePearl } from "./pv-threePearl.js";
-import { HintHelper } from "../../pv-HintHelper.js";
+import { HintHelper } from "./pv-HintHelper.js";
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
+
 
 export class ThreePearlDispatch extends ThreePearl {
 
@@ -19,28 +20,29 @@ export class ThreePearlDispatch extends ThreePearl {
         // Build default hints from engine state
         // ------------------------------------------------------------
         const defaultHints = {
-            orthoHalfHeight: this.orthoHalfHeight,
-            camera: {
-                type: "orthographic",
-                zoom: this.cameraZoom,
-                position: {
-                    x: this.camera.position.x,
-                    y: this.camera.position.y,
-                    z: this.camera.position.z
+            render: {
+                orthoHalfHeight: this.orthoHalfHeight,
+                camera: {
+                    type: "orthographic",
+                    zoom: this.cameraZoom,
+                    position: {
+                        x: this.camera.position.x,
+                        y: this.camera.position.y,
+                        z: this.camera.position.z
+                    },
+                    up: {
+                        x: this.camera.up.x,
+                        y: this.camera.up.y,
+                        z: this.camera.up.z
+                    },
+                    lookAt: { x: 0, y: 0, z: 0 }
                 },
-                up: {
-                    x: this.camera.up.x,
-                    y: this.camera.up.y,
-                    z: this.camera.up.z
-                },
-                lookAt: { x: 0, y: 0, z: 0 }
-            },
-            axisOverlay: {
-                length: this.axisOverlayLength,
-                margin: this.axisOverlayMargin,
-                labels: ["X", "Y", "Z"]
+                axisOverlay: {
+                    length: this.axisOverlayLength,
+                    margin: this.axisOverlayMargin,
+                    labels: ["X", "Y", "Z"]
+                }
             }
-
         };
 
         // ------------------------------------------------------------

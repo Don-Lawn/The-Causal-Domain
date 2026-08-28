@@ -24,7 +24,7 @@ class RRConeEllipse extends SemanticObject {
         return this.animation3;
     }
 
-    getRenderHints() {
+    getSemanticHints() {
         const state = this.animation3.state;
         return Object.freeze({
             id: this.id,

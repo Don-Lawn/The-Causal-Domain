@@ -1,7 +1,7 @@
 // pv-camera.js
 // Autonomous camera object with its own time-based FSM.
 // Listens for CAMERA_LIFT / CAMERA_RESET events on the domain bus.
-// The domain calls update(dt) each tick and reads getRenderHints() to apply
+// The domain calls update(dt) each tick and reads getSemanticHints() to apply
 // deltas to the pearl camera — completely decoupled from arrow phase.
 
 import { SemanticObject } from "./pv-object.js";
@@ -57,7 +57,7 @@ export class PVCamera extends SemanticObject {
         return r;
     }
 
-    getRenderHints() {
+    getSemanticHints() {
         const active =
             this._liftState === "LIFTING" ||
             Math.abs(this._positionDelta.x) > 0 ||

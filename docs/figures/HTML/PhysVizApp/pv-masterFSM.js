@@ -29,7 +29,9 @@ export class MasterFSM extends ActiveEntity {
             EventBusInstance.emit("TICK", { dt }, "MASTER", "MASTER.animationLoop");
         }
 
-        EventBusInstance.emit("RENDER", { dt }, "MASTER", "MASTER.animationLoop");
+        if (this.fsm.state === "ACTIVE" || this.fsm.state === "PAUSED" ) {
+            EventBusInstance.emit("RENDER", { dt }, "MASTER", "MASTER.animationLoop");
+        }
         requestAnimationFrame(this.animationLoop);
     }
 }

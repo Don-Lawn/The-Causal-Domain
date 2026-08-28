@@ -115,7 +115,7 @@ export class PhaseArrow extends SemanticObject {
             }
         }
 
-        const payload = this.getRenderHints();
+        const payload = this.getSemanticHints();
         this.fsm._receive("TICK", payload);
     }
 
@@ -144,7 +144,7 @@ export class PhaseArrow extends SemanticObject {
     }
 
     // Projection hints (Domain → Renderer)
-    getRenderHints() {
+    getSemanticHints() {
         return Object.freeze({
             id: this.id,
             type: this.type,

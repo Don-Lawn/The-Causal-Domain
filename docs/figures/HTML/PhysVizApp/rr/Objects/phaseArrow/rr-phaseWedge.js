@@ -36,13 +36,21 @@ export class PhaseWedge extends PhaseIndicator {
         this.theta += this.omega * dt;
     }
 
-    getRenderHints() {
+ 
+
+    _getSemanticHints() {
         return Object.freeze({
             id: this.id,
             type: this.type,
+
+            // semantic visibility
             visible: this.visible,
+
+            // semantic appearance
             color: this.color,
             opacity: this.opacity,
+
+            // semantic pulse/trail behaviour
             trailEnabled: this.trailEnabled,
             trailFadeEnabled: this.trailFadeEnabled,
             fadeRate: this.fadeRate,
@@ -52,15 +60,22 @@ export class PhaseWedge extends PhaseIndicator {
             pulsePhaseOffset: this.pulsePhaseOffset,
             pulseMinOpacity: this.pulseMinOpacity,
             pulseMaxOpacity: this.pulseMaxOpacity,
+            trailCycle: this.trailCycle,
+
+            // semantic positioning
             centerX: this.centerX,
             centerY: this.centerY,
             qLevel: this.qLevel,
             circleRadius: this.circleRadius,
-            theta: this.theta,
+
+            // semantic phase
             phase: this.phase,
-            omega: this.omega,
             phaseOffset: this.phaseOffset,
-            trailCycle: this.trailCycle
+
+            // semantic domain behaviour
+            omega: this.omega
         });
     }
+
+
 }

@@ -35,7 +35,7 @@ class RRCausalPhaseArrow extends SemanticObject {
         this.theta += this.omega * dt;
     }
 
-    getRenderHints() {
+    getSemanticHints() {
         return Object.freeze({
             id: this.id,
             type: this.type,
