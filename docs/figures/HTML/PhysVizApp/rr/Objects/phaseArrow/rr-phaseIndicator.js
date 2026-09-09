@@ -77,4 +77,34 @@ export class PhaseIndicator extends SemanticObject {
     setColor(hex) {
         this.color = hex;
     }
+
+    _getSemanticHints() {
+        return Object.freeze({
+            id: this.id,
+            type: this.type,
+
+            // semantic visibility
+            visible: this.visible,
+
+            // semantic appearance
+            color: this.color,
+            opacity: this.opacity,
+
+            // semantic trail behaviour
+            trailEnabled: this.trailEnabled,
+            trailFadeEnabled: this.trailFadeEnabled,
+            fadeRate: this.fadeRate,
+            trailUseSourceOpacity: this.trailUseSourceOpacity,
+            trailCycle: this.trailCycle,
+            trailFrames: this.trailFrames,
+
+            // semantic phase
+            phase: this.phase,
+            phaseOffset: this.phaseOffset,
+
+            // domain name (optional but useful)
+            domainName: this.domainName
+        });
+    }
+
 }

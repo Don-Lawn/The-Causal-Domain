@@ -1,6 +1,6 @@
    // Primitives
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
-import { PVHandle } from "../../PhysVizApp/pv-handle.js";
+import { PVHandle } from "../pv-handle.js";
 
 export function makeCylinder(params) {
         const geom = new THREE.CylinderGeometry(
@@ -39,10 +39,21 @@ export function makeCylinder(params) {
         return mesh;
     }
 
-export function makeTriangularPrism(hints) {
+    export function makeTriangularPrism(hints) {
 
-    //deconstruct the hints we will use
-    const { width, height, depth, color, triangleType, rightAngleCorner } = hints;
+        //deconstruct the hints we will use    
+        const {
+            render: {
+                width,
+                height,
+                depth,
+                triangleType,
+                rightAngleCorner
+            },
+            semantic: {
+                color
+            }
+        } = hints;
 
     // build geometry using hints
 
@@ -63,7 +74,7 @@ export function makeTriangularPrism(hints) {
                 case "B":
                     B = new THREE.Vector3(0, 0, 0);
                     A = new THREE.Vector3(-width, 0, 0);
-                    C = new THREE.VectorVector3(0, height, 0);
+                    C = new THREE.Vector3(0, height, 0);
                     break;
 
                 case "C":

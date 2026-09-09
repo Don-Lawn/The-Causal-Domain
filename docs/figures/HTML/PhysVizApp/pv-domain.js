@@ -3,9 +3,11 @@ import { PVFSM } from "./pv-fsm.js";
 import { ThreePearl } from "./pv-threePearl.js";
 import { ThreePearlDispatch } from "./pv-threePearlDispatch.js";
 import { ActiveEntity } from "./pv-activeEntity.js";
+import { PVCamera } from "./pv-camera.js";
+import { PVCameraRenderer } from "./pv-cameraRenderer.js";
 
 export class PVDomain extends ActiveEntity {
-    constructor(name, panelName, canvasName, rendererRegistry, hints={}) {
+    constructor(name, panelName, canvasName, rendererRegistry) {
         super(name, "MASTER");
         this.configureDefaultLifecycle();
 
@@ -28,7 +30,8 @@ export class PVDomain extends ActiveEntity {
 
         this.registry = rendererRegistry;
 
-        this.pearl = new ThreePearlDispatch(this.myCanvas, this, hints);
+        this.pearl = new ThreePearlDispatch(this.myCanvas, this);
+
 
 
 
@@ -38,7 +41,11 @@ export class PVDomain extends ActiveEntity {
             const renderer = new RendererClass(this, this.pearl);
             this.renderers.set(type, renderer);
         }
+        this.renderers.set("PVCamera", new PVCameraRenderer(this, this.pearl));
 
+
+        this.camera = new PVCamera(panelName);
+        this.addObject(this.camera);
 
         this._setupFSM();
     }
@@ -48,7 +55,7 @@ export class PVDomain extends ActiveEntity {
         this.objects.set(obj.id, obj);
 
         const renderer = this.getRenderer(obj.type);
-        renderer.createHandle(obj);
+        renderer.ensureHandle(obj);
     }
 
 
@@ -63,7 +70,7 @@ export class PVDomain extends ActiveEntity {
     }
 
     render(dt) {
-        const camera = [...this.objects.values()].find((obj) => obj.type === "PVCamera");
+        const camera = this.camera;
 
         if (camera?.consumeResetRequest?.()) {
             this.pearl.resetCamera();
@@ -76,19 +83,12 @@ export class PVDomain extends ActiveEntity {
         for (const obj of this.objects.values()) {
             const renderer = this.getRenderer(obj.type);
 
-            // 1. Domain fetches the flattened render hints
-            const renderHints = obj.getSemanticHints(dt);
-
-            // 2. Merge domain-level + semantic-level + render-level hints
-            const mergedHints = {
-                ...renderHints,
-                semanticHints: obj.hints ?? [],
-                domainHints: this.hints ?? []
-            };
+            // Domain fetches the render hints
+            const hints = obj.getHints(dt);
 
 
-            // 3. Renderer consumes unified hint envelope
-            renderer.render(obj, mergedHints);
+            // Renderer consumes semantic hints and produces geometry + THREE hints
+            renderer.render(obj, hints);
         }
 
         this.pearl.render();

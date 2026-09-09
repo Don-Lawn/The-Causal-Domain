@@ -1,0 +1,5 @@
+We have added several new mechanisms since you were here last. Please familiarise youself.
+
+1. Hints. Multiplelevel hints in tree structure. allows for merging of provided hints with default hints, to provide default bahaviour and high level overrides.
+2. threePearlDispatch mechanism. allows "applyHints" method to apply a set of hints.
+3.Timer. will allow more generic time-based control of complex timing of operations. Solution is highly decoupled, using the eventBus mechanism.

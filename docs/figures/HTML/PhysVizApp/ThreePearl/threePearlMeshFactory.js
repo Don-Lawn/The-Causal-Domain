@@ -3,14 +3,17 @@
     // ------------------------------------------------------------
 
     export function createPhaseWedgeMesh(hints) {
-        const mesh=  this.makeTriangularPrism(hints);
+        const mesh = this.makeTriangularPrism(hints);
 
         mesh.rotation.x = Math.PI / 2;
-        mesh.rotation.z = hints.theta + hints.phaseOffset;
+
+        const theta       = hints.theta       ?? 0;
+        const phaseOffset = hints.phaseOffset ?? 0;
+        mesh.rotation.z   = theta + phaseOffset;
 
         return mesh;
-
     }
+
 
 
 

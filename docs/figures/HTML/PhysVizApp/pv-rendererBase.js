@@ -1,6 +1,7 @@
 // pv-rendererBase.js
 
 import { PVHandle } from "./pv-handle.js";
+import { HintHelper } from "./pv-HintHelper.js";
 
 class RendererBase {
     constructor(domain, pearl) {
@@ -16,40 +17,53 @@ class RendererBase {
      * @param {SemanticObject} semanticObject
      * @param {Object} renderHints  // flattened hints from getSemanticHints()
      */
-    render(semanticObject, renderHints) {
+    render(semanticObject, baseHints) {
+        const mergedHints = this.prepareHints(semanticObject, baseHints);
+
+        this.animate(semanticObject, mergedHints);
+    }
+
+    prepareHints(semanticObject, baseHints) {        
+        const defaultHints = this.getDefaultHints() ?? {
+            semantic: {},
+            geometric: {},
+            render: {}
+        };
+
+        // Merge full structured envelopes
+        const mergedHints = HintHelper.mergeHints(defaultHints, baseHints);
+
+        this.editHints(mergedHints);
+
+        this.ensureMandatoryHints(mergedHints);
+
+        return mergedHints;
+    }
+
+    animate(semanticObject, hints) {
 
         const handle = this.ensureHandle(semanticObject);
 
-        // Trails need this every frame
-        this.pearl.resetTrailCycleState(handle, semanticObject);
+        if (this.ensureGeometry(handle, hints))             
+            this.pearl.attachGeometry(handle);
+            
+        this.pearl.applyHints(handle, hints);
 
-        // get, and override,  default hints
-        const defaultHints = this.getDefaultHints();
-        const mergedHints = { 
-            ...defaultHints,
-            ...renderHints 
-        };
-
-        // an oportunity for the renderer to add or modify hings,  based on other hints.
-        // this is how the hints evolve from semantic to geometry, to THREE.
-        this.editHints(mergedHints);
-
-        // Geometry must exist BEFORE hints or trails
-        this.ensureGeometry(handle, mergedHints);
-
-        // Unified hint-driven transform pipeline
-        this.pearl.applyHints(handle, mergedHints);
-
-        // Trails update AFTER geometry + hints
-        if (semanticObject.trailEnabled) {
-            this.pearl.updateTrail(handle, semanticObject);
+        if (hints.semantic.trailEnabled) {
+            this.pearl.updateTrail(handle, hints);
         }
+    }
+
+    
+    ensureMandatoryHints(hints) {
+        // Subclasses MAY override this.
+        // Base version intentionally does nothing.
     }
 
     // ------------------------------------------------------------
     // Geometry lifecycle (subclasses override)
     // ------------------------------------------------------------
-    ensureGeometry(handle, mergedHints) {
+    ensureGeometry(handle, hints) {
         // Subclasses MUST override this.
         // Base version intentionally does nothing.
         throw new Error(`${this.constructor.name}.ensureGeometry() must be overridden`);
@@ -101,8 +115,29 @@ class RendererBase {
     }
 
     getDefaultHints() {
-        throw new Error(`${this.constructor.name}.getDefaultHints() must be overridden`);
+        return {
+            semantic: {
+                visible: true
+            },
+            geometry: {},
+            transform: {
+                position: [0, 0, 0],
+                rotation: [0, 0, 0],
+                scale: [1, 1, 1]
+            },
+            renderer: {
+                color: 0xffffff,
+                opacity: 1
+            },
+            camera: {
+                position: { x: 0, y: 0, z: 5 },
+                up:       { x: 0, y: 1, z: 0 },
+                lookAt:   { x: 0, y: 0, z: 0 },
+                zoom:     1
+            }
+        };
     }
+
 
 }
 

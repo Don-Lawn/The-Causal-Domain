@@ -1,13 +1,13 @@
    // ------------------------------------------------------------
-    // Trails (unchanged)
+    // Trails 
     // ------------------------------------------------------------
 
     import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
     import { PVHandle } from "../pv-handle.js";
 
-    export function updateTrail(handle, semanticObject) {
+    export function updateTrail(handle, hints) {
         const ghost = handle.impl.clone(true);
-        const preserveSourceOpacity = semanticObject?.trailUseSourceOpacity === true;
+        const preserveSourceOpacity = hints.semantic?.trailUseSourceOpacity === true;
 
         ghost.traverse(node => {
             if (node.material) {
@@ -23,7 +23,7 @@
         this.scene.add(ghost);
         handle.trail.push(ghost);
 
-        if (semanticObject.trailFadeEnabled === false) {
+        if (hints.semantic?.trailFadeEnabled === false) {
             return;
         }
 
@@ -34,7 +34,7 @@
 
             g.traverse(node => {
                 if (node.material) {
-                    node.material.opacity -= semanticObject.fadeRate;
+                    node.material.opacity -= hints.semantic?.fadeRate ?? 0.01;
                 }
             });
 
@@ -47,12 +47,12 @@
     }
 
 
-    export function    resetTrailCycleState(handle, semanticObject) {
-        if (!handle || !semanticObject) {
+    export function resetTrailCycleState(handle, hints) {
+        if (!handle || !hints) {
             return;
         }
 
-        const cycle = semanticObject.trailCycle ?? 0;
+        const cycle = hints.semantic.trailCycle ?? 0;
 
         if (handle.loopCycle !== cycle) {
             if (Array.isArray(handle.trail)) {
@@ -64,7 +64,7 @@
             handle.loopCycle = cycle;
         }
 
-        const id = semanticObject.id;
+        const id = hints.semantic.id;
         this.simpleTrailCycles = this.simpleTrailCycles || new Map();
 
         if (this.simpleTrailCycles.get(id) !== cycle) {
@@ -83,12 +83,13 @@
         }
     }
 
-    export function updateSimpleTrail(semanticObject, point, options = {}) {
-        if (!semanticObject || !this.scene) {
+    export function updateSimpleTrail(hints, point, options = {}) {
+        if (!this.scene) {
             return;
         }
 
-        const id = semanticObject.id;
+        const id = hints.semantic.id;
+
         if (!this.simpleTrails) {
             this.simpleTrails = new Map();
         }
@@ -96,8 +97,10 @@
         const history = this.simpleTrails.get(id) || [];
         history.push(point);
 
-        while (history.length > 64) {
-        const maxPoints = Number.isFinite(options.maxPoints) ? Math.max(1, Math.floor(options.maxPoints)) : 64;
+        const maxPoints = Number.isFinite(options.maxPoints)
+            ? Math.max(1, Math.floor(options.maxPoints))
+            : 64;
+
         while (history.length > maxPoints) {
             history.shift();
         }
@@ -117,12 +120,14 @@
             trail = new THREE.Line(geometry, material);
             trail.renderOrder = 900;
             this.content.add(trail);
+
             this.simpleTrailObjects = this.simpleTrailObjects || new Map();
             this.simpleTrailObjects.set(id, trail);
         }
 
         const includeOrigin = options.includeOrigin ?? true;
         const points = includeOrigin ? [{ x: 0, y: 0, z: 0 }, ...history] : history;
+
         const positions = new Float32Array(points.length * 3);
         points.forEach((p, index) => {
             positions[index * 3 + 0] = p.x;
@@ -135,4 +140,4 @@
         trail.geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
         trail.visible = points.length > 1;
     }
-}
+

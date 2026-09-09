@@ -99,5 +99,25 @@ export class HintHelper {
         return obj && typeof obj === "object" && !Array.isArray(obj);
     }
 
+    static requireHints(hints, requiredPaths, context = "") {
+        if (!hints) {
+            throw new Error(`Missing hints object${context ? " in " + context : ""}`);
+        }
+
+        for (const path of requiredPaths) {
+            const parts = path.split(".");
+            let obj = hints;
+
+            for (const part of parts) {
+                if (obj && part in obj) {
+                    obj = obj[part];
+                } else {
+                    throw new Error(
+                        `Missing hint field '${path}'${context ? " in " + context : ""}`
+                    );
+                }
+            }
+        }
+    }
 
 }

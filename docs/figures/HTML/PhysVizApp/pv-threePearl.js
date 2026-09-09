@@ -32,9 +32,12 @@ export class ThreePearl {
         // bind scattered functions to this instance makeTrianglePrism
         this.createPhaseWedgeMesh = MeshFactory.createPhaseWedgeMesh.bind(this);
         this.makeTriangularPrism = PearlPrimitives.makeTriangularPrism.bind(this);
+        this.makeCylinder = PearlPrimitives.makeCylinder.bind(this);
+        this.makeCone = PearlPrimitives.makeCone.bind(this);
+        this.makeSphere = PearlPrimitives.makeSphere.bind(this);
+        this.makeBox = PearlPrimitives.makeBox.bind(this);
         this.updateTrail = PearlTrails.updateTrail.bind(this);
         this.updateSimpleTrail = PearlTrails.updateSimpleTrail.bind(this);
-        this.resetTrailCycleState = PearlTrails.resetTrailCycleState.bind(this);
 
         this.applyCamera = PearlCamera.applyCamera.bind(this);
         this._createAxisOverlay = PearlOverlay.createAxisOverlay.bind(this);
@@ -140,5 +143,9 @@ export class ThreePearl {
             this.renderer.render(this.scene, this.camera); } catch (err) {
             console.error("Renderer error: in ThreePearl.render", err);
         }
+    }
+    attachGeometry(handle) {
+        const mesh = handle.impl;
+        this.scene.add(mesh);
     }
 }

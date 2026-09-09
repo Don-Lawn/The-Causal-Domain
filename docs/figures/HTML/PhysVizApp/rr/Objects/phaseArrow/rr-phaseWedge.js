@@ -36,46 +36,40 @@ export class PhaseWedge extends PhaseIndicator {
         this.theta += this.omega * dt;
     }
 
- 
-
-    _getSemanticHints() {
-        return Object.freeze({
+    getHints() {
+        return {
             id: this.id,
             type: this.type,
 
-            // semantic visibility
-            visible: this.visible,
+            semantic: {
+                visible: this.visible,
+                color: this.color,
+                opacity: this.opacity,
 
-            // semantic appearance
-            color: this.color,
-            opacity: this.opacity,
+                trailEnabled: this.trailEnabled,
+                trailFadeEnabled: this.trailFadeEnabled,
+                fadeRate: this.fadeRate,
+                trailUseSourceOpacity: this.trailUseSourceOpacity,
+                trailCycle: this.trailCycle,
+                trailFrames: this.trailFrames,
 
-            // semantic pulse/trail behaviour
-            trailEnabled: this.trailEnabled,
-            trailFadeEnabled: this.trailFadeEnabled,
-            fadeRate: this.fadeRate,
-            trailUseSourceOpacity: this.trailUseSourceOpacity,
-            pulseEnabled: this.pulseEnabled,
-            pulseCyclesPerRevolution: this.pulseCyclesPerRevolution,
-            pulsePhaseOffset: this.pulsePhaseOffset,
-            pulseMinOpacity: this.pulseMinOpacity,
-            pulseMaxOpacity: this.pulseMaxOpacity,
-            trailCycle: this.trailCycle,
+                phase: this.phase,
+                phaseOffset: this.phaseOffset,
 
-            // semantic positioning
-            centerX: this.centerX,
-            centerY: this.centerY,
-            qLevel: this.qLevel,
-            circleRadius: this.circleRadius,
+                domainName: this.domainName
+            },
 
-            // semantic phase
-            phase: this.phase,
-            phaseOffset: this.phaseOffset,
-
-            // semantic domain behaviour
-            omega: this.omega
-        });
+            geometric: {},
+            render: {
+                width: 1.0,
+                height: 0.2,
+                depth: 0.1,
+                triangleType: "rightTriangle",
+                rightAngleCorner:"A"
+            },
+        };
     }
+
 
 
 }

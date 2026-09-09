@@ -47,7 +47,7 @@
 
 
     export function applyCamera(hints) {
-        if (!hints?.active) return;
+        if (!hints.semantic?.active) return;
 
         const positionDelta = hints.positionDelta || { x: 0, y: 0, z: 0 };
         const targetZDelta  = hints.targetZDelta ?? 0;

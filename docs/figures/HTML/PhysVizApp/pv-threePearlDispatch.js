@@ -3,23 +3,17 @@ import { ThreePearl } from "./pv-threePearl.js";
 import { HintHelper } from "./pv-HintHelper.js";
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
 
-
 export class ThreePearlDispatch extends ThreePearl {
 
     constructor(canvas, domain, callerHints = {}) {
-        // IMPORTANT: Do not merge hints before calling super().
-        // Pearl must initialise its engine state (camera, scene, renderer,
-        // axis overlay, trails) using the raw callerHints. Dispatch then
-        // reads Pearl’s initialised values to build defaultHints and merges
-        // callerHints afterward. Merging before super() would give Pearl
-        // incorrect or premature values and break the hint pipeline.
 
-        super(canvas, domain, callerHints);
+        // Pearl must initialise its engine state first.
+        super(canvas, domain);
 
         // ------------------------------------------------------------
-        // Build default hints from engine state
+        // Build default engine-derived hints (camera, axis overlay)
         // ------------------------------------------------------------
-        const defaultHints = {
+        this.defaultEngineHints = {
             render: {
                 orthoHalfHeight: this.orthoHalfHeight,
                 camera: {
@@ -46,24 +40,14 @@ export class ThreePearlDispatch extends ThreePearl {
         };
 
         // ------------------------------------------------------------
-        // Merge caller hints over defaults
-        // ------------------------------------------------------------
-        this.hints = HintHelper.mergeHints(defaultHints, callerHints);
-
-        // ------------------------------------------------------------
         // Build dispatch table (auto‑wrap setX(handle,hints) methods)
         // ------------------------------------------------------------
         this.hintDispatch = HintHelper.buildHintDispatch(this);
-
-        // ------------------------------------------------------------
-        // Defer initialization until start()
-        // ------------------------------------------------------------
-        this._initialHintsPending = true;
     }
 
 
     // ------------------------------------------------------------
-    // Camera Factory
+    // Camera Factory (used only when renderer explicitly requests)
     // ------------------------------------------------------------
     _createCameraFromHints(camHints) {
         const type = (camHints.type || "orthographic").toLowerCase();
@@ -73,7 +57,6 @@ export class ThreePearlDispatch extends ThreePearl {
             const aspect = camHints.aspect ?? 1.0;
             const near   = camHints.near   ?? 0.1;
             const far    = camHints.far    ?? 1000;
-
             return new THREE.PerspectiveCamera(fov, aspect, near, far);
         }
 
@@ -94,23 +77,24 @@ export class ThreePearlDispatch extends ThreePearl {
     // Hint‑driven camera setters
     // ------------------------------------------------------------
     setCameraPosition(handle, hints) {
-        const p = hints.position;
+        const p = hints.render.camera.position;
         if (p) this.camera.position.set(p.x, p.y, p.z);
     }
 
     setCameraUp(handle, hints) {
-        const u = hints.up;
+        const u = hints.render.camera.up;
         if (u) this.camera.up.set(u.x, u.y, u.z);
     }
 
     setCameraLookAt(handle, hints) {
-        const t = hints.lookAt;
+        const t = hints.render.camera.lookAt;
         if (t) this.camera.lookAt(t.x, t.y, t.z);
     }
 
     setCameraZoom(handle, hints) {
-        if (typeof hints.zoom === "number") {
-            this.camera.zoom = hints.zoom;
+        const z = hints.render.camera.zoom;
+        if (typeof z === "number") {
+            this.camera.zoom = z;
             this.camera.updateProjectionMatrix();
         }
     }
@@ -122,72 +106,30 @@ export class ThreePearlDispatch extends ThreePearl {
     applyHints(handle, hints = {}) {
         if (!hints) return;
 
-        for (const [key, value] of Object.entries(hints)) {
-            const fn = this.hintDispatch[key];
-            if (fn) fn(handle, value);
-        }
+        const walk = (obj, prefix = "") => {
+            for (const [key, value] of Object.entries(obj)) {
+                const path = prefix ? `${prefix}.${key}` : key;
+
+                if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+                    walk(value, path);
+                } else {
+                    const fn = this.hintDispatch[path];
+                    if (fn) fn(handle, hints);
+                }
+            }
+        };
+
+        walk(hints);
     }
 
-    setScaleX(handle, hints) {
-        handle.impl.scale.x = hints.scale.x;
-    }
-
-    setScaleY(handle, hints) {
-        handle.impl.scale.y = hints.scale.y;
-    }
-
-    setScaleZ(handle, hints) {
-        handle.impl.scale.z = hints.scale.z;
-    }
 
     // ------------------------------------------------------------
-    // Semantic scale setters (high‑level)
+    // START lifecycle — RR‑final: do NOT apply hints here
     // ------------------------------------------------------------
-    setScaleXFromPhase(handle, hints) {
-        const scale = Math.sin(hints.localXrotation);
-        this.setScaleX(handle, { scale: { x: scale } });
-    }
-
-    setScaleYFromPhase(handle, hints) {
-        const scale = Math.sin(hints.localYrotation);
-        this.setScaleY(handle, { scale: { y: scale } });
-    }
-
-    setScaleZFromPhase(handle, hints) {
-        const scale = Math.sin(hints.localZrotation);
-        this.setScaleZ(handle, { scale: { z: scale } });
-    }
-    // ------------------------------------------------------------
-    // START lifecycle — apply initial hints
-    // ------------------------------------------------------------
-    start(extraHints = null) {
-
-        // Merge any additional hints provided at start time
-        if (extraHints) {
-            this.hints = HintHelper.mergeHints(this.hints, extraHints);
-        }
-
-        // Only apply once
-        if (!this._initialHintsPending) return;
-
-        // Rebuild camera from hints
-        this.camera = this._createCameraFromHints(this.hints.camera || {});
-
-        // Apply camera transforms via hint‑dispatch
-        this.applyHints(null, {
-            cameraPosition: { position: this.hints.camera.position },
-            cameraUp:       { up: this.hints.camera.up },
-            cameraLookAt:   { lookAt: this.hints.camera.lookAt },
-            cameraZoom:     { zoom: this.hints.camera.zoom }
-        });
-
-        // Apply axis overlay hints
-        this.axisOverlayLength = this.hints.axisOverlay.length;
-        this.axisOverlayMargin = this.hints.axisOverlay.margin;
-
-        // Update frustum after camera changes
-        this._updateOrthographicFrustum();
-
+    start() {
+        // Pearl is already fully initialised by super().
+        // Camera, axis overlay, and all transforms will be set
+        // ONLY when the renderer calls applyHints().
         this._initialHintsPending = false;
     }
 }

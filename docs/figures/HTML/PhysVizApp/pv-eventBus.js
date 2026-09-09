@@ -60,7 +60,7 @@ class EventBus {
     // -----------------------------------------------------------------------
     // Emit an event on a bus (downward propagation)
     // -----------------------------------------------------------------------
-    emit(eventName, payload, busName, senderName, hints = null) {
+    emit(eventName, payload, busName, senderName) {
         const bus = this.buses.get(busName);
         if (!bus) throw new Error(`EventBus: Bus '${busName}' does not exist`);
 
@@ -69,8 +69,7 @@ class EventBus {
             eventName,
             payload,
             bus: busName,
-            sender: senderName,
-            hints
+            sender: senderName
         };
 
         // Notify monitors

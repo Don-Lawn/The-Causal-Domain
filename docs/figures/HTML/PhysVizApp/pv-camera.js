@@ -49,13 +49,13 @@ export class PVCamera extends SemanticObject {
         });
     }
 
-
     /** Domain calls this after each loop reset to trigger pearl.resetCamera(). */
     consumeResetRequest() {
         const r = this._resetRequested;
         this._resetRequested = false;
         return r;
     }
+
 
     getSemanticHints() {
         const active =
@@ -74,33 +74,9 @@ export class PVCamera extends SemanticObject {
         });
     }
 
-    update(dtMs) {
-        const dt = (dtMs || 0) / 1000;
+    
 
-        const previousTilt = this._previousTilt;
-        let currentTilt    = previousTilt;
 
-        if (this._liftState === "LIFTING") {
-            this._liftElapsed += dt;
-            const ratio = Math.min(1, this._liftElapsed / this.liftDuration);
-            currentTilt = ratio * this.liftTarget;
-            if (ratio >= 1) {
-                this._liftState = "SETTLED";
-            }
-        }
 
-        const prevOffset = this._tiltToOffset(previousTilt);
-        const currOffset = this._tiltToOffset(currentTilt);
 
-        this._positionDelta = {
-            x: currOffset.x - prevOffset.x,
-            y: currOffset.y - prevOffset.y,
-            z: currOffset.z - prevOffset.z,
-        };
-
-        const currentFollowZ    = this.followObject?.z ?? 0;
-        this._targetZDelta      = (currentFollowZ - this._previousFollowZ) * this.zFollowFactor;
-        this._previousFollowZ   = currentFollowZ;
-        this._previousTilt      = currentTilt;
-    }
 }
