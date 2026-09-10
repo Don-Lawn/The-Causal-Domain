@@ -39,6 +39,10 @@ export class ThreePearlDispatch extends ThreePearl {
             }
         };
 
+        // ------------------------------------------------------------
+        // Build dispatch table (auto‑wrap setX(handle,hints) methods)
+        // ------------------------------------------------------------
+        this.hintDispatch = HintHelper.buildHintDispatch(this);
     }
 
 

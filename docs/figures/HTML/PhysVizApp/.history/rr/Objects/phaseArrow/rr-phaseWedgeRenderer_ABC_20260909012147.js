@@ -8,45 +8,29 @@ class PhaseWedgeRenderer_ABC extends RendererBase {
     }
 
 
+// Default hint envelope
 getDefaultHints() {
-    const base = super.getDefaultHints();   // assume this is already flat
+    const base = super.getDefaultHints();
 
     const local = {
-
-        // semantic defaults
-        "semantic.color": 0x00ff00,
-        "semantic.visible": true,
-
-        // transform defaults (new section)
-        "transform.position.x": 0,
-        "transform.position.y": 0,
-        "transform.position.z": 0,
-
-        "transform.rotation.x": 0,
-        "transform.rotation.y": 0,
-        "transform.rotation.z": 0,
-
-        "transform.scale.x": 1,
-        "transform.scale.y": 1,
-        "transform.scale.z": 1,
-
-        // geometry defaults
-        "geometry.width": 1,
-        "geometry.height": 0.5,
-        "geometry.depth": 0.02,
-        "geometry.triangleType": "right",
-        "geometry.rightAngleCorner": "B",
-
-        // renderer defaults
-        "renderer.color": 0x00ff00,
-        "renderer.opacity": 1,
-        "renderer.visible": true
+        semantic: {
+            color: 0x00ff00,
+            visible: true
+        },
+        geometric: {},
+        render: {
+            width: 1,
+            height: 0,
+            depth: 0.02,
+            triangleType: "right",
+            rightAngleCorner: "A",
+            rotation: { x: 0, y: 0, z: 0 },
+            scale: { x: 1, y: 1, z: 1 }
+        }
     };
 
-    // flat merge: overrides replace defaults
-    return HintHelper.mergeFlatHints(base, local);
+    return HintHelper.deepMerge(base, local);
 }
-
 
 
     // Modify hints in-place
@@ -54,12 +38,12 @@ getDefaultHints() {
         const theta = this.computeTheta(hints);
         const rotationZ = theta + hints.semantic.phaseOffset;
 
-        hints["geometric.theta"] = theta;
-        hints["geometric.rotation.z"] = rotationZ;
+        hints.geometric.theta = theta;
+        hints.geometric.rotationZ = rotationZ;
     }
 
     computeTheta(hints) {
-        return hints["semantic.phase"] + hints["semantic.phaseOffset"];
+        return hints.semantic.phase + hints.semantic.phaseOffset;
     }
 
     

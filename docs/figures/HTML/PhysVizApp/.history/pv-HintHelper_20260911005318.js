@@ -11,21 +11,20 @@ export class HintHelper {
         return value;
     }
 
-static requireHints(hints, keys) {
-    // keys may be a single string or an array of strings
-    if (typeof keys === "string") {
-        return hints.hasOwnProperty(keys);
-    }
-
-    // array: return true only if ALL keys are present
-    for (const key of keys) {
-        if (!hints.hasOwnProperty(key)) {
-            return false;
+    static requireHints(hints, requiredPaths, context = "") {
+        if (!hints || typeof hints !== "object") {
+            throw new Error(`Missing hints object${context ? " in " + context : ""}`);
         }
+
+        for (const path of requiredPaths) {
+            if (!Object.prototype.hasOwnProperty.call(hints, path)) {
+                throw new Error(`Missing hint field '${path}'${context ? " in " + context : ""}`);
+            }
+        }
+
+        return true;
     }
 
-    return true;
-}
 
     static mergeFlatHints(base = {}, local = {}) {
         const merged = { ...base };

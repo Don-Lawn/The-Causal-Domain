@@ -39,6 +39,10 @@ export class ThreePearlDispatch extends ThreePearl {
             }
         };
 
+        // ------------------------------------------------------------
+        // Build dispatch table (auto‑wrap setX(handle,hints) methods)
+        // ------------------------------------------------------------
+        this.hintDispatch = HintHelper.buildHintDispatch(this);
     }
 
 
@@ -103,6 +107,12 @@ export class ThreePearlDispatch extends ThreePearl {
                 case "geometry.width": /* update geometry */ break;
                 case "geometry.height": /* update geometry */ break;
                 case "geometry.radius": /* update geometry */ break;
+
+                // CAMERA
+                case "camera.position": this.camera.position.copy(value); break;
+                case "camera.up": this.camera.up.copy(value); break;
+                case "camera.lookAt": this.camera.lookAt(value); break;
+                case "camera.zoom": this.camera.zoom = value; break;
 
                 default:
                     // ignore unknown hints

@@ -54,12 +54,12 @@ getDefaultHints() {
         const theta = this.computeTheta(hints);
         const rotationZ = theta + hints.semantic.phaseOffset;
 
-        hints["geometric.theta"] = theta;
-        hints["geometric.rotation.z"] = rotationZ;
+        hints.geometric.theta = theta;
+        hints.geometric.rotationZ = rotationZ;
     }
 
     computeTheta(hints) {
-        return hints["semantic.phase"] + hints["semantic.phaseOffset"];
+        return hints.semantic.phase + hints.semantic.phaseOffset;
     }
 
     

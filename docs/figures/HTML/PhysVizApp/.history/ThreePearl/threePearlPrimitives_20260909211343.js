@@ -55,7 +55,7 @@ export function makeCylinder(params) {
             }
         } = hints;
 
-        // build geometry using hints
+    // build geometry using hints
 
     
         // ------------------------------------------------------------

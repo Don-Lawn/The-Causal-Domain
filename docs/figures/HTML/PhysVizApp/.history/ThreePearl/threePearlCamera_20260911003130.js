@@ -46,7 +46,7 @@
 
 
 
-    export function applyCamera(hints) {
+    applyCamera(hints) {
         if (HintHelper.consume(hints, "semantic.active") !== true) return;
 
         const dx = HintHelper.consume(hints, "camera.positionDelta.x", 0);

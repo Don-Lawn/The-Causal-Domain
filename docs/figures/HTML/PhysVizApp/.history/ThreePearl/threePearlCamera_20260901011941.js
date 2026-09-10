@@ -47,17 +47,14 @@
 
 
     export function applyCamera(hints) {
-        if (HintHelper.consume(hints, "semantic.active") !== true) return;
+        if (!hints.semantic?.active) return;
 
-        const dx = HintHelper.consume(hints, "camera.positionDelta.x", 0);
-        const dy = HintHelper.consume(hints, "camera.positionDelta.y", 0);
-        const dz = HintHelper.consume(hints, "camera.positionDelta.z", 0);
-        const tz = HintHelper.consume(hints, "camera.targetZDelta", 0);
+        const positionDelta = hints.positionDelta || { x: 0, y: 0, z: 0 };
+        const targetZDelta  = hints.targetZDelta ?? 0;
 
-        this.camera.position.x += dx;
-        this.camera.position.y += dy;
-        this.camera.position.z += this._toThreeZ(dz + tz);
+        this.camera.position.x += positionDelta.x;
+        this.camera.position.y += positionDelta.y;
+        this.camera.position.z += this._toThreeZ(positionDelta.z + targetZDelta);
 
-        this.controls.target.z += this._toThreeZ(tz);
+        this.controls.target.z += this._toThreeZ(targetZDelta);
     }
-

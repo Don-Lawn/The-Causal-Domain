@@ -11,7 +11,6 @@ export class DebugPhaseWedge extends PhaseWedge {
         this.phase  = opts.phase  ?? Math.PI / 4;
         this.radius = opts.radius ?? 1;
         this.height = opts.height ?? 0.5;
-        this.depth  = opts.depth  ?? 0.02;
 
         // Optional semantic fields
         this.opacity = opts.opacity ?? 1;
@@ -38,8 +37,7 @@ export class DebugPhaseWedge extends PhaseWedge {
             },
             geometry: {
                 radius: this.radius,
-                height: this.height,
-                depth: this.depth
+                height: this.height
             },
             transform: {
                 position: this.position ?? [0,0,0],

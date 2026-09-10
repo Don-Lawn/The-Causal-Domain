@@ -11,21 +11,6 @@ export class HintHelper {
         return value;
     }
 
-static requireHints(hints, keys) {
-    // keys may be a single string or an array of strings
-    if (typeof keys === "string") {
-        return hints.hasOwnProperty(keys);
-    }
-
-    // array: return true only if ALL keys are present
-    for (const key of keys) {
-        if (!hints.hasOwnProperty(key)) {
-            return false;
-        }
-    }
-
-    return true;
-}
 
     static mergeFlatHints(base = {}, local = {}) {
         const merged = { ...base };

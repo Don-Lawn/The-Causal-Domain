@@ -116,48 +116,27 @@ class RendererBase {
 
     getDefaultHints() {
         return {
-
-            // semantic defaults
-            "semantic.visible": true,
-
-            // transform defaults
-            "transform.position.x": 0,
-            "transform.position.y": 0,
-            "transform.position.z": 0,
-
-            "transform.rotation.x": 0,
-            "transform.rotation.y": 0,
-            "transform.rotation.z": 0,
-
-            "transform.scale.x": 1,
-            "transform.scale.y": 1,
-            "transform.scale.z": 1,
-
-            // geometry defaults (empty for base renderer)
-            // geometry.* keys will be added by child renderers
-            // e.g. PhaseWedgeRenderer, AxisRenderer, etc.
-
-            // renderer defaults
-            "renderer.color": 0xffffff,
-            "renderer.opacity": 1,
-
-            // camera defaults
-            "camera.position.x": 0,
-            "camera.position.y": 0,
-            "camera.position.z": 5,
-
-            "camera.up.x": 0,
-            "camera.up.y": 1,
-            "camera.up.z": 0,
-
-            "camera.lookAt.x": 0,
-            "camera.lookAt.y": 0,
-            "camera.lookAt.z": 0,
-
-            "camera.zoom": 1
+            semantic: {
+                visible: true
+            },
+            geometry: {},
+            transform: {
+                position: [0, 0, 0],
+                rotation: [0, 0, 0],
+                scale: [1, 1, 1]
+            },
+            renderer: {
+                color: 0xffffff,
+                opacity: 1
+            },
+            camera: {
+                position: { x: 0, y: 0, z: 5 },
+                up:       { x: 0, y: 1, z: 0 },
+                lookAt:   { x: 0, y: 0, z: 0 },
+                zoom:     1
+            }
         };
     }
-
 
 
 }

@@ -17,16 +17,22 @@ export class PVCameraRenderer extends RendererBase {
     }
 
     animate(semanticObject, hints) {
+        const semantic = hints.semantic;
+
         // Camera only moves when active
-        if (hints["semantic.active"] !== true) {
+        if (!semantic?.active) {
             return;
         }
 
         // Apply camera transforms using semantic hints only
-        this.pearl.applyCamera(hints);
+        this.pearl.applyCamera(semantic);
     }
- 
     getDefaultHints() {
-        return { };
+        return {
+            semantic: {},
+            geometric: {},
+            render: {}
+        };
     }
+
 }

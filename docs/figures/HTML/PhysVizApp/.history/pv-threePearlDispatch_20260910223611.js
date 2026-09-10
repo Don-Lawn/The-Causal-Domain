@@ -39,6 +39,10 @@ export class ThreePearlDispatch extends ThreePearl {
             }
         };
 
+        // ------------------------------------------------------------
+        // Build dispatch table (auto‑wrap setX(handle,hints) methods)
+        // ------------------------------------------------------------
+        this.hintDispatch = HintHelper.buildHintDispatch(this);
     }
 
 
@@ -69,48 +73,55 @@ export class ThreePearlDispatch extends ThreePearl {
     }
 
 
+    // ------------------------------------------------------------
+    // Hint‑driven camera setters
+    // ------------------------------------------------------------
+    setCameraPosition(handle, hints) {
+        const p = hints.render.camera.position;
+        if (p) this.camera.position.set(p.x, p.y, p.z);
+    }
+
+    setCameraUp(handle, hints) {
+        const u = hints.render.camera.up;
+        if (u) this.camera.up.set(u.x, u.y, u.z);
+    }
+
+    setCameraLookAt(handle, hints) {
+        const t = hints.render.camera.lookAt;
+        if (t) this.camera.lookAt(t.x, t.y, t.z);
+    }
+
+    setCameraZoom(handle, hints) {
+        const z = hints.render.camera.zoom;
+        if (typeof z === "number") {
+            this.camera.zoom = z;
+            this.camera.updateProjectionMatrix();
+        }
+    }
 
 
     // ------------------------------------------------------------
     // Unified hint application entry point
     // ------------------------------------------------------------
-    applyHints(handle, flatHints) {
-        for (const [key, value] of Object.entries(flatHints)) {
-            switch (key) {
+    applyHints(handle, hints = {}) {
+        if (!hints) return;
 
-                // TRANSFORM
-                case "transform.position.x": handle.impl.position.x = value; break;
-                case "transform.position.y": handle.impl.position.y = value; break;
-                case "transform.position.z": handle.impl.position.z = value; break;
+        const walk = (obj, prefix = "") => {
+            for (const [key, value] of Object.entries(obj)) {
+                const path = prefix ? `${prefix}.${key}` : key;
 
-                case "transform.rotation.x": handle.impl.rotation.x = value; break;
-                case "transform.rotation.y": handle.impl.rotation.y = value; break;
-                case "transform.rotation.z": handle.impl.rotation.z = value; break;
-
-                case "transform.scale.x": handle.impl.scale.x = value; break;
-                case "transform.scale.y": handle.impl.scale.y = value; break;
-                case "transform.scale.z": handle.impl.scale.z = value; break;
-
-                // RENDERER
-                case "renderer.color": handle.impl.material.color.set(value); break;
-                case "renderer.opacity":
-                    handle.impl.material.opacity = value;
-                    handle.impl.material.transparent = value < 1;
-                    break;
-                case "renderer.visible": handle.impl.visible = value; break;
-
-                // GEOMETRY
-                case "geometry.width": /* update geometry */ break;
-                case "geometry.height": /* update geometry */ break;
-                case "geometry.radius": /* update geometry */ break;
-
-                default:
-                    // ignore unknown hints
-                    break;
+                if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+                    walk(value, path);
+                } else {
+                    const fn = this.hintDispatch[path];
+                    if (fn) 
+                        fn(handle, hints);
+                }
             }
-        }
-    }
+        };
 
+        walk(hints);
+    }
 
 
     // ------------------------------------------------------------
