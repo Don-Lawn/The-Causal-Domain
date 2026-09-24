@@ -1,0 +1,26 @@
+{
+    "semantic.visible": true,
+    "semantic.color": 16724715,
+    "semantic.opacity": 0.5,
+
+    "transform.position.x": 0,
+    "transform.position.y": 0,
+    "transform.position.z": 0,
+
+    "transform.rotation.x": 0,
+    "transform.rotation.y": 0,
+    "transform.rotation.z": 0,
+
+    "transform.scale.x": 1,
+    "transform.scale.y": 1,
+    "transform.scale.z": 1,
+
+    "geometry.width": 1.0,
+    "geometry.height": 0.2,
+    "geometry.depth": 0.1,
+    "geometry.triangleType": "rightTriangle",
+    "geometry.rightAngleCorner": "B",
+
+    "renderer.visible": true,
+    "renderer.opacity": 0.5
+}
