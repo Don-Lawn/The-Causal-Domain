@@ -12,7 +12,7 @@ import { PhaseWedgeRendererExtension_ABC } from "../../../rr/Objects/phaseWedge/
 
 debugger;
     
-export function createSimpleTest (){
+function createSimpleTest (){
     // Create MASTER first
     const master = MasterFSM();  
 
