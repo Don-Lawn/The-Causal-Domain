@@ -13,13 +13,13 @@ export function MasterFSM() {
     const master = new BaseObject("MASTERFSM");
 
     // MASTER has a bus but no parent
-    master.extend(new BusExtension("MASTERBUS", null));
+    master.extend(new BusExtension("MASTERFSM", null));
 
     // MASTER can have hints (optional but useful)
     master.extend(new HintExtension());
 
     // Attach the FSM to MASTER
-    master.extend(new FSMExtension(null,"MASTERBUS"));
+    master.extend(new FSMExtension(null,"MASTERFSM"));
 
     // Attach the Animation Extension to MASTER
     master.extend(new AnimatorExtension());

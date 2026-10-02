@@ -37,7 +37,7 @@ export function createSimpleTest (){
     abc.addObject(wedge);
 
     window.addEventListener("resize", () => {
-    EventBusInstance.emit("MASTER_RESIZE",{},"MASTERBUS","rr-phaseArrow1.js");
+    EventBusInstance.emit("MASTER_RESIZE",{},"MASTER","rr-phaseArrow1.js");
 
     
     master.emit("LOAD")
@@ -60,7 +60,7 @@ function handleMasterControlClick(event) {
 
     EventBusInstance.emit(eventName, 
         {payload: { source: "UI" }},
-        "MASTERBUS",
+        "MASTER",
         "UI"
     );
 }
@@ -132,11 +132,11 @@ document.querySelectorAll(".copyBtn").forEach(btn => {
 
         const shouldResumeAfterCopy = master?.fsm?.state === "ACTIVE";
 
-        EventBusInstance.emit("PAUSE", {}, "MASTERBUS", "UI");
+        EventBusInstance.emit("PAUSE", {}, "MASTER", "UI");
         requestAnimationFrame(async () => {
             await copyCanvasToClipboard(canvasId);
             if (shouldResumeAfterCopy) {
-                EventBusInstance.emit("RESUME", {}, "MASTERBUS", "UI");
+                EventBusInstance.emit("RESUME", {}, "MASTER", "UI");
             }
         });
     });

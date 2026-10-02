@@ -1,14 +1,14 @@
 // ---------------------------------------------------------------------------
-// pv-renderExtension.js
-// Provides render(dt) behaviour + RENDER event → host.render(dt)
+// pv-updateExtension.js
+// Provides update(dt) behaviour + TICK event → object.update(dt)
 // ---------------------------------------------------------------------------
 
 import { BaseExtension } from "./pv-baseExtension.js";
 import EventBusInstance from "./pv-eventBus.js";
 
-export class RenderExtension extends BaseExtension {
+export class UpdateExtension extends BaseExtension {
     constructor() {
-        super("render");
+        super("update");
     }
 
     onAttach(host) {
@@ -16,36 +16,33 @@ export class RenderExtension extends BaseExtension {
         // Safety: require bus
         if (!host.busName) {
             throw new Error(
-                `RenderExtension requires host '${host.busName}' to have a bus.`
+                `UpdateExtension requires object '${host.busName}' to have a bus.`
             );
         }
 
-        const busName = host.busName;
-
+        const bus = host.busName;
         // -------------------------------------------------------------------
-        // Glue: host.render(dt)
+        // Glue: object.update(dt)
         // -------------------------------------------------------------------
-        // If the host already has a render() method, we respect it.
+        // If the object already has an update() method, we respect it.
         // If not, we install a no-op default.
-        if (typeof host.render !== "function") {
-            host.render = function(dt) {
-                // Default no-op render
+        if (typeof host.update !== "function") {
+            host.update = function(dt) {
+                // Default no-op update
             };
         }
 
         // -------------------------------------------------------------------
-        // RENDER event → host.render(dt)
+        // UPDATE event → object.update(dt)
         // -------------------------------------------------------------------
-        EventBusInstance.on(busName, "RENDER", (payload, evt) => {
+        EventBusInstance.on(bus, "UPDATE", (payload, evt) => {
             const dt = payload?.dt ?? 0;
-            host.render(dt);
+            host.update(dt);
         });
     }
 
     onDetach(host) {
-        // We do NOT delete host.render because it may be user-defined.
+        // We do NOT delete host.update because it may be user-defined.
         // If you want stricter cleanup, you can wrap the method and remove only the wrapper.
-
-        // Nothing else to clean up — eventBusInstance.on() has no unsubscribe yet.
     }
 }

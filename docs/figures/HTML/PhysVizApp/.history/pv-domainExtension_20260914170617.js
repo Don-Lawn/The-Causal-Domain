@@ -14,7 +14,6 @@ export class DomainExtension extends BaseExtension {
         super("domain");
 
         this.domainName = domainName;
-        this.busName = domainName;      //same name for domain and its bus
         this.domainVersion = domainVersion;
         this.metadata = { ...metadata };
     }

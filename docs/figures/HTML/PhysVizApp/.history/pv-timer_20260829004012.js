@@ -10,7 +10,7 @@ export class PVTimer {
     }
 
     registerForTicks() {
-        EventBusInstance.on("MASTERBUS", "UPDATE", this._onTick);
+        EventBusInstance.on("MASTER", "TICK", this._onTick);
     }
 
     _onTick = (dt) => {

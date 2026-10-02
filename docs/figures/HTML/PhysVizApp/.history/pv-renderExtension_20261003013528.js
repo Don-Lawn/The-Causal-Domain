@@ -16,7 +16,7 @@ export class RenderExtension extends BaseExtension {
         // Safety: require bus
         if (!host.busName) {
             throw new Error(
-                `RenderExtension requires host '${host.busName}' to have a bus.`
+                `RenderExtension requires host '${host.id}' to have a bus.`
             );
         }
 

@@ -22,8 +22,8 @@ const shipBottom = new RR2DShip("ShipBottom");
 vqTop.addObject(shipTop);
 zqView.addObject(shipBottom);
 
-EventBusInstance.emit("LOAD", {}, "MASTERBUS", "rr-2Dship/main.js");
-EventBusInstance.emit("START", {}, "MASTERBUS", "rr-2Dship/main.js");
+EventBusInstance.emit("LOAD", {}, "MASTER", "rr-2Dship/main.js");
+EventBusInstance.emit("START", {}, "MASTER", "rr-2Dship/main.js");
 
 function handleMasterControlClick(event) {
     const btn = event.currentTarget;
@@ -32,7 +32,7 @@ function handleMasterControlClick(event) {
     EventBusInstance.emit(
         eventName,
         { payload: { source: "UI" } },
-        "MASTERBUS",
+        "MASTER",
         "UI"
     );
 }
@@ -85,16 +85,16 @@ document.querySelectorAll(".copyBtn").forEach((btn) => {
 
         const shouldResumeAfterCopy = master?.fsm?.state === "ACTIVE";
 
-        EventBusInstance.emit("PAUSE", {}, "MASTERBUS", "UI");
+        EventBusInstance.emit("PAUSE", {}, "MASTER", "UI");
         requestAnimationFrame(async () => {
             await copyCanvasToClipboard(canvasId);
             if (shouldResumeAfterCopy) {
-                EventBusInstance.emit("RESUME", {}, "MASTERBUS", "UI");
+                EventBusInstance.emit("RESUME", {}, "MASTER", "UI");
             }
         });
     });
 });
 
 window.addEventListener("resize", () => {
-    EventBusInstance.emit("MASTER_RESIZE", {}, "MASTERBUS", "rr-2Dship/main.js");
+    EventBusInstance.emit("MASTER_RESIZE", {}, "MASTER", "rr-2Dship/main.js");
 });

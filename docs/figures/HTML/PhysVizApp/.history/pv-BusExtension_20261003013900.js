@@ -29,7 +29,7 @@ export class BusExtension extends BaseExtension {
             // Extract passed-in hints (if any)
             const passedHints = payload.hints || {};
 
-            // Merge host hints with passed-in hints
+            // Merge object hints with passed-in hints
             const mergedHints = {
                 ...host.hints,
                 ...passedHints
@@ -48,7 +48,7 @@ export class BusExtension extends BaseExtension {
         };
 
         // -------------------------------------------------------------------
-        // Glue: allow host to subscribe to events
+        // Glue: allow object to subscribe to events
         // -------------------------------------------------------------------
         host.on = (eventName, handler) => {
             EventBusInstance.on(host.busName, eventName, handler);

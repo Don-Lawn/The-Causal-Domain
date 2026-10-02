@@ -35,7 +35,7 @@ class EventBus {
 
             // ⭐ Child receives ALL parent events via wildcard forwarding
             this.on(parentBusName, "*", (evt, deliveredBus) => {
-                this.forwardEventToChildBus(evt, deliveredBus, busName);
+                this.forward(evt, deliveredBus, busName);
             });
         }
     }

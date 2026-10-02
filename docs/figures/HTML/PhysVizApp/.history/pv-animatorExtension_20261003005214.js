@@ -41,37 +41,37 @@ export class AnimatorExtension extends BaseExtension
         }
 
         EventBusInstance.on(
-            host.busName,
+            host.bus,
             "LOAD",
             ( evt, busName) => this.onLoad(evt, busName)
         );
 
         EventBusInstance.on(
-            host.busName,
+            host.bus,
             "START",
             (evt, busName)  => this.onStart(evt, busName) 
         );
 
         EventBusInstance.on(
-            host.busName,
+            host.bus,
             "STOP",
             (evt, busName) => this.onStop(evt, busName)
         );
 
         EventBusInstance.on(
-            host.busName,
+            host.bus,
             "PAUSE",
             (evt, busName) => this.onPause(evt, busName)
         );
 
         EventBusInstance.on(
-            host.busName,
+            host.bus,
             "RESUME",
             (evt, busName) => this.onResume(evt, busName)
         );
 
         EventBusInstance.on(
-            host.busName,
+            host.bus,
             "STEP_FRAME",
             (evt, busName) => this.onStepFrame(evt, busName)
         );
@@ -206,14 +206,14 @@ export class AnimatorExtension extends BaseExtension
         EventBusInstance.emit(
             "UPDATE",
             framePayload,
-            this.host.busName,
+            this.host.bus,
             "animator"
         );
 
         EventBusInstance.emit(
             "RENDER",
             framePayload,
-            this.host.busName,
+            this.host.bus,
             "animator"
         );
     };

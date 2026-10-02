@@ -10,28 +10,27 @@ export class BusExtension extends BaseExtension {
     constructor(localBusName, parentBusName = null) {
         super("bus");
 
-        this.localbusName = localBusName;
+        this.busName = localBusName;
         this.parentBusName = parentBusName;
     }
 
-    onAttach(host) {
+    onAttach(object) {
 
-        host.busName = this.localbusName;
 
         // Create the bus hierarchy
-        EventBusInstance.createBus(host.busName, this.parentBusName);
+        EventBusInstance.createBus(this.busName, this.parentBusName);
 
         // -------------------------------------------------------------------
         // Glue: emit() with merged-hint propagation
         // -------------------------------------------------------------------
-        host.emit = (eventName, payload = {}) => {
+        object.emit = (eventName, payload = {}) => {
 
             // Extract passed-in hints (if any)
             const passedHints = payload.hints || {};
 
-            // Merge host hints with passed-in hints
+            // Merge object hints with passed-in hints
             const mergedHints = {
-                ...host.hints,
+                ...object.hints,
                 ...passedHints
             };
 
@@ -42,28 +41,28 @@ export class BusExtension extends BaseExtension {
                     ...payload,
                     hints: mergedHints
                 },
-                host.busName,
-                host.busName
+                this.busName,
+                this.busName
             );
         };
 
         // -------------------------------------------------------------------
-        // Glue: allow host to subscribe to events
+        // Glue: allow object to subscribe to events
         // -------------------------------------------------------------------
-        host.on = (eventName, handler) => {
-            EventBusInstance.on(host.busName, eventName, handler);
+        object.on = (eventName, handler) => {
+            EventBusInstance.on(this.busName, eventName, handler);
         };
 
         // Glue: subscribe to all events
-        host.onAny = (handler) => {
-            EventBusInstance.on(host.busName, "*", handler);
+        object.onAny = (handler) => {
+            EventBusInstance.on(this.busName, "*", handler);
         };
     }
 
-    onDetach(host) {
-        delete host.busName;
-        delete host.emit;
-        delete host.on;
-        delete host.onAny;
+    onDetach(object) {
+        delete object.busName;
+        delete object.emit;
+        delete object.on;
+        delete object.onAny;
     }
 }

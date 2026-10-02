@@ -21,6 +21,9 @@ export function createSimpleTest (){
     const monitor = new PVLogMonitor("eventLogPanel", 20);
     EventBusInstance.addMonitor(monitor);
 
+    //  short term test
+    master.emit("LOAD")
+    //master.emit("START");
 
     // Register ABC renderer
     const abc = new DomainObject("ABC", "abcPanel", "abcCanvas");
@@ -37,11 +40,7 @@ export function createSimpleTest (){
     abc.addObject(wedge);
 
     window.addEventListener("resize", () => {
-    EventBusInstance.emit("MASTER_RESIZE",{},"MASTERBUS","rr-phaseArrow1.js");
-
-    
-    master.emit("LOAD")
-    //master.emit("START");
+    EventBusInstance.emit("MASTER_RESIZE",{},"MASTER","rr-phaseArrow1.js");
 }); 
 }
 
@@ -60,7 +59,7 @@ function handleMasterControlClick(event) {
 
     EventBusInstance.emit(eventName, 
         {payload: { source: "UI" }},
-        "MASTERBUS",
+        "MASTER",
         "UI"
     );
 }
@@ -132,11 +131,11 @@ document.querySelectorAll(".copyBtn").forEach(btn => {
 
         const shouldResumeAfterCopy = master?.fsm?.state === "ACTIVE";
 
-        EventBusInstance.emit("PAUSE", {}, "MASTERBUS", "UI");
+        EventBusInstance.emit("PAUSE", {}, "MASTER", "UI");
         requestAnimationFrame(async () => {
             await copyCanvasToClipboard(canvasId);
             if (shouldResumeAfterCopy) {
-                EventBusInstance.emit("RESUME", {}, "MASTERBUS", "UI");
+                EventBusInstance.emit("RESUME", {}, "MASTER", "UI");
             }
         });
     });

@@ -162,7 +162,7 @@ export class PVFSM {
             return;
         }
 
-        const busName = this.logicalBus || "MASTERBUS";
+        const busName = this.logicalBus || "MASTER";
 
         const operatorMap = {
             ">=": (a, b) => a >= b,
@@ -177,7 +177,7 @@ export class PVFSM {
                 continue;
             }
 
-            const currentValue = evt?.payload?.[trigger.field];
+            const currentValue = payload?.[trigger.field];
             if (typeof currentValue !== "number") {
                 continue;
             }
@@ -232,7 +232,7 @@ export class PVFSM {
         this.state = newState;
         this.triggered = new Set();
 
-        const busName = this.logicalBus || "MASTERBUS";
+        const busName = this.logicalBus || "MASTER";
 
         EventBusInstance.emit("FSM_STATE_CHANGE", {
             fsm: this.name,
