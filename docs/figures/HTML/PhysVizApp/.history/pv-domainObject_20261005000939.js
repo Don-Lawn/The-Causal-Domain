@@ -22,8 +22,8 @@ export class DomainObject extends BaseObject {
             // hints
         this.extend(new HintExtension());
 
-        const ext = new BusExtension(domainName);
         ext.createBus(domainName,"MASTERBUS");
+        const ext = new BusExtension(domainName);
         this.extend(ext);
 
         this.extend(new RenderExtension());

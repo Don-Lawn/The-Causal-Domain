@@ -13,9 +13,10 @@ export function MasterFSM() {
     const master = new BaseObject("MASTERFSM");
 
     // MASTER has a bus but no parent
-    const ext = new BusExtension("MASTERBUS");
-    ext.createBus("MASTERBUS", null);
+  
+    const ext = new BusExtension("MASTERBUS", null);
     master.extend(ext);
+    ext.createBus("MASTERBUS", null);
 
     // MASTER can have hints (optional but useful)
     master.extend(new HintExtension());

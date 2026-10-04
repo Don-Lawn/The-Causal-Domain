@@ -21,12 +21,12 @@ export class PhaseWedgeGeometryExtension extends BaseExtension {
         this.mesh = null;
     }
 
-    onAttach(host) {
+    onAttach(object) {
 
         // Require GeometryExtension
-        if (!host.object3D) {
+        if (!object.object3D) {
             throw new Error(
-                `PhaseWedgeGeometryExtension requires GeometryExtension on '${host.id}'.`
+                `PhaseWedgeGeometryExtension requires GeometryExtension on '${object.id}'.`
             );
         }
 
@@ -39,20 +39,20 @@ export class PhaseWedgeGeometryExtension extends BaseExtension {
         );
 
         const material = new THREE.MeshStandardMaterial({
-            color: host.hints["phaseWedge.color"] ?? 0xff0000,
+            color: object.hints["phaseWedge.color"] ?? 0xff0000,
             side: THREE.DoubleSide
         });
 
         this.mesh = new THREE.Mesh(geometry, material);
 
         // Add to Object3D provided by GeometryExtension
-        host.object3D.add(this.mesh);
+        object.object3D.add(this.mesh);
 
         // -------------------------------------------------------------------
         // Glue: update geometry based on hints
         // -------------------------------------------------------------------
-        host.updatePhaseWedgeGeometry = () => {
-            const hints = host.hints.phaseWedge;
+        object.updatePhaseWedgeGeometry = () => {
+            const hints = object.hints.phaseWedge;
 
             // Update color
             this.mesh.material.color.setHex(hints.color);
@@ -62,27 +62,27 @@ export class PhaseWedgeGeometryExtension extends BaseExtension {
             this.mesh.scale.set(r, r, 1);
 
             // Update rotation (angle → Z rotation)
-            host.object3D.rotation.z = hints.angle;
+            object.object3D.rotation.z = hints.angle;
         };
 
         // -------------------------------------------------------------------
         // Hook into update(dt)
         // -------------------------------------------------------------------
-        if (typeof host.update === "function") {
-            const originalUpdate = host.update;
+        if (typeof object.update === "function") {
+            const originalUpdate = object.update;
 
-            host.update = (dt) => {
+            object.update = (dt) => {
                 originalUpdate(dt);
-                host.updatePhaseWedgeGeometry();
+                object.updatePhaseWedgeGeometry();
             };
         }
     }
 
-    onDetach(host) {
-        delete host.updatePhaseWedgeGeometry;
+    onDetach(object) {
+        delete object.updatePhaseWedgeGeometry;
 
-        if (this.mesh && host.object3D) {
-            host.object3D.remove(this.mesh);
+        if (this.mesh && object.object3D) {
+            object.object3D.remove(this.mesh);
         }
 
         this.mesh = null;

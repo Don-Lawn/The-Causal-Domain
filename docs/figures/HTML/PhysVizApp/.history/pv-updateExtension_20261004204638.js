@@ -32,11 +32,11 @@ export class UpdateExtension extends BaseExtension {
         );
 }
 
-        // -------------------------------------------------------------------`
+        // -------------------------------------------------------------------
         // UPDATE event → object.update(dt)
         // -------------------------------------------------------------------
-        EventBusInstance.on(busName, "UPDATE", evt => {
-            const dt = evt.payload?.dt ?? 0;
+        EventBusInstance.on(busName, "UPDATE", (payload, evt) => {
+            const dt = payload?.dt ?? 0;
             host.update(dt);
         });
     }

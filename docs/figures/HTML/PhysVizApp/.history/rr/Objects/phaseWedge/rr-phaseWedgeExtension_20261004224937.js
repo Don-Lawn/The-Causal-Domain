@@ -57,9 +57,8 @@ export class PhaseWedgeExtension extends BaseExtension {
         // -------------------------------------------------------------------
         // Domain behaviour: phase evolution
         // -------------------------------------------------------------------
-        wedgeObject.updatePhase = (evt) => {
+        wedgeObject.updatePhase = (dt) => {
             // Example RR behaviour: angle evolves with magnitude
-            const dt = evt.payload?.deltaTimeSeconds ?? 0;
             this.angle += this.magnitude * dt * 0.001;
 
             // Update hint bag (merged automatically on emit)
@@ -70,10 +69,8 @@ export class PhaseWedgeExtension extends BaseExtension {
         EventBusInstance.on(
             wedgeObject.busName,    
             "UPDATE",
-            (evt) => {
-                wedgeObject.updatePhase(evt);
-            }
-        );
+            wedgeObject.updatePhase (dt)
+        ); 
     }
 
     onDetach(wedgeObject) {

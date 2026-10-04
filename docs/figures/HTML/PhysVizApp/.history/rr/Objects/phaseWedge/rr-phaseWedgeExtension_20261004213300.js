@@ -4,7 +4,6 @@
 // ---------------------------------------------------------------------------
 
 import { BaseExtension } from "../../../pv-baseExtension.js";
-import EventBusInstance from "../../../pv-eventBus.js";
 
 export class PhaseWedgeExtension extends BaseExtension {
     constructor({
@@ -37,43 +36,50 @@ export class PhaseWedgeExtension extends BaseExtension {
         // -------------------------------------------------------------------
         wedgeObject.setAngle = (a) => {
             this.angle = a;
-            wedgeObject.setHint("phaseWedge.angle", a);
+            wedgeObject.hints.phaseWedge.angle = a;
         };
 
         wedgeObject.setMagnitude = (m) => {
             this.magnitude = m;
-            wedgeObject.setHint("phaseWedge.magnitude", m);
+            wedgeObject.hints.phaseWedge.magnitude = m;
         };
 
         wedgeObject.setDomain = (d) => {
             this.domain = d;
-            wedgeObject.setHint("phaseWedge.domain", d);
+            wedgeObject.hints.phaseWedge.domain = d;
         };
 
         wedgeObject.setColor = (c) => {
             this.color = c;
-            wedgeObject.setHint("phaseWedge.color", c);
+            wedgeObject.hints.phaseWedge.color = c;
         };
+
         // -------------------------------------------------------------------
         // Domain behaviour: phase evolution
         // -------------------------------------------------------------------
-        wedgeObject.updatePhase = (evt) => {
+        wedgeObject.updatePhase = (dt) => {
             // Example RR behaviour: angle evolves with magnitude
-            const dt = evt.payload?.deltaTimeSeconds ?? 0;
             this.angle += this.magnitude * dt * 0.001;
 
             // Update hint bag (merged automatically on emit)
-            wedgeObject.setHint("phaseWedge.angle", this.angle);
+            wedgeObject.hints.phaseWedge.angle = this.angle;
         };
 
-        // -------------------------------------------------------    ------------
-        EventBusInstance.on(
-            wedgeObject.busName,    
-            "UPDATE",
-            (evt) => {
-                wedgeObject.updatePhase(evt);
-            }
-        );
+        // -------------------------------------------------------------------
+        // Hook into update(dt) if present
+        // -------------------------------------------------------------------
+        if (typeof wedgeObject.update === "function") {
+            this. originalUpdate = wedgeObject.update;
+
+            wedgeObject.update = (dt) => {
+                originalUpdate(dt);
+                wedgeObject.updatePhase(dt);
+            };
+        }else{
+            wedgeObject.update = (dt) => {
+                wedgeObject.updatePhase(dt);
+            };
+        }
     }
 
     onDetach(wedgeObject) {
@@ -82,6 +88,7 @@ export class PhaseWedgeExtension extends BaseExtension {
         delete wedgeObject.setDomain;
         delete wedgeObject.setColor;
         delete wedgeObject.updatePhase;
+        wedgeObject.update = this.originalUpdate; // put back original instead
         delete wedgeObject.hints.phaseWedge;
     }
 }

@@ -59,7 +59,7 @@ export class PhaseWedgeExtension extends BaseExtension {
         // -------------------------------------------------------------------
         wedgeObject.updatePhase = (evt) => {
             // Example RR behaviour: angle evolves with magnitude
-            const dt = evt.payload?.deltaTimeSeconds ?? 0;
+            const dt = evt.payload?.dt ?? 0;
             this.angle += this.magnitude * dt * 0.001;
 
             // Update hint bag (merged automatically on emit)

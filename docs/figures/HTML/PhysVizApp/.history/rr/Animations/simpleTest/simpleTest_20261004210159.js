@@ -150,4 +150,4 @@ document.querySelectorAll(".copyBtn").forEach(btn => {
 */
 
 
-createSimpleTest();
+createSimpleTest

@@ -22,7 +22,7 @@ export class DomainObject extends BaseObject {
             // hints
         this.extend(new HintExtension());
 
-        const ext = new BusExtension(domainName);
+        const ext = new BusExtension("domainName");
         ext.createBus(domainName,"MASTERBUS");
         this.extend(ext);
 

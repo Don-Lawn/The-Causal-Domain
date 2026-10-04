@@ -22,12 +22,15 @@ export function PhaseWedgeObject(id, domain, {
     host.type = "PhaseWedge";
     
     // Domain-specific behaviour
+    host.extend(new PhaseWedgeExtension({ angle, magnitude, color }));
 
     // add bus interaction extension, for the domain's bus
-    host.extend(new HintExtension());
     host.extend(new BusExtension(domain.busName, null));
-    // host.extend(new UpdateExtension());
-    host.extend(new PhaseWedgeExtension({ angle, magnitude, color }));
+
+    host.extend(new HintExtension());
+    host.extend(new UpdateExtension());
+
+
     host.extend(new GeometryExtension());
     host.extend(new RenderExtension());
     host.extend(new PhaseWedgeGeometryExtension());

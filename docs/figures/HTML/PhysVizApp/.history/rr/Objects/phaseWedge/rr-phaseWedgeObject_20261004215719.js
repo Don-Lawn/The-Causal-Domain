@@ -26,7 +26,7 @@ export function PhaseWedgeObject(id, domain, {
     // add bus interaction extension, for the domain's bus
     host.extend(new HintExtension());
     host.extend(new BusExtension(domain.busName, null));
-    // host.extend(new UpdateExtension());
+    host.extend(new UpdateExtension());
     host.extend(new PhaseWedgeExtension({ angle, magnitude, color }));
     host.extend(new GeometryExtension());
     host.extend(new RenderExtension());

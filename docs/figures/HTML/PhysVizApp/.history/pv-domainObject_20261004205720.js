@@ -18,14 +18,9 @@ export class DomainObject extends BaseObject {
         super(domainName);
 
         // Core PV capabilities
-
-            // hints
+        this.extend(new BusExtension(domainName, "MASTERBUS"));
         this.extend(new HintExtension());
-
-        const ext = new BusExtension(domainName);
-        ext.createBus(domainName,"MASTERBUS");
-        this.extend(ext);
-
+        //this.extend(new UpdateExtension());
         this.extend(new RenderExtension());
 
         // Domain identity + metadata

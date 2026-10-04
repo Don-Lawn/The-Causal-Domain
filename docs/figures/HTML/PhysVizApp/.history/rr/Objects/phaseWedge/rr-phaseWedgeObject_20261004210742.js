@@ -18,19 +18,18 @@ export function PhaseWedgeObject(id, domain, {
     color = 0xff0000
 } = {}) {
 
-    const host = new BaseObject(id);
-    host.type = "PhaseWedge";
+    const obj = new BaseObject(id);
+    obj.type = "PhaseWedge";
     
     // Domain-specific behaviour
+    obj.extend(new PhaseWedgeExtension({ angle, magnitude, color }));
 
     // add bus interaction extension, for the domain's bus
-    host.extend(new HintExtension());
-    host.extend(new BusExtension(domain.busName, null));
-    // host.extend(new UpdateExtension());
-    host.extend(new PhaseWedgeExtension({ angle, magnitude, color }));
-    host.extend(new GeometryExtension());
-    host.extend(new RenderExtension());
-    host.extend(new PhaseWedgeGeometryExtension());
+    obj.extend(new BusExtension(domain.busName, null));
 
-    return host;
+    obj.extend(new HintExtension());
+    obj.extend(new UpdateExtension());
+
+
+    return obj;
 }

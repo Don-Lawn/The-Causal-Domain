@@ -63,8 +63,4 @@ export class BusExtension extends BaseExtension {
         delete host.on;
         delete host.onAny;
     }
-
-    createBus(localBusName, parentBusName = null) {
-        EventBusInstance.createBus(localBusName, parentBusName);
-    }
 }

@@ -4,7 +4,6 @@
 // ---------------------------------------------------------------------------
 
 import { BaseExtension } from "../../../pv-baseExtension.js";
-import EventBusInstance from "../../../pv-eventBus.js";
 
 export class PhaseWedgeExtension extends BaseExtension {
     constructor({
@@ -22,66 +21,70 @@ export class PhaseWedgeExtension extends BaseExtension {
         this.color = color;
     }
 
-    onAttach(wedgeObject) {
+    onAttach(object) {
 
         // -------------------------------------------------------------------
         // Add domain hints (merged automatically downstream)
         // -------------------------------------------------------------------
-        wedgeObject.setHint("phaseWedge.angle", this.angle);
-        wedgeObject.setHint("phaseWedge.magnitude", this.magnitude);
-        wedgeObject.setHint("phaseWedge.domain", this.domain);
-        wedgeObject.setHint("phaseWedge.color", this.color);
+        object.setHint("phaseWedge.angle", this.angle);
+        object.setHint("phaseWedge.magnitude", this.magnitude);
+        object.setHint("phaseWedge.domain", this.domain);
+        object.setHint("phaseWedge.color", this.color);
 
         // -------------------------------------------------------------------
         // Glue: domain setters (update both local + hint state)
         // -------------------------------------------------------------------
-        wedgeObject.setAngle = (a) => {
+        object.setAngle = (a) => {
             this.angle = a;
-            wedgeObject.setHint("phaseWedge.angle", a);
+            object.hints.phaseWedge.angle = a;
         };
 
-        wedgeObject.setMagnitude = (m) => {
+        object.setMagnitude = (m) => {
             this.magnitude = m;
-            wedgeObject.setHint("phaseWedge.magnitude", m);
+            object.hints.phaseWedge.magnitude = m;
         };
 
-        wedgeObject.setDomain = (d) => {
+        object.setDomain = (d) => {
             this.domain = d;
-            wedgeObject.setHint("phaseWedge.domain", d);
+            object.hints.phaseWedge.domain = d;
         };
 
-        wedgeObject.setColor = (c) => {
+        object.setColor = (c) => {
             this.color = c;
-            wedgeObject.setHint("phaseWedge.color", c);
+            object.hints.phaseWedge.color = c;
         };
+
         // -------------------------------------------------------------------
         // Domain behaviour: phase evolution
         // -------------------------------------------------------------------
-        wedgeObject.updatePhase = (evt) => {
+        object.updatePhase = (dt) => {
             // Example RR behaviour: angle evolves with magnitude
-            const dt = evt.payload?.deltaTimeSeconds ?? 0;
             this.angle += this.magnitude * dt * 0.001;
 
             // Update hint bag (merged automatically on emit)
-            wedgeObject.setHint("phaseWedge.angle", this.angle);
+            object.hints.phaseWedge.angle = this.angle;
         };
 
-        // -------------------------------------------------------    ------------
-        EventBusInstance.on(
-            wedgeObject.busName,    
-            "UPDATE",
-            (evt) => {
-                wedgeObject.updatePhase(evt);
-            }
-        );
+        // -------------------------------------------------------------------
+        // Hook into update(dt) if present
+        // -------------------------------------------------------------------
+        if (typeof object.update === "function") {
+            const originalUpdate = object.update;
+
+            object.update = (dt) => {
+                originalUpdate(dt);
+                object.updatePhase(dt);
+            };
+        }
     }
 
-    onDetach(wedgeObject) {
-        delete wedgeObject.setAngle;
-        delete wedgeObject.setMagnitude;
-        delete wedgeObject.setDomain;
-        delete wedgeObject.setColor;
-        delete wedgeObject.updatePhase;
-        delete wedgeObject.hints.phaseWedge;
+    onDetach(object) {
+        delete object.setAngle;
+        delete object.setMagnitude;
+        delete object.setDomain;
+        delete object.setColor;
+        delete object.updatePhase;
+
+        delete object.hints.phaseWedge;
     }
 }
