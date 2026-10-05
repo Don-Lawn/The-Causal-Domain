@@ -5,7 +5,7 @@ import { BaseObject } from "./pv-baseObject.js";
 import { BusExtension } from "./pv-BusExtension.js";
 import { HintExtension } from "./pv-HintExtension.js";
 import { UpdateExtension } from "./pv-updateExtension.js";
-import { RenderExtension } from "./pv-renderExtension.js";
+import { RendererExtension } from "./pv-rendererExtension.js";
 
 import { DomainExtension } from "./pv-domainExtension.js";
 import { DomainCanvasExtension } from "./pv-domainCanvasExtension.js";

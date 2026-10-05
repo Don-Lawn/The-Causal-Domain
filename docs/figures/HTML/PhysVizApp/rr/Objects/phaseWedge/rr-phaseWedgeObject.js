@@ -4,7 +4,7 @@ import { BaseObject } from "../../../pv-baseObject.js";
 import { BusExtension } from "../../../pv-BusExtension.js";
 import { HintExtension } from "../../../pv-HintExtension.js";
 import { UpdateExtension } from "../../../pv-updateExtension.js";
-import { RenderExtension } from "../../../pv-renderExtension.js";
+import { RendererExtension } from "../../../pv-rendererExtension.js";
 import { GeometryExtension } from "../../../pv-GeometryExtension.js";
 import { DomainExtension } from "../../../pv-domainExtension.js";
 
@@ -29,7 +29,7 @@ export function PhaseWedgeObject(id, domain, {
     // host.extend(new UpdateExtension());
     host.extend(new PhaseWedgeExtension({ angle, magnitude, color }));
     host.extend(new GeometryExtension());
-    host.extend(new RenderExtension());
+    host.extend(new RendererExtension());
     host.extend(new PhaseWedgeGeometryExtension());
 
     return host;

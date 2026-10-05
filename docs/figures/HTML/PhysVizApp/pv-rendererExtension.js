@@ -6,9 +6,9 @@
 import { BaseExtension } from "./pv-baseExtension.js";
 import EventBusInstance from "./pv-eventBus.js";
 
-export class RenderExtension extends BaseExtension {
+export class RendererExtension extends BaseExtension {
     constructor() {
-        super("render");
+        super("renderer");
     }
 
     onAttach(host) {

@@ -1,16 +1,24 @@
 // simpleTest.js
 // Minimal harness: one stationary PhaseWedge in ABC
-import { BaseObject } from "../../../pv-baseObject.js";
-import { MasterFSM } from "../../../pv-masterFSM.js";
-
-import EventBusInstance from "../../../pv-eventBus.js";
-import { RendererRegistry } from "../../../pv-rendererRegistry.js";
 import { DomainObject } from "../../../pv-domainObject.js";
 
 import { PhaseWedgeObject } from "../../../rr/Objects/phaseWedge/rr-phaseWedgeObject.js";
 import { PhaseWedgeRendererExtension_ABC } from "../../../rr/Objects/phaseWedge/rr-phaseWedgeRendererExtension_ABC.js";
+import { BusExtension } from "../../../pv-BusExtension.js";
 
 import { PVLogMonitor } from "../../../pv-LogMonitor.js";
+import EventBusInstance from "../../../pv-eventBus.js";
+import { createObject } from "../../../pv-createObject.js";
+import { BaseObject } from "../../../pv-baseObject.js";
+import { MasterFSM } from "../../../pv-masterFSM.js";
+import { RendererRegistry } from "../../../pv-rendererRegistry.js";
+import { RendererExtension } from "../../../pv-rendererExtension.js";
+import { FSMExtension } from "../../../pv-FSMExtension.js";
+import { HintExtension } from "../../../pv-HintExtension.js";
+import { DomainExtension } from "../../../pv-domainExtension.js";
+import { DomainObjectRegistryExtension } from "../../../pv-domainObjectRegistryExtension.js";
+import { DomainRendererRegistryExtension } from "../../../pv-domainRendererRegistryExtension.js";
+import { DomainCanvasExtension } from "../../../pv-domainCanvasExtension.js";
 
 debugger;
     
@@ -23,7 +31,27 @@ export function createSimpleTest (){
 
 
     // Register ABC renderer
-    const abc = new DomainObject("ABC", "abcPanel", "abcCanvas");
+    const abc = createObject({name:"ABC", type:"domain",
+        hints: new HintExtension({ initialHints: {} }),
+        bus: new BusExtension({
+                localBusName:"ABC-bus", 
+                parentBusName:"MASTERBUS"}),
+        fsm: new FSMExtension({
+                fsmName:"MASTERFSM", 
+                busName:"ABC-bus" }),
+        domain: new DomainExtension    ({
+                domainName: "ABC-domain",
+                domainVersion:1,
+                metadata: {}  }),      
+        renderer: new RendererExtension(),
+        objectRegistry: new DomainObjectRegistryExtension(),
+        rendererRegistry: new DomainRendererRegistryExtension(),
+        canvas: new DomainCanvasExtension({
+                panelId: "abcPanel",
+                canvasId: "abcCanvas"
+                })
+    });
+
     abc.registerRenderer("PhaseWedge", PhaseWedgeRendererExtension_ABC);
 
 
