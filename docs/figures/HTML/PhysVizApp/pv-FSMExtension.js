@@ -54,4 +54,25 @@ export class FSMExtension extends BaseExtension {
         // Remove capability reference
         this.fsm = null;
     }
+
+    on(...args)
+    {
+        return this.fsm.on(...args);
+    }
+
+    onAny(...args)
+    {
+        return this.fsm.onAny(...args);
+    }
+
+    transition(...args)
+    {
+        return this.fsm.transition(...args);
+    }
+
+    getState(...args)
+    {
+        return this.fsm.getState(...args);
+    }
+   
 }

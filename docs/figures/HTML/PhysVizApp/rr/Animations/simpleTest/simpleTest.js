@@ -31,7 +31,7 @@ export function createSimpleTest (){
 
 
     // Register ABC renderer
-    const abc = createObject({name:"ABC", type:"domain",
+    const abc = createObject("ABC", "domain", {
         hints: new HintExtension({ initialHints: {} }),
         bus: new BusExtension({
                 localBusName:"ABC-bus", 
@@ -43,16 +43,16 @@ export function createSimpleTest (){
                 domainName: "ABC-domain",
                 domainVersion:1,
                 metadata: {}  }),      
-        renderer: new RendererExtension(),
-        objectRegistry: new DomainObjectRegistryExtension(),
-        rendererRegistry: new DomainRendererRegistryExtension(),
+        renderer: new RendererExtension({}),
+        objectRegistry: new DomainObjectRegistryExtension({}),
+        rendererRegistry: new DomainRendererRegistryExtension({}),
         canvas: new DomainCanvasExtension({
                 panelId: "abcPanel",
                 canvasId: "abcCanvas"
                 })
     });
 
-    abc.registerRenderer("PhaseWedge", PhaseWedgeRendererExtension_ABC);
+    abc.RendererRegistry.registerRenderer("PhaseWedge", PhaseWedgeRendererExtension_ABC);
 
 
     // Create stationary wedge
