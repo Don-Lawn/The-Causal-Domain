@@ -12,20 +12,21 @@ import { PhaseWedgeExtension } from "./rr-phaseWedgeExtension.js";
 import { PhaseWedgeGeometryExtension } from "./rr-phaseWedgeGeometryExtension.js";
 import { PhaseWedgeRendererExtension_ABC } from "./rr-phaseWedgeRendererExtension_ABC.js";
 
-export function PhaseWedgeObject(id, domain, {
+export function PhaseWedgeObject(name, domain, {
     angle = 0,
     magnitude = 1,
     color = 0xff0000
 } = {}) {
 
-    const host = new BaseObject(id);
+    const host = new BaseObject(name);
     host.type = "PhaseWedge";
+    host.domain = domain;
     
     // Domain-specific behaviour
 
     // add bus interaction extension, for the domain's bus
     host.extend(new HintExtension());
-    host.extend(new BusExtension(domain.busName, null));
+    host.extend(new BusExtension({localBusName: domain.busName, parentBusName: null}));
     // host.extend(new UpdateExtension());
     host.extend(new PhaseWedgeExtension({ angle, magnitude, color }));
     host.extend(new GeometryExtension());

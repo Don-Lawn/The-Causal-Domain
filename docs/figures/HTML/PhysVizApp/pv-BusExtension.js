@@ -7,16 +7,17 @@ import { BaseExtension } from "./pv-baseExtension.js";
 import EventBusInstance from "./pv-eventBus.js";
 
 export class BusExtension extends BaseExtension {
-    constructor(localBusName, parentBusName = null) {
+    constructor(busNames) {
         super("bus");
 
-        this.localbusName = localBusName;
-        this.parentBusName = parentBusName;
+        this.busName = busNames.localBusName;
+        this.parentBusName = busNames.parentBusName;
     }
 
     onAttach(host) {
 
-        host.busName = this.localbusName;
+        host.busName = this.busName;
+        this.ensureBus(this.busName, this.parentBusName);
 
         // -------------------------------------------------------------------
         // Glue: emit() with merged-hint propagation
@@ -40,7 +41,7 @@ export class BusExtension extends BaseExtension {
                     hints: mergedHints
                 },
                 host.busName,
-                host.busName
+                "BusExtension.onAttach(host).host.emit()"
             );
         };
 
@@ -64,7 +65,9 @@ export class BusExtension extends BaseExtension {
         delete host.onAny;
     }
 
-    createBus(localBusName, parentBusName = null) {
-        EventBusInstance.createBus(localBusName, parentBusName);
+    ensureBus(busName, parentBusName = null) {
+        if (busName && !EventBusInstance.buses.has(busName)) {
+            EventBusInstance.createBus(busName, parentBusName);
+        }
     }
 }

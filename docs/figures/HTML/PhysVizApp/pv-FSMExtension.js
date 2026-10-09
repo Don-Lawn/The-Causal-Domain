@@ -8,13 +8,13 @@ import { PVFSM } from "./pv-fsm.js";
 import EventBusInstance from "./pv-eventBus.js";
 
 export class FSMExtension extends BaseExtension {
-    constructor(fsm = null, // an actual PVFSM can be passed in,  or the Extension will create its own
+    constructor(fsmName = null, // an actual PVFSM can be passed in,  or the Extension will create its own
                 busName = null) {
         super("fsm");
 
         // Optional external FSM (aggregation)
         // or null → create one (composition)
-        this.fsm = fsm;
+        this.fsmName = fsmName;
 
         // Optional override for bus name
         this.busName = busName;
@@ -22,11 +22,11 @@ export class FSMExtension extends BaseExtension {
 
     onAttach(host) {
         // Determine bus name
-        const bus = this.busName || host.bus;
+        const busName = this.busName || host.busName;
 
         // Create FSM if not provided
         if (!this.fsm) {
-            this.fsm = new PVFSM(bus, bus);
+            this.fsm = new PVFSM(this.fsmName, busName);
         }
 
         // Glue: expose FSM on the object
@@ -34,11 +34,11 @@ export class FSMExtension extends BaseExtension {
 
         // Glue: allow object to send events directly to FSM
         host.sendToFSM = (eventName, payload = {}) => {
-            this.fsm._receive(eventName, payload, { sourceBus: bus });
+            this.fsm._receive(eventName, payload, { sourceBus: busName });
         };
 
         // Subscribe FSM to all events on the bus
-        EventBusInstance.on(bus, "*", (evt) => {
+        EventBusInstance.on(busName, "*", (evt) => {
             this.fsm._receive(evt);
         });
 

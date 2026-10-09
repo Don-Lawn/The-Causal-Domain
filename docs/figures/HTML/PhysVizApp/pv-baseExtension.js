@@ -4,8 +4,8 @@
 // ---------------------------------------------------------------------------
 
 export class BaseExtension {
-    constructor(name) {
-        this.name = name;
+    constructor(extensionType) {
+        this.extensionType = extensionType;
         this.host = null;
     }
 
@@ -24,7 +24,7 @@ export class BaseExtension {
     detach() {
         if (this.host) {
             this.onDetach(this.host);
-            this.host.capabilities.delete(this.name);
+            this.host.capabilities.delete(this.extensionType);
             this.host = null;
         }
     }

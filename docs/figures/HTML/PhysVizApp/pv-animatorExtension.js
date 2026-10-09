@@ -177,14 +177,17 @@ export class AnimatorExtension extends BaseExtension
         actualDeltaTimeSeconds = null
     )
     {
-        const animatorHints =
-            this.host.hints?.animator;
-
         const fixedStepSeconds =
-            animatorHints.fixedStepSeconds;
+            this.host.getHint(
+                "animator.fixedStepSeconds",
+                1 / 60
+            );
 
         const tempo =
-            animatorHints.tempo;
+            this.host.getHint(
+                "animator.tempo",
+                1.0
+            );
 
         const baseDeltaTimeSeconds =
             actualDeltaTimeSeconds
@@ -202,7 +205,6 @@ export class AnimatorExtension extends BaseExtension
 
             tempo
         };
-
         EventBusInstance.emit(
             "UPDATE",
             framePayload,

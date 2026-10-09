@@ -82,4 +82,5 @@ export class DomainExtension extends BaseExtension {
 
         delete object.hints.domain;
     }
+
 }

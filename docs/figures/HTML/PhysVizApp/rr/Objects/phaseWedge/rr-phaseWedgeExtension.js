@@ -23,6 +23,7 @@ export class PhaseWedgeExtension extends BaseExtension {
     }
 
     onAttach(wedgeObject) {
+        this.busName = wedgeObject.busName;
 
         // -------------------------------------------------------------------
         // Add domain hints (merged automatically downstream)

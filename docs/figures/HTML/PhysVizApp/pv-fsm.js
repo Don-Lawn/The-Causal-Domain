@@ -125,6 +125,7 @@ export class PVFSM {
 
         const stateHandlers = this.handlers[this.state];
 
+        /*
         if (!stateHandlers || stateHandlers.length === 0) {
             if (evt.name !== "EVENT_UNHANDLED") {
                 EventBusInstance.emit("EVENT_UNHANDLED", {
@@ -136,6 +137,7 @@ export class PVFSM {
             }
             return;
         }
+        */
         
         const fns = stateHandlers?.[evt.name] || [];
 

@@ -11,24 +11,24 @@ export class DomainObjectRegistryExtension extends BaseExtension
         this.objects = new Map();
     }
 
-    register(obj)
+    registerObject(obj)
     {
-        this.objects.set(obj.id, obj);
+        this.objects.set(obj.name, obj);
         return obj;
     }
 
-    unregister(id)
+    unregisterObject(name)
     {
-        const obj = this.objects.get(id);
+        const obj = this.objects.get(name);
 
-        this.objects.delete(id);
+        this.objects.delete(name);
 
         return obj;
     }
 
-    getObject(id)
+    getObject(name)
     {
-        return this.objects.get(id);
+        return this.objects.get(name);
     }
 
     getObjects()
@@ -36,21 +36,21 @@ export class DomainObjectRegistryExtension extends BaseExtension
         return Array.from(this.objects.values());
     }
 
-    onAttach(object)
+    onAttach(host)
     {
         // Extension alias
-        object.domainObjects = this;
+        host.domainObjects = this;
 
         // Legacy compatibility
-        object.objects = this.objects;
+        host.objects = this.objects;
 
-        object.registerObject = (key, value) =>
+        host.registerObject = (key, value) =>
         {
             this.objects.set(key, value);
             return value;
         };
 
-        object.unregisterObject = (key) =>
+        host.unregisterObject = (key) =>
         {
             const value = this.objects.get(key);
 

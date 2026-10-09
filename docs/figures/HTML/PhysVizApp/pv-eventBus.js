@@ -46,7 +46,11 @@ class EventBus {
     // -----------------------------------------------------------------------
     on(busName, eventName, callback) {
         const bus = this.buses.get(busName);
-        if (!bus) throw new Error(`EventBus: Bus '${busName}' does not exist`);
+        if (!bus) 
+        {
+            debugger;        
+            throw new Error(`EventBus: Bus '${busName}' does not exist`);
+        }
 
         if (!bus.handlers.has(eventName)) {
             bus.handlers.set(eventName, []);
@@ -66,7 +70,10 @@ class EventBus {
     emit(eventName, payload, busName, senderName) {
         const bus = this.buses.get(busName);
         if (!bus) 
+        {
+            debugger;        
             throw new Error(`EventBus: Bus '${busName}' does not exist`);
+        }
 
         const evt = {
             time: performance.now(),

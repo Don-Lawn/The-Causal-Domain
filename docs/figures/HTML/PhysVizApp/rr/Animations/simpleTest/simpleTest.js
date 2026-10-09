@@ -37,7 +37,7 @@ export function createSimpleTest (){
                 localBusName:"ABC-bus", 
                 parentBusName:"MASTERBUS"}),
         fsm: new FSMExtension({
-                fsmName:"MASTERFSM", 
+                fsmName:"ABC-FSM", 
                 busName:"ABC-bus" }),
         domain: new DomainExtension    ({
                 domainName: "ABC-domain",
@@ -52,7 +52,7 @@ export function createSimpleTest (){
                 })
     });
 
-    abc.RendererRegistry.registerRenderer("PhaseWedge", PhaseWedgeRendererExtension_ABC);
+    abc.registerRenderer("PhaseWedge", PhaseWedgeRendererExtension_ABC);
 
 
     // Create stationary wedge
@@ -62,15 +62,15 @@ export function createSimpleTest (){
         color: 0xff2b2b
     });
 
-    abc.addObject(wedge);
+    abc.registerObject(wedge);
+    
+    master.emit("LOAD",{ });
+    master.emit("START");
 
     window.addEventListener("resize", () => {
-    EventBusInstance.emit("MASTER_RESIZE",{},"MASTERBUS","rr-phaseArrow1.js");
+        EventBusInstance.emit("MASTER_RESIZE",{},"MASTERBUS","rr-phaseArrow1.js");
+    });
 
-    
-    master.emit("LOAD")
-    master.emit("START");
-}); 
 }
 
 
@@ -178,4 +178,4 @@ document.querySelectorAll(".copyBtn").forEach(btn => {
 */
 
 
-createSimpleTest();
+//createSimpleTest();
