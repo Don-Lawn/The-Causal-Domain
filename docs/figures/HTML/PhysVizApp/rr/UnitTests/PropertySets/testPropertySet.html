@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PropertySet Test</title>
+</head>
+
+<body>
+
+    <h1>PropertySet Test Harness</h1>
+
+    <button id="testButton">
+        Test PropertySet
+    </button>
+
+    <script type="module">
+
+        import { testPropertySet }   from "./testPropertySet.js";
+
+        function onTestButtonClick()
+        {
+            testPropertySet();
+        }
+
+        document
+            .getElementById(
+                "testButton"
+            )
+            .addEventListener(
+                "click",
+                onTestButtonClick
+            );
+
+    </script>
+
+</body>
+</html>

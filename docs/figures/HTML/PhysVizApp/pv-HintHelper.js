@@ -1,53 +1,52 @@
-// pv-HintHelper.js
-export class HintHelper {
+// ---------------------------------------------------------------------------
+// HintHelper
+//
+// Responsible for:
+// - Loading metadata files
+// - Loading hint files
+// - Merging hint files
+// - Validating assembled hint sets
+//
+// Does NOT:
+// - Store hints
+// - Attach hints to objects
+// ---------------------------------------------------------------------------
 
-    static async loadHints(path) {
-        const response = await fetch(path);
-        return await response.json();
-    }
-    
-    static loadHintsSync(path) {
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", path, false);   // false = synchronous
-    try {
-        xhr.send(null);
-    } catch (err) {
-        console.error("XHR error loading hints:", err);
-        return {};
-    }
+export class HintHelper
+{
+    // -----------------------------------------------------------------------
+    // Load a metadata file.
+    //
+    // Input:
+    //     path to metadata JSON
+    //
+    // Output:
+    //     metadata object
+    // -----------------------------------------------------------------------
+    static loadMetadata(path)
+    {
+        // Load JSON file.
 
-    if (xhr.status !== 200) {
-        console.error(`Failed to load hints from ${path}: status ${xhr.status}`);
-        return {};
-    }
+        // Parse JSON.
 
-    try {
-        return JSON.parse(xhr.responseText);
-    } catch (err) {
-        console.error("JSON parse error:", err);
-        return {};
-    }
-}
-
-
-    static mergeHints(...hintSets) {
-        return Object.assign({}, ...hintSets);
+        // Return metadata object.
     }
 
-    static consume(hints, key, defaultValue = undefined) {
-        if (!(key in hints)) return defaultValue;
-        const value = hints[key];
-        delete hints[key];
-        return value;
-    }
+    // -----------------------------------------------------------------------
+    // Build a complete hint set from metadata.
+    //
+    // Input:
+    //     metadata object
+    //
+    // Output:
+    //     merged hint set
+    // -----------------------------------------------------------------------
+    static buildHintSet(metadata)
+    {
+        // Load each hint file.
 
-    static requireHints(hints, keys) {
-        if (typeof keys === "string") {
-            return hints.hasOwnProperty(keys);
-        }
-        for (const key of keys) {
-            if (!hints.hasOwnProperty(key)) return false;
-        }
-        return true;
+        // Merge files in listed order.
+
+        // Return assembled hint set.
     }
 }

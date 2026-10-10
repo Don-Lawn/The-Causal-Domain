@@ -114,6 +114,7 @@ class RendererBase {
         semanticObject._pvHandle = null;
     }
 
+    //RendererBase
     getDefaultHints() {
         return {
 

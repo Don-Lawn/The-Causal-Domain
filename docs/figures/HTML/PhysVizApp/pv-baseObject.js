@@ -14,53 +14,53 @@ export class BaseObject {
         this.capabilities = new Map();
     }
 
-// Attach an extension (capability)
-extend(extension)
-{
-    console.log(
-        "Extending:",
-        extension,
-        "type:",
-        extension?.constructor?.name
-    );
-
-    if (!extension)
+    // Attach an extension (capability)
+    extend(extension)
     {
-        debugger;
-        throw new Error("Extension is null");
-    }
+        console.log(
+            "Extending:",
+            extension,
+            "type:",
+            extension?.constructor?.name
+        );
 
-    if (typeof extension.attachTo !== "function")
-    {
-        console.error(
-            "Bad extension:",
+        if (!extension)
+        {
+            debugger;
+            throw new Error("Extension is null");
+        }
+
+        if (typeof extension.attachTo !== "function")
+        {
+            console.error(
+                "Bad extension:",
+                extension
+            );
+
+            debugger;
+
+            throw new Error(
+                "Extension has no attachTo()"
+            );
+        }
+
+        extension.attachTo(this);
+
+        this.capabilities.set(
+            extension.name,
             extension
         );
 
-        debugger;
-
-        throw new Error(
-            "Extension has no attachTo()"
-        );
+        this[extension.name] = extension;
     }
-
-    extension.attachTo(this);
-
-    this.capabilities.set(
-        extension.name,
-        extension
-    );
-
-    this[extension.name] = extension;
-}
 
     // Convenience: add/update hints
     setHint(key, value) {
         this.hints[key] = value;
     }
 
-    getHint(key) {
-        return this.hints[key];
+    getHint(key, defaultValue = null) {
+        return this.hints[key] ?? defaultValue;
     }
 
     getCapability(name)
