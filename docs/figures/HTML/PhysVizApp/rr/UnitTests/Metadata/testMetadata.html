@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Metadata Test</title>
+</head>
+
+<body>
+
+    <h1>Metadata Test Harness</h1>
+
+    <button id="testButton">
+        Test Metadata
+    </button>
+
+    <script type="module">
+
+        import { testMetadata }   from "./testMetadata.js";
+
+        function onTestButtonClick()
+        {
+            testMetadata();
+        }
+
+        document
+            .getElementById(
+                "testButton"
+            )
+            .addEventListener(
+                "click",
+                onTestButtonClick
+            );
+
+    </script>
+
+</body>
+</html>

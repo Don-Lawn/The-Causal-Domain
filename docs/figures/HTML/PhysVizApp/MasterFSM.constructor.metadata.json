@@ -1,0 +1,65 @@
+{
+    "identity":
+    {
+        "id":
+            "MASTERFSM",
+
+        "name":
+            "Master FSM",
+
+        "type":
+            "MASTERFSM.Constructor.Metadata"
+    },
+
+    "constructor":
+    {
+        "baseObjectType":
+            "MASTERFSM",
+
+        "extensions":
+        [
+            {
+                "type":
+                    "BusExtension",
+
+                "propertySet":
+                {
+                    "localBusName":
+                        "MASTERBUS",
+
+                    "parentBusName":
+                        null
+                }
+            },
+
+            {
+                "type":
+                    "HintExtension"
+            },
+
+            {
+                "type":
+                    "FSMExtension",
+
+                "propertySet":
+                {
+                    "fsmName":
+                        null,
+
+                    "busName":
+                        "MASTERBUS"
+                }
+            },
+
+            {
+                "type":
+                    "AnimatorExtension"
+            },
+
+            {
+                "type":
+                    "DefaultLifecycleExtension"
+            }
+        ]
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "id":
+        "ABC.PhaseWedge.Constructor.Metadata",
+
+    "name":
+        "ABC PhaseWedge Constructor Metadata",
+
+    "type":
+        "ABC.PhaseWedge.Constructor.Metadata",
+
+    "propertySetFiles":
+    [
+        "../../../rr/Objects/phaseWedge/PhaseWedge.common.Properties.json"
+    ],
+
+    "requiredProperties":
+    [
+        "geometry.width",
+        "geometry.height",
+        "renderer.visible"
+    ],
+
+    "optionalProperties":
+    [
+        "renderer.opacity",
+        "semantic.opacity",
+        "transform.position.x",
+        "transform.position.y",
+        "transform.position.z"
+    ]
+}
