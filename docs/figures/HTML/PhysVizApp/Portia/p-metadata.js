@@ -52,7 +52,7 @@
 //
 // ---------------------------------------------------------------------------
 import { JsonFile }  from "./p-jsonFile.js";
-import { PropertySet } from "./pv-propertySet.js";
+import { PropertySet } from "../pv-propertySet.js";
 export class Metadata
 {
     constructor()
