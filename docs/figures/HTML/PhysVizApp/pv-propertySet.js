@@ -29,8 +29,7 @@
 //     Factory Properties
 //
 // ---------------------------------------------------------------------------
-import { JsonFile }
-    from "./p-jsonFile.js";
+import { JsonFile } from "./p-jsonFile.js";
 
 export class PropertySet
 {

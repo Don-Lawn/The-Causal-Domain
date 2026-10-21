@@ -1,18 +1,18 @@
 // p-object.js
 
+import { AssertNotNull } from "../p-assertions.js";
+import { Container } from "../p-container.js";
 import { Thing } from "../p-thing.js";
 
 export class Object extends Thing
 {
-    constructor(id, name, stereotype, className)
+    constructor(id, name, itsClass)
     {
-        super(id, name, stereotype);
-        this.className = className;
+        super(id, name, "RDF.Object");
+        this.className = itsClass.name;
+        this.classId = itsClass.id;
+        AssertNotNull(this.classId, "Object.constructor", `Class with name '${itsClass}' not found in container`);
+        
     }
 
-    addToGraph(graph) {
-        // Implementation for adding this object to the graph
-        graph.add(this);
-    }   
-    
 }

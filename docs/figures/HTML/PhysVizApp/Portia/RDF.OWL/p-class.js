@@ -4,5 +4,8 @@ import { Thing } from "../p-thing.js";
 
 export class Class extends Thing
 {
-    // trivial override??
+    constructor(id, name, stereotype) {
+        super(id, name, stereotype ?? "RDF.Class");
+        // otherwise, trivial override??
+    }
 }
