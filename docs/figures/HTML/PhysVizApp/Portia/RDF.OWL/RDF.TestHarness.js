@@ -5,13 +5,20 @@ import { RelClass } from "./p-relClass.js";
 import { Relationship } from "./p-relationship.js";
 import { Graph } from "./p-graph.js";
 import { RelClassEnd } from "./p-relClassEnd.js";   
+import { Container } from "../p-container.js";
 
 
 function testRDF() {
+
+    // create a context for all hints/properties/propertysets, with hierarchical names
+    const context = new Container (null, "context"); 
+
+    // create a graph, which is also a container for all of the RDF things that make up the graph
     const graph = new Graph(
                             null, // id
-                            "myTestGraph" // name
+                            "graph.main" // name
     );
+    context.addThing(graph);
 
     // standard RDF relationship end
     //  navigable, 0..*, aggregation, anonymous, {false,false,false}
@@ -50,29 +57,32 @@ function testRDF() {
     graph.addThing(don);
 
 
-    const marriage = new RelClass (
+    const marriageRelClass = new RelClass (
         null,          //  id
-        "Marriage",    // name
+        "isMarriedTo",    // name
         {               // Domain
-            fromEndClass:RDFdefaultRelClassEnd,
-            roleName:"spouse"
+            class: person,    //domain class
+            endClass:RDFdefaultRelClassEnd,   // multiplicity, navigability etc
+            roleName:"husband"
         }, 
         {               // Range   
-            fromEndClass:RDFdefaultRelClassEnd,
-            roleName:"spouse"
+            class: person,          // rangeClass
+            endClass:RDFdefaultRelClassEnd,  // multiplicity, navigability
+            roleName:"wife"
         }
     );  
-    graph.addThing(marriage);
+    graph.addThing(marriageRelClass);
     
     const donDanielaMarriage = new Relationship ( 
         null,                    // id
         "DonDanielaMarriage", // name
-        "Marriage",       // className
+        marriageRelClass,       // relclass
         don,            // fromObject   
         daniela         // toObject            
     );
     graph.addThing(donDanielaMarriage);
-    donDanielaMarriage.attachObjects(don, daniela);
+
+    graph.declareThis();
 }
 debugger
 testRDF();

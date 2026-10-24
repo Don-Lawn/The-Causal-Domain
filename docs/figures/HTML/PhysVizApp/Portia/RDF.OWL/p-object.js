@@ -9,10 +9,10 @@ export class Object extends Thing
     constructor(id, name, itsClass)
     {
         super(id, name, "RDF.Object");
-        this.className = itsClass.name;
-        this.classId = itsClass.id;
-        AssertNotNull(this.classId, "Object.constructor", `Class with name '${itsClass}' not found in container`);
-        
+        this.itsClassIdentity = itsClass.identity;
     }
 
+    declareThis() {
+        console.log (this.identity.stereotype + " " + this.itsClassIdentity.name + " " + this.identity.name )
+    }
 }
