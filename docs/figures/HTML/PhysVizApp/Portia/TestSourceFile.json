@@ -1,0 +1,143 @@
+{
+    "MasterFSM":{
+        "identity": { 
+            "id":"007",
+            "name": "MasterFSM", 
+            "stereotype": "iObject"},               
+        "isCompoundObjectOfClass": "Facade",        
+        "realisesInterface": "iMasterFSM",
+        "hasParts": {                               
+            "MasterFSM.Bus": "MasterBusExtension",            
+            "MasterFSM.FSM": "MasterFSMExtension",
+            "MasterFSM.EventHandler": "EventHandlerExtension"
+        } 
+    },
+    "IBus_V1.Metadata"{
+        "identity": {
+            "id": "007-1-1",
+            "name": "IBus_V1.MetadataType1",
+            "stereotype": "iMetadataType"
+        },
+        "isMetadataTypeOfInterface": "iBus_v1",
+        "HasFolkTags": {
+            "tag1": {
+                "identity": {
+                    "id": "007-1-1-1",
+                    "name": "tag1",
+                    "stereotype": "iTag"
+                },
+                "isOfType": "string"
+            }
+        },
+        "HasDictionaryTags": {
+            "tag1": {
+                "identity": {
+                    "id": "007-1-1-2",
+                    "name": "tag1",
+                    "stereotype": "iTag"
+                },
+                "isOfType": "string"
+            }
+        },
+        "hasProperties": {
+            "property1": {
+                "identity": {
+                    "id": "007-1-1-1",
+                    "name": "property1",
+                    "stereotype": "iProperty"
+                },
+                "isOfType": "string"
+            }
+        },
+        "hasCategories": {
+            "category1": {
+                "identity": {
+                    "id": "007-1-1-2",
+                    "name": "category1",
+                    "stereotype": "iCategory"
+                }
+            }
+        },
+        "hasSchema": {
+            "schema1": {
+                "identity": {
+                    "id": "007-1-1-3",
+                    "name": "schema1",
+                    "stereotype": "iSchema"
+                },
+                "isOfType": "string"
+            }
+        }
+    },
+    "iBus_v1": {
+        "identity": {
+            "id": "007-1",
+            "name": "iBus_v1",
+            "stereotype": "iInterface.version"
+        },
+        "isVersionOfInterface": "iBus",
+        "startDateTime": "2024-06-14T12:00:00Z",
+        "hasMethods": {
+            "sendEvent": {
+                "identity": {
+                    "id": "007-1-1",
+                    "name": "sendEvent",
+                    "stereotype": "iMethod"
+                },
+                "hasParameters": {
+                    "event": {
+                        "identity": {
+                            "id": "007-1-1-1",
+                            "name": "event",
+                            "stereotype": "iParameter"
+                        },
+                        "isOfType": "Event"
+                    }
+                }
+            }
+        }
+    },
+    "iBus": {
+        "identity": {
+            "id": "007-1",
+            "name": "iBus",
+            "stereotype": "iInterface.family"
+        },
+        "isInterfaceOfClass": "EventBus",
+        "hasVersions": {
+            "IBus_v1": "p-iBus_v1.json"
+            }
+        }
+    },
+    "MasterFSM.Bus":{
+        "identity": {
+            "id": "007-1",
+            "name": "MasterFSM.Bus",
+            "stereotype": "iObject.Family"
+        },
+        "isObjectOfClass": "EventBus",
+        "realisesInterface": "iBus",
+
+    },
+    "MasterFSM.FSM":{   
+        "identity": {
+            "id": "007-2",
+            "name": "MasterFSM.FSM",
+            "stereotype": "iObject"
+        },
+        "isObjectOfClass": "FSMExtension",
+        "realisesInterface": "iFSMextension",
+        "hasParts": {
+            "MasterFSM.FSM.FSM1D[0..2]": "FSM1DExtension"
+        }
+    },
+    "FSM1Extension":{
+        "identity": {
+            "id": "007-2-1",
+            "name": "FSM1Dextension",
+            "stereotype": "iClass"
+        },
+        "realisesInterface": "iFSM1Dextension",
+        "hasSourceCodeInFile": "../FSM1DExtensionSourceCode"
+    }
+}
