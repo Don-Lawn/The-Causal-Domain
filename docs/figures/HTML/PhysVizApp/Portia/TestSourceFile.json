@@ -3,7 +3,11 @@
         "identity": { 
             "id":"007",
             "name": "MasterFSM", 
-            "stereotype": "iObject"},               
+            "stereotype": "iObject",
+            "version": 1,
+            "createdDateTime": "2024-06-14T12:00:00Z", 
+            "lastUpdatedDateTime": "2024-06-14T12:00:00Z"
+        },               
         "isCompoundObjectOfClass": "Facade",        
         "realisesInterface": "iMasterFSM",
         "hasParts": {                               
@@ -12,7 +16,7 @@
             "MasterFSM.EventHandler": "EventHandlerExtension"
         } 
     },
-    "IBus_V1.Metadata"{
+    "IBus_V1.Metadata": {
         "identity": {
             "id": "007-1-1",
             "name": "IBus_V1.MetadataType1",
@@ -24,7 +28,10 @@
                 "identity": {
                     "id": "007-1-1-1",
                     "name": "tag1",
-                    "stereotype": "iTag"
+                    "stereotype": "iTag",
+                    "version": 1,
+                    "createdDateTime":"2024-06-14T12:00:00Z"
+
                 },
                 "isOfType": "string"
             }
@@ -34,7 +41,10 @@
                 "identity": {
                     "id": "007-1-1-2",
                     "name": "tag1",
-                    "stereotype": "iTag"
+                    "stereotype": "iTag",
+                    "version": 1,
+                    "createdDateTime":"2024-06-14T12:00:00Z"
+
                 },
                 "isOfType": "string"
             }
