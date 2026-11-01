@@ -1,16 +1,7 @@
-/**
- * ============================================================
- * IdentityRef
- * ============================================================
- */
-export class IdentityRef
-{
-    constructor(slot, guid = null)
-    {
-        this.slot = slot;
-        this.guid = guid;
-    }
-}
+// ps=DoublyLinkedList.js
+
+import { Identity } from "./ps-Identity.js";
+import { IdRef } from "./ps-Container.js";
 
 /**
  * ============================================================
@@ -19,9 +10,9 @@ export class IdentityRef
  */
 export class LinkedListNode
 {
-    constructor(identityRef, payload = null)
+    constructor(IdRef, payload = null)
     {
-        this.identityRef = identityRef;
+        this.IdRef = IdRef;
 
         this.previousSlot = 0;
         this.nextSlot = 0;
@@ -84,7 +75,7 @@ export class DoublyLinkedListIterator
         ].payload;
     }
 
-    getCurrentIdentityRef()
+    getCurrentIdRef()
     {
         if (!this._notParked())
         {
@@ -93,7 +84,7 @@ export class DoublyLinkedListIterator
 
         return this.list.nodes[
             this.currentSlot
-        ].identityRef;
+        ].IdRef;
     }
     
     removeCurrent()
@@ -110,7 +101,7 @@ export class DoublyLinkedListIterator
  */
 export class DoublyLinkedList
 {
-    constructor()
+    constructor(extras = null)
     {
         this.sentinelSlot = 0;
 
@@ -127,15 +118,14 @@ export class DoublyLinkedList
 
     _allocateNode(payload)
     {
-        const slot =
-            this.nodes.length;
+        const slot = this.nodes.length;
 
-        const identityRef =
-            new IdentityRef(slot);
+        const identity = new Identity("Node.Substrate.LinkedList");
+        const idRef = new IdRef(slot, identity);
 
         const node =
             new LinkedListNode(
-                identityRef,
+                idRef,
                 payload);
 
         this.nodes.push(node);
@@ -174,6 +164,8 @@ export class DoublyLinkedList
 
         newNode.nextSlot =
             successorSlot;
+
+        return newNode.IdRef;
     }
 
     insertAfter(
@@ -205,21 +197,18 @@ export class DoublyLinkedList
                 predecessorSlot
             ].nextSlot;
 
-        this._insertBetween(
+        return this._insertBetween(
             predecessorSlot,
             successorSlot,
             newSlot);
 
-        return this.nodes[
-            newSlot
-        ].identityRef;
     }
 
-    getPayload(identityRef)
+    getPayload(IdRef)
     {
         const node =
             this.nodes[
-                identityRef.slot
+                IdRef.slot
             ];
 
         if (!node)
