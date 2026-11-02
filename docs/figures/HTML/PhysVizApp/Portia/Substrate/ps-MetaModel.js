@@ -18,9 +18,9 @@ export class MetaModel {
         
         // hard coded containers.  have to get the code first,  
         // then build its container, then put it in its container
-        this.codeCode = new Code("Type:Thing.Code", "is of Type: Code");
-        this.codeContainer = new Code("Type:Thing.Container", 
-            "is of Type: Container");
+        this.codeTypes = new Code("Type:", "Group of Types");
+        this.codeTypeThings = new Code("Type:Thing", "Types", { ParentRef: this.codeTypes });
+        this.codeContainer = new Code("Type:Thing.Container", "is of Type: Container", { ParentRef: this.codeTypeThings });
         this.codes = new Container(this.codeContainer,"Container Of all Codes", null, null);
 
         this.codes.storeThing(this.codeCode);
