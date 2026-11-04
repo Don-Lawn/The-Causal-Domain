@@ -1,0 +1,81 @@
+// ps-Dependency.js
+import { Identity } from "./ps-Identity.js";
+import { Container, IdRef} from "./ps-Thing.Container.js";
+
+// a dependency is a specification for an Arc to a Thing.Node
+export class Dependency {
+    constructor(target:(), container}) {
+ 
+    }
+}
+
+
+{
+  "things": [
+    {
+      "identity": {
+        "type": "Thing.Node.Class",
+        "name": "xxxx",
+        "id": "guid-xxxx"
+      },
+      "payload": {
+        "someOtherField": "Fanta"
+      }
+    },
+
+    {
+      "identity": {
+        "type": "Thing.Node.Class",
+        "name": "yyyy",
+        "id": "guid-yyyy"
+      },
+      "payload": {
+        "comment": "I'm a thing!",
+        "payment": "$5.00"  
+      }
+    },
+
+    {
+        "description": "I am an ArcClass that can be reused for multiple arcs.",
+        "payload": {
+            "layer": "3",
+            "transitive": true
+        }
+    },
+
+    { RoleParts: [
+            "identity": {
+                "type": "Thing.Arc.Dependency",
+                "name": "xxxx dependsOn yyyy",
+                "id": "guid-dependency"
+            },
+
+            "LinkedListNode": {
+                "predecessorRef": {},   
+                "successorRef": {},
+                "payloadRef": {}
+            },
+
+            "triple": {
+                "subjectRef": {
+                    "type": "Ref.Thing.ArcClass",
+                    "name": "dependsOn"
+                },         
+                "predicateRef": {
+                    "type": "Ref.Thing.ArcClass",
+                    "name": "dependsOn"
+                },
+
+                "objectRef": {
+                    "type": "Ref.Thing.Node",
+                    "name": "yyyy"
+                }
+            }
+            "metadata.Tags": [
+                "pink",
+                "furry"
+            ]
+        ]
+    }
+  ]
+}
