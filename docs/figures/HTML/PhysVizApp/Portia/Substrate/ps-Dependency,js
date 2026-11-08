@@ -1,6 +1,6 @@
 // ps-Dependency.js
 import { Identity } from "./ps-Identity.js";
-import { Container, IdRef} from "./ps-Thing.Container.js";
+import { Container } from "./ps-Thing.Container.js";
 
 // a dependency is a specification for an Arc to a Thing.Node
 export class Dependency {

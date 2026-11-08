@@ -9,7 +9,9 @@ import { Code } from "./ps-Thing.Code.js";
 import { Node } from "./ps-Thing.Node.js";
 import { Arc } from "./ps-Thing.Arc.js";
 import { ArcClass } from "./ps-Thing.ArcClass.js";
-import { Container, IdRef, Location } from "./ps-Container.js";
+import { Container } from "./ps-Thing.Container.js";
+import { exists } from "fs";
+import { not } from "three/src/nodes/math/OperatorNode.js";
 
 export class MetaModel {
     constructor(LoadFileName) {
@@ -69,11 +71,18 @@ export class MetaModel {
     }
 
 
+    _CreateAndRegisterCode (name, payload, extras = null) {
+        if (! this.codes) this.codes = new Container(null,null, { allowedContents: ["Code"] }); 
+        
+        const identity = new Identity("Type:Thing.Code",name);
+            let thing = new Code(name,payload, extras);
+            let location = this.codes.storeThing(thing);    
+        return new IdRef (thing.identity, location);
+    };
+
 
     CreateAndRegisterThing (type,name,payload, extras = null) {
         const identity = new Identity(type,name);
-        let thing=null;
-        let location = null;
         
         if (type === "Code") {
             thing = new Code(name,payload, extras);

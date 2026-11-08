@@ -5,5 +5,6 @@ export class Thing {
     constructor(type, name, payload,extras) {
         this.identity = new Identity(type, name, extras);
         this.payload = payload;
-}
+        this.usageCount = 0;
+    }
 }
