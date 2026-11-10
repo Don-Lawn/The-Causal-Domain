@@ -2,46 +2,64 @@
 import { processTemplate } from "./ps-ProcessTemplate.js";
 import { FileHandler } from "../Files/ps-FileHandler.js";
 
-const terminologyMap = {
-    "%host%": "container",
-    "%guest%": "content"
-};
-const terminologyMap2 = {
-    "%host%": "aggregate",
-    "%guest%": "partialObject"
-};
 
-const terminologyMap3 = {
-    "%host%": "set",
-    "%guest%": "element"
-};
 
-const extras = {
-    "type": "Thing.Host.%host%",
-    "name": "myContainer",
-    "payload": {
+function Build (templateFileName,templateMap, targetFileName, extras) {
+    const fh = new FileHandler(templateFileName);
+    const templateContent = fh.readFileSync();
+    const code = processTemplate(templateContent, templateMap, extras);
+    const fh2 = new FileHandler(targetFileName);
+    fh2.writeFileSync(code);
+}
+
+const HostGuestTemplateFileName =    "F:/Projects/PhysViz/Portia/Substrate/Templates/ps-Host.Guest.Template.txt";
+
+// App
+Build (
+    HostGuestTemplateFileName,
+    {
+        "%host%": "App",
+        "%guest%": "Axis"
+    },
+    "F:/Projects/PhysViz/Portia/Substrate/ps-Thing.App.Generated.js",     
+    {
+        "type": "Thing.%host%",
+        "name": "theApp",
+        "payload": { }
     }
-};
-const extras2 = {
-    "type": "Thing.Host.%host%",
-    "name": "myAggregate",
-    "payload": {    }
-};
-const extras3 = {
-    "type": "Thing.Host.%host%",
-    "name": "my %host% of %guest%s",
-    "payload": {    }
-};
-console.log ("cwd =", process.cwd());
-const fh = new FileHandler("F:/Projects/PhysViz/Portia/Substrate/Templates/TemplateForHost-Guest.txt");
-const templateContent = fh.readFileSync();
-const code = processTemplate(templateContent, terminologyMap, extras);
-const fh2 = new FileHandler("F:/Projects/PhysViz/Portia/Substrate/ps-Container-Content-Mechanism.js");
-fh2.writeFileSync(code);
-const code2 = processTemplate(templateContent, terminologyMap2, extras2);
-const fh3 = new FileHandler("F:/Projects/PhysViz/Portia/Substrate/ps-Aggregate-partialClass-Mechanism.js");
-fh3.writeFileSync(code2);
-const code3 = processTemplate(templateContent, terminologyMap3, extras3);
-const fh4 = new FileHandler("F:/Projects/PhysViz/Portia/Substrate/ps-Set-Things-Mechanism.js");
-fh4.writeFileSync(code3);
+);
+    
+// Axis
+Build (
+    HostGuestTemplateFileName,
+    {
+        "%host%": "Axis",
+        "%guest%": "Node"
+    },
+    "F:/Projects/PhysViz/Portia/Substrate/ps-Thing.Axis.Generated.js",     
+    {
+        "type": "Thing.%host%",
+        "name": "nodes",
+        "payload": { }
+    }
+);
+
+
+// NA Plane   = Grid
+Build( 
+    HostGuestTemplateFileName,
+    {
+        "%host%": "Graph",
+        "%guest%": "Axis"
+    },
+    "F:/Projects/PhysViz/Portia/Substrate/ps-Thing.Plane.Graph.Generated.js",
+    {
+        "type": "Thing.Plane.Graph",
+        "name": "Graph",
+        "payload": { }
+    });
+
+
+
+// PI Plane   = OO.
 

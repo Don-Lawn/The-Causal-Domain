@@ -7,6 +7,7 @@
 
 import { Thing } from "./ps-Thing.js";
 import { Index } from "./ps-Index.js";
+import { %guest% } from "./ps-Thing.%guest%.js";
 import { AssertNotImplemented } from "../p-assertions.js";
 
 // example dictionaryMap
@@ -31,10 +32,11 @@ import { AssertNotImplemented } from "../p-assertions.js";
 
 
 export class %host% extends Thing{           // a bit like a Table in database.
-    constructor(dictionaryMap, extras) {
-        super(extras.type, extras.name, extras.payload, extras);
+    constructor(type, name, payload, extras) {
+        super(type, name, payload, extras);
         this.%guest%Storage = new Array();  // the storage for the things in this %host%.  can be an array, a linked list, or something else.
         this.indexes = new Map();  // map of field names to indexes for those fields in the %host%.
+        this.indexIdentityFields()
         this.type = extras.type ?? "Type:Thing.Host.%host%";
         this.name = extras.name;
         this.payload = extras.payload;
@@ -44,11 +46,12 @@ export class %host% extends Thing{           // a bit like a Table in database.
     get%guest%(slot) {        // return the %guest% at the specified slot in the %host%.
         return this.%guest%Storage[slot];
     }
-    set%guest%(slot, %guest%) {  // set the %guest% at the specified slot in the %host%.
+    _set%guest%(slot, %guest%) {  // set the %guest% at the specified slot in the %host%.
         this.%guest%Storage[slot] = %guest%;
     }
-    add%guest%(%guest%) {  // add the %guest% to the %host%, and return a location for it.
-        const slot = this.%guest%Storage.push(%guest%) - 1;
+    addNew%guest%(extras) {  
+        const new%guest% = new %guest% ("Thing.%guest%", extras.name, {},{  });
+        const slot = this.%guest%Storage.push(new%guest%) - 1;
         for (const [fieldName, index] of this.indexes) {
             const value = this._getFieldValue(%guest%, fieldName);
             index.addSlotEntry(value, slot);
