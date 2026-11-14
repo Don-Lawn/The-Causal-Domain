@@ -2,23 +2,23 @@
 // Made from TemplateForHost-Guest.txt
 
 // Template for implementation of host-guest pattern in Portia.  
-// This is a template for a App that can hold things, 
+// This is a template for a Space that can hold things, 
 // and can be indexed by fields of those things.
 
 import { Thing } from "./ps-Thing.js";
 import { Index } from "./ps-Index.js";
 import { Axis } from "./ps-Thing.Axis.js";
-import { AssertNotImplemented } from "../p-assertions.js";
+import { AssertNotImplemented } from "./p-assertions.js";
 
 // example dictionaryMap
 // {
-//     "App": "Container",
+//     "Space": "Container",
 //     "Axis": "Content"
 // }
 
-// example extras for a App that can hold things, and can be indexed by fields of those things.
+// example extras for a Space that can hold things, and can be indexed by fields of those things.
 // {
-//     "type": "Type:Thing.Host.App",
+//     "type": "Type:Thing.Host.Space",
 //     "name": "Name:myContainer",
 //     "payload": {         
 //         "field1": "value1",      
@@ -31,34 +31,42 @@ import { AssertNotImplemented } from "../p-assertions.js";
 //  this template is for a one to many relationship,  navigable ->
 
 
-export class App extends Thing{           // a bit like a Table in database.
-    constructor(type, name, payload, extras) {
-        super(type, name, payload, extras);
-        this.AxisStorage = new Array();  // the storage for the things in this App.  can be an array, a linked list, or something else.
-        this.indexes = new Map();  // map of field names to indexes for those fields in the App.
-        this.indexIdentityFields()
-        this.type = extras.type ?? "Type:Thing.Host.App";
-        this.name = extras.name;
-        this.payload = extras.payload;
-        this.extras = extras;
+export default class Space extends Thing{           // a bit like a Table in database.
+    constructor(metadata) {
+        super(metadata);
+        this.AxisStorage = new Array();  // the storage for the things in this Space.  can be an array, a linked list, or something else.
+        this.type = metadata.type ?? "Type:Thing.Space";
+        this.name = metadata.name;
+        this.payload = metadata.payload;
+        this.metadata = metadata;
+        this.addAllAxis(metadata)
     }
 
-    getAxis(slot) {        // return the Axis at the specified slot in the App.
+    getAxis(slot) {        // return the Axis at the specified slot in the Space.
         return this.AxisStorage[slot];
     }
-    _setAxis(slot, Axis) {  // set the Axis at the specified slot in the App.
+    _setAxis(slot, Axis) {  // set the Axis at the specified slot in the Space.
         this.AxisStorage[slot] = Axis;
     }
+    addAllAxis(metadata) {
+        for (const axisName of metadata.axes ?? [])
+        {
+            this.addNewAxis({
+                name: axisName
+            });
+        }
+    }
+
     addNewAxis(extras) {  
         const newAxis = new Axis ("Thing.Axis", extras.name, {},{  });
         const slot = this.AxisStorage.push(newAxis) - 1;
         for (const [fieldName, index] of this.indexes) {
-            const value = this._getFieldValue(Axis, fieldName);
+            const value = this._getFieldValue(newAxis, fieldName);
             index.addSlotEntry(value, slot);
         }
         return slot;
     }
-    removeAxis(slot) {  // remove the Axis at the specified slot in the App.
+    removeAxis(slot) {  // remove the Axis at the specified slot in the Space.
         this.AxisStorage.splice(slot, 1);
     }   
 
@@ -69,7 +77,7 @@ export class App extends Thing{           // a bit like a Table in database.
 
 
     findThing (fieldName, value) {
-        // search for a thing in the App that matches the criteria, and return its location.
+        // search for a thing in the Space that matches the criteria, and return its location.
         const index= this.indexes.get(fieldName ?? "id")
         const slot = index.findSlotByKey(value);
         return this.AxisStorage[slot];
@@ -86,6 +94,11 @@ export class App extends Thing{           // a bit like a Table in database.
         }
 
         return current;
+    }
+
+    static selfTestCreate (metadata) {
+        let testobj = new Space (metadata.subRoles)
+        console.log ("created new Space", testObj)
     }
 }
 

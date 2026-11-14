@@ -1,0 +1,11 @@
+{
+    "templateFileName": "F:/Projects/PhysViz/Portia/Substrate/Templates/ps-Host.Guest.Template.txt",
+    "templateSubstitutions":{
+        "%host%": "Space",
+        "%guest%": "Axis"
+    },
+    "outputFileName":"F:/Projects/PhysViz/Portia/Substrate/ps-Thing.Space.js",
+    "type": "Thing.Space",
+    "name": "myTestSpace",
+    "subRoles": ["Nodes","Arcs","Processes","Time","Meta"] 
+    }

@@ -2,7 +2,7 @@
 
 import fs from 'fs';
 
-export class FileHandler
+export class File
 {
     constructor (filename) {
         this.filename = filename;
@@ -12,13 +12,14 @@ export class FileHandler
         return process.cwd();
     }
     
-    readFileSync() {
+    readText() {
         return fs.readFileSync(this.filename, 'utf8');
     }
 
-    writeFileSync(content) {
+    writeText(content) {
         fs.writeFileSync(this.filename, content, 'utf8');
     }
+
 }
 
 

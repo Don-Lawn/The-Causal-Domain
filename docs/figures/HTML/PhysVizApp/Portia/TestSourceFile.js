@@ -1,13 +1,12 @@
 //TestSourceFile.js
-import { SourceFile } from "../p-SourceFile.js";
+import { SourceFile } from "./p-sourceFile.js";
 import { PropertySet}   from "../pv-propertySet.js";
 
-function Test ()
+async function Test (sourceFilePath)
 {
-    const sourceFilePath = "./RDF.OWL/RDF.TestHarness.js";
-    const baseObjSource = new SourceFile("../pv-baseObject.js", "BaseObject");
-    const baseObjParams = new PropertySet()
-    baseObjParams = await baseObjSource.creatObject("../pv-baseObject.js", "BaseObject", baseObjParams);
+    const baseObjectSource = new SourceFile("../pv-baseObject.js", "BaseObject");
+    let baseObjParams = new PropertySet()
+    baseObjParams = await baseObjectSource.creatObject("BaseObject", baseObjParams);
 }
 
-Test();
+Test("./RDF.OWL/RDF.TestHarness.js");

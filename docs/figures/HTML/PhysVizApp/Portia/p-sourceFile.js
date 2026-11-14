@@ -1,7 +1,6 @@
 // p-JSsourceFile.js
-import fs from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import fs from 'fs/promises';import path from 'path';
+import { fileURLToPath, pathToFileURL } from 'url';
 
 export class SourceFile 
 {
@@ -10,32 +9,55 @@ export class SourceFile
         this.className = className;
     }
 
-    async LoadSource (pathFileName) {    
+    async LoadSource () {    
         // Step 1: Resolve full path to class file
-        if (!this.classFilePath) {
-            this.classFilePath = path.resolve(__dirname, this.sourceFilePath);
-        }
+        const moduleUrl = pathToFileURL(this.sourceFilePath);
+
+        // console.log(moduleUrl.href);
 
         // Step 2: Dynamically import the class
         if (!this.module) {
-            this.module = await import(this.classFilePath);
-        }
+                try {
 
+                console.log("Loading:", moduleUrl.href);
+
+                this.module = await import(moduleUrl.href);
+
+                console.log(
+                    "Loaded exports:",
+                    Object.keys(this.module)
+                );
+
+            }
+            catch (err) {
+
+                console.error(
+                    "Failed loading module:",
+                    moduleUrl.href
+                );
+
+                console.error(
+                    "Message:",
+                    err.message
+                );
+            }
+        }
+        
         // Step 3: Ensure default export is a class
-        if (typeof this.module.default !== 'function') {
-            throw new Error(`File ${metadata.classFile} does not export a class as default.`);
+        if (typeof this.module[this.className] !== 'function') {
+            throw new Error(
+                `Class ${this.className} not found in ${this.sourceFilePath}`
+            );
         }
     }
 
 
-    async creatObject(pathFileName, className, params) {
-        try {
-            // Step 4: Create an object and manipulate it
-            const obj = new this.module.default(params);
-            return obj;
+    async createObject(params) {
 
-        } catch (err) {
-            console.error("Error:", err.message);
+        if (!this.module) {
+            await this.LoadSource();
         }
+
+        return new this.module[this.className](params);
     }
 }

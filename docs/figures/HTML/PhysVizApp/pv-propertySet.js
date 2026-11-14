@@ -29,7 +29,7 @@
 //     Factory Properties
 //
 // ---------------------------------------------------------------------------
-import { JsonFile } from "./p-jsonFile.js";
+import { JsonFile } from "./p-FileJson.js";
 
 export class PropertySet
 {
@@ -75,7 +75,7 @@ export class PropertySet
     loadFile(path)
     {
         // Load JSON file.
-        const properties = JsonFile.load(path);
+        const properties = new JsonFile(path).readSync();
 
         // Merge loaded properties into the current PropertySet.
         this._mergeProperties( properties         );

@@ -1,22 +1,18 @@
 // ps-GeneratedCodeTest.js
 
- import { App } from "../ps-Thing.App.Generated.js";
- import { Axis } from "../ps-Thing.Axis.Generated.js";
- import { Graph } from "../ps-Thing.Plane.Graph.Generated.js";
+ import { Space } from "../ps-Thing.Space.js";
  
 
- 
-let graph = new Graph( "Thing.Plane.Graph", "Test Graph", {}, {});
-graph.addNewAxis({"type": "Thing.Plane.Graph.Axis", "name": "nodeAxis", "payload": {}, "extras": {
-    child : {"type": "Thing.Axis", "name": "nodes", "payload": {}, "extras": {}}
-}});
+let space = new Space( {
+    templateSubstitutions:{
+        "%host%": "Space",
+        "%guest%": "Axis"
+    },
+    outputFileName:"F:/Projects/PhysViz/Portia/Substrate/ps-Thing.Space.js",
+    "type": "Thing.Space",
+    "name": "myTestSpace",
+    "subRoles": ["Nodes","Arcs","Processes","Time","Meta"] 
+    }); 
 
-graph.addNewAxis({"type": "Thing.Plane.Graph.Axis", "name": "arcAxis", "payload": {}, "extras": {
-    child : {"type": "Thing.Axis", "name": "arcs", "payload": {}, "extras": {}}
-}});
-
-
-let app = new App( "Thing.App", "App", {}, {});
-let axis = new Axis( "Thing.Axis", "Nodes", {}, {});
-app.addNewAxis({"type": "Thing.Axis", "name": "Nodes", "payload": {}, "extras": {}});
-let foundAxis = app.findThing("name", "Nodes");
+let foundAxis = space.findThing("identity.name", "Nodes");
+console.log("Found Axis: ", foundAxis);

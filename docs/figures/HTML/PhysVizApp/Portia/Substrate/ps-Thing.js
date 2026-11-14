@@ -3,11 +3,12 @@ import { Identity } from "./ps-Identity.js";
 import { Index } from "./ps-Index.js";  
 
 export class Thing {
-    constructor(type, name, payload,extras) {
-        this.identity = new Identity(type, name, extras);
-        this.payload = payload;
+    constructor(metadata) {
+        this.identity = new Identity(metadata.type, metadata.name);
+        this.payload = metadata.payload;
         this.usageCount = 0;
         this.indexes = new Map();  // map of field names to indexes for those fields in the container.
+        this.indexIdentityFields()
     }
 
     indexIdentityFields () {

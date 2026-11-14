@@ -8,7 +8,7 @@
 import { Thing } from "./ps-Thing.js";
 import { Index } from "./ps-Index.js";
 import { %guest% } from "./ps-Thing.%guest%.js";
-import { AssertNotImplemented } from "../p-assertions.js";
+import { AssertNotImplemented } from "./p-assertions.js";
 
 // example dictionaryMap
 // {
@@ -31,16 +31,15 @@ import { AssertNotImplemented } from "../p-assertions.js";
 //  this template is for a one to many relationship,  navigable ->
 
 
-export class %host% extends Thing{           // a bit like a Table in database.
-    constructor(type, name, payload, extras) {
-        super(type, name, payload, extras);
+export default class %host% extends Thing{           // a bit like a Table in database.
+    constructor(metadata) {
+        super(metadata);
         this.%guest%Storage = new Array();  // the storage for the things in this %host%.  can be an array, a linked list, or something else.
-        this.indexes = new Map();  // map of field names to indexes for those fields in the %host%.
-        this.indexIdentityFields()
-        this.type = extras.type ?? "Type:Thing.Host.%host%";
-        this.name = extras.name;
-        this.payload = extras.payload;
-        this.extras = extras;
+        this.type = metadata.type ?? "Type:Thing.%host%";
+        this.name = metadata.name;
+        this.payload = metadata.payload;
+        this.metadata = metadata;
+        this.addAll%guest%(metadata)
     }
 
     get%guest%(slot) {        // return the %guest% at the specified slot in the %host%.
@@ -49,11 +48,20 @@ export class %host% extends Thing{           // a bit like a Table in database.
     _set%guest%(slot, %guest%) {  // set the %guest% at the specified slot in the %host%.
         this.%guest%Storage[slot] = %guest%;
     }
+    addAll%guest%(metadata) {
+        for (const axisName of metadata.axes ?? [])
+        {
+            this.addNewAxis({
+                name: axisName
+            });
+        }
+    }
+
     addNew%guest%(extras) {  
         const new%guest% = new %guest% ("Thing.%guest%", extras.name, {},{  });
         const slot = this.%guest%Storage.push(new%guest%) - 1;
         for (const [fieldName, index] of this.indexes) {
-            const value = this._getFieldValue(%guest%, fieldName);
+            const value = this._getFieldValue(new%guest%, fieldName);
             index.addSlotEntry(value, slot);
         }
         return slot;
@@ -86,6 +94,11 @@ export class %host% extends Thing{           // a bit like a Table in database.
         }
 
         return current;
+    }
+
+    static selfTestCreate (metadata) {
+        let testobj = new %host% (metadata.subRoles)
+        console.log ("created new %host%", testObj)
     }
 }
 
