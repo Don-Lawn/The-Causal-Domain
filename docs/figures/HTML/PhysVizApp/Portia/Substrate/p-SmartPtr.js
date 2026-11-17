@@ -1,6 +1,6 @@
 // ps-SmartPtr.js
-import { Identity } from "./ps-Identity.js";
-import { Container} from "./ps-Thing.Container.js";
+import { Identity } from "./p-Identity.js";
+import { Set } from "./p-Set.js";
 
 export class SmartPtr {
     constructor(host,target) {

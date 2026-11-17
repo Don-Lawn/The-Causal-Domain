@@ -4,24 +4,23 @@ export class Index {
     constructor (fieldName, container) {  
         this.fieldName = fieldName;
         this.container = container;
-        this.Map = new Map();  // map of field values to locations in the container.
+        this.map = new Map();  // map of field values to locations in the container.
     }
 
-    findSlotByKey (keyValue)    {
-        // find the location of the thing in the container that has the specified key value.
-        return this.Map.get(keyValue);
+    findobjectByKey (keyValue)    {
+        return this.map.get(keyValue);
     }
 
-    addSlotEntry (keyValue, slotNumber) {
-        this.Map.set(keyValue, slotNumber);
+    addIndexEntry (keyValue, object) {
+        this.map.set(keyValue, object);
     }                                                               
 
-    removeSlotEntry (keyValue) {
-        this.Map.delete(keyValue);
-    }   
+    removeIndexEntry (keyValue) {
+        this.map.delete(keyValue);
+    }
 
     clear() {
-        this.Map.clear();
+        this.map.clear();
     }
 
     refresh() {
@@ -29,7 +28,7 @@ export class Index {
         for (let i = 0; i < this.container.guestSlots.length; i++) {
             const item = this.container.guestSlots[i];
             const keyValue = item[this.fieldName];
-            this.addSlotEntry(keyValue, i);
+            this.addIndexEntry(keyValue, i);
         }
     }
 }

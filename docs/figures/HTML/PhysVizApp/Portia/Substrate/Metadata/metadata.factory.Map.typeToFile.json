@@ -1,0 +1,14 @@
+ {
+        "Aggregate":"p-Aggregate.js",
+        "Assertions":"p-assertions.js",
+        "FacetMap":"p-FacetMap.js",
+        "File":"p-File.js",
+        "JsonFile":"p-FileJson.js",
+        "JSModule":"p-JSModule.js",
+        "Identity":"p-Identity.js",
+        "Index":"p-Index.js",
+        "InMemStore":"p-InMemStore.js",
+        "Set":"p-Set.js",
+        "SmartFactory":"p-SmartFactory.js",
+        "SmartPtr":"p-SmartPtr.js"
+}

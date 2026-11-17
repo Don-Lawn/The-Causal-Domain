@@ -10,8 +10,8 @@ const HostGuestTemplateFileName =    "F:/Projects/PhysViz/Portia/Substrate/Templ
 // app
 // tp.runFromMetadataFile("F:/Projects/PhysViz/Portia/Substrate/Metadata/Metadata.App.json");
 
-// Space
-tp.runFromMetadataFile("F:/Projects/PhysViz/Portia/Substrate/Metadata/Metadata.Space.json");
+// Treenode
+tp.runFromMetadataFile("F:/Projects/PhysViz/Portia/Substrate/Metadata/Metadata.TreeNode.example.json");
 
 //Axis
 tp.runAndTest({
