@@ -1,6 +1,6 @@
 // ps-Index.js
-
-export class Index {
+console.log("Loading Index");
+export  class Index {
     constructor (fieldName, container) {  
         this.fieldName = fieldName;
         this.container = container;

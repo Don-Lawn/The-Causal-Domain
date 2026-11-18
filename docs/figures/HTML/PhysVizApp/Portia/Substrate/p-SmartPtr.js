@@ -1,4 +1,5 @@
 // ps-SmartPtr.js
+console.log("Loading SmartPtr");
 import { Identity } from "./p-Identity.js";
 import { Set } from "./p-Set.js";
 

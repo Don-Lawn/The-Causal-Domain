@@ -1,10 +1,11 @@
 // ps-Identity.js
+console.log("Loading Identity");
 /**
  * ============================================================
  * Identity
  * ============================================================
  */
-export class Identity
+export  class Identity
 {
     constructor( metadata = null)
     {        

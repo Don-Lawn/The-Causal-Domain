@@ -1,11 +1,16 @@
 {
-    "templateFileName": "F:/Projects/PhysViz/Portia/Substrate/Templates/ps-Host.Guest.Template.txt",
-    "templateSubstitutions":{
-        "%host%": "Space",
-        "%guest%": "Axis"
-    },
-    "outputFileName":"F:/Projects/PhysViz/Portia/Substrate/ps-Thing.Space.js",
-    "type": "Thing.Space",
-    "name": "myTestSpace",
-    "subRoles": ["Nodes","Arcs","Processes","Time","Meta"] 
+    "comment": "This file tells how to build a Space. It is not yet complete as I will add a bit at a time",
+    "roles": {
+        "Identity": {
+            "name": "myTestSpace",
+            "type": "Space.Identity",
+            "cls": "Identity"
+        },
+        "Nodes": {
+            "name": "Nodes",
+            "type": "Node",
+            "cls": "Set"
+        },
+        "Payload": {"x": "Merry Christmas"}
     }
+}

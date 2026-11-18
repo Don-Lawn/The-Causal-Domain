@@ -1,4 +1,5 @@
 // p-Registry.js
+console.log("Loading Registry");
 import { JsonFile } from "./p-FileJson.js";
 export class Registry {
 
@@ -8,7 +9,7 @@ export class Registry {
             return;
         }
 
-        Registry.typeToFile = Registry.load("./metadata/metadata.factory.map.typeToFile.json");
+        Registry.classToCode = Registry.load("./metadata/metadata.factory.map.classToCode.json");
 
         Registry.typeToInstructions = Registry.load("./metadata/metadata.factory.map.typeToInstructions.json");
 
@@ -20,8 +21,8 @@ export class Registry {
         return file.deserialise(file.readText());
     }
 
-    static getFile(type) {
-        return Registry.typeToFile[type];
+    static getFile(part) {
+        return Registry.classToCode[part];
     }
 
     static getInstructions(type) {

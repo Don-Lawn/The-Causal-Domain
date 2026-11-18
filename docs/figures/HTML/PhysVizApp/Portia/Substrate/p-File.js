@@ -1,8 +1,8 @@
 // ps-FileHandler.js
-
+console.log ("Loading FileHandler");
 import fs from 'fs';
 
-export class File
+export  class File
 {
     constructor (filename) {
         this.filename = filename;

@@ -4,11 +4,11 @@
 // Template for implementation of host-guest pattern in Portia.  
 // This is a template for a Axis that can hold things, 
 // and can be indexed by fields of those things.
-
+console.log("Loading InMemStore");
 import { Index } from "./p-Index.js";
 import { AssertNotImplemented } from "./p-assertions.js";
 
-export default class InMemStore {           // a bit like a Table in database.
+export class InMemStore {           // a bit like a Table in database.
     constructor(metadata) {
         this.Storage = new Array();  // the storage for the things in this Axis.  can be an array, a linked list, or something else.
         this.type = metadata.type ?? "Type:Thing.Axis";

@@ -8,10 +8,10 @@ const tp = new TemplateProcessor();
 const HostGuestTemplateFileName =    "F:/Projects/PhysViz/Portia/Substrate/Templates/ps-Host.Guest.Template.txt";
 
 // app
-// tp.runFromMetadataFile("F:/Projects/PhysViz/Portia/Substrate/Metadata/Metadata.App.json");
+tp.runFromMetadataFile("F:/Projects/PhysViz/Portia/Substrate/Metadata/Metadata.App.json");
 
 // Treenode
-tp.runFromMetadataFile("F:/Projects/PhysViz/Portia/Substrate/Metadata/Metadata.TreeNode.example.json");
+tp.runFromMetadataFile("F:/Projects/PhysViz/Portia/Substrate/Metadata/Metadata.Space.json");
 
 //Axis
 tp.runAndTest({

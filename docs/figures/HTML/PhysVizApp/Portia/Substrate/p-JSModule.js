@@ -1,8 +1,9 @@
 // p-JSModule.js
+console.log("Loading JSModule");
 import { pathToFileURL } from 'url';
 import { File } from './p-File.js';
 
-export class JSModule extends File
+export  class JSModule extends File
 {
     constructor(filePath, className) {
         super(filePath);

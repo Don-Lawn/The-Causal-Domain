@@ -1,5 +1,5 @@
 // ps-SmartFactory.js
-
+console.log("Loading SmartFactory");
 import { JsonFile } from "./p-FileJson.js";
 import { Identity } from "./p-Identity.js";
 import { Aggregate } from "./p-Aggregate.js";
@@ -13,21 +13,28 @@ export class SmartFactory {
         AssertNotNull (this.instructionsFileName, `SmartFactory - No file of instructions found for type: ${type} 
             in file "./metadata/metadata.factory.typeToInstructions.json"`);
         const fs = new JsonFile(this.instructionsFileName);
-        this.instructions = fs.deserialise(fs.readText());
-        AssertNotNull (this.instructions, `SmartFactory - No instructions found for type: ${type} 
+        let txt = fs.readText();
+        this.classInstructions = fs.deserialise(txt);
+        AssertNotNull (this.classInstructions, `SmartFactory - No instructions found for type: ${type} 
             in file "./metadata/metadata.factory.typeToInstructions.json"`);
     }
 
 
-    build() {
-        let aggr = new Aggregate(this.instructions);
-        let tmpPart = new Identity (this.metadata.identity);
-        aggr.addPart("Identity", tmpPart);
-        tmpPart = new Set (this.metadata);
-        aggr.addPart("Parts", tmpPart);
-        tmpPart = new Set (this.metadata.payload);
-        aggr.addPart("Parts", tmpPart);
-        return aggr;
+    build( objInstructions) {
+        this.objInstructions = objInstructions;
+        let result = new Aggregate(this.classInstructions, this.objInstructions);
 
+        let tmpPart;
+
+        for (const [role, {cls, type, name, part}] of Object.entries(this.classInstructions.roles)) {
+            if (part)
+                result.addPart (role, part);
+            else if (cls)
+                result.addNewPart(role, cls, this.objInstructions[role]);
+            else 
+                result.addPart(role, this.objInstructions[role]);
+        }
+
+        return result;
     }
 }

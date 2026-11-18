@@ -1,4 +1,5 @@
 // assertions
+console.log("Loading assertions");
 
 export function AssertNotNull (value, location, message) {
     if (value === null || value === undefined) {

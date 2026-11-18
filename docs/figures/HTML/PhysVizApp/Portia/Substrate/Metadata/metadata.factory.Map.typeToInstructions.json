@@ -2,5 +2,6 @@
     "Aggregate": "./Metadata/metadata.Aggregate.json",
     "TreeNode": "./Metadata/metadata.TreeNode.json",
     "ListNode": "./Metadata/metadata.ListNode.json",
-    "Person": "./Metadata/metadata.Person.json"
+    "Person": "./Metadata/metadata.Person.json",
+    "Space": "./Metadata/metadata.Space.json"
 }

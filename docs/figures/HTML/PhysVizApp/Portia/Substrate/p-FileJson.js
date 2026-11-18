@@ -1,3 +1,4 @@
+console.log("Loading JsonFile");
 // ---------------------------------------------------------------------------
 // JsonFile
 //
@@ -17,7 +18,7 @@
 // ---------------------------------------------------------------------------
 import{ File }  from "./p-File.js";
 
-export class JsonFile extends File
+export  class JsonFile extends File
 {
     constructor (filename) {
         super(filename);
