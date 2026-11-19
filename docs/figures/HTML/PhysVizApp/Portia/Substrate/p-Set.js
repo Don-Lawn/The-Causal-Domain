@@ -3,15 +3,18 @@ console.log("Loading Set");
 
 import { Identity } from "./p-Identity.js";
 import { Index } from "./p-Index.js";
-import { AssertNotImplemented } from "./p-assertions.js";
+import { AssertNotImplemented, AssertNotNull } from "./p-assertions.js";
 
 export class Set {           // a bit like a Table in database.
     constructor() { 
+        this.elements = new Map();  // the elements in the Set, keyed by identity fields
         this.indexes = new Map();
         this.indexIdentityFields();
     }
 
     addElement(identity, element) {  // add the Element to the Set, and and index it accordingto identity
+        AssertNotNull (identity.id, 'Set.addElement', `Identity.id is null or undefined`);
+        this.elements.set(identity.id, element);
         for (const [fieldName, index] of this.indexes.entries()) {
             const value = this._getFieldValue(element, fieldName);
             if (value)
@@ -22,7 +25,7 @@ export class Set {           // a bit like a Table in database.
 
     // start indexing the field, by fieldName, so that we can find things by that field.
     indexField (fieldName) {
-        this.indexes.set(fieldName, new Index(fieldName,this));
+        this.indexes.set(fieldName, new Index(fieldName));
     }
 
     indexIdentityFields ( ) {
@@ -37,7 +40,8 @@ export class Set {           // a bit like a Table in database.
     findThing (fieldName, key) {
         // search for a thing in the Set that matches the criteria, and return it.
         const index = this.indexes.get(fieldName ?? "id");
-        return index.get(key)   ;
+        AssertNotNull (index, 'Set.findThing', `No index found for fieldName: ${fieldName}`);
+        return index.map.get(key)   ;
     }
 
     _getFieldValue(obj, path) {

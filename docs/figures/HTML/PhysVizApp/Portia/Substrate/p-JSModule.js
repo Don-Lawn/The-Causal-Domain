@@ -47,18 +47,18 @@ export  class JSModule extends File
         // Step 3: Ensure default export is a class
         if (typeof this.module[this.className] !== 'function') {
             throw new Error(
-                `Class ${this.className} not found in ${this.filePath}`
+                `Class ${this.className} not found in ${this.fileName}`
             );
         }
     }
 
 
-    async createObject(params) {
+    async createObject(objInstructions) {
 
         if (!this.module) {
             await this.load();
         }
 
-        return new this.module[this.className](params);
+        return new this.module[this.className](objInstructions);
     }
 }

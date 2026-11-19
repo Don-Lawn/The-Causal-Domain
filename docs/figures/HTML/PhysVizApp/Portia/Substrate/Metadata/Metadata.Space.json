@@ -6,9 +6,9 @@
             "type": "Space.Identity",
             "cls": "Identity"
         },
-        "Nodes": {
-            "name": "Nodes",
-            "type": "Node",
+        "Axes": {
+            "name": "Axes",
+            "type": "AxisSet",
             "cls": "Set"
         },
         "Payload": {"x": "Merry Christmas"}

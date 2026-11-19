@@ -7,7 +7,7 @@ Registry.initialise();
 
 const sf = new SmartFactory("Space");
 
-let x = sf.build(
+let x = await sf.build(
     {
         "Identity": {
             name: "MyTestSpace",
@@ -16,11 +16,14 @@ let x = sf.build(
         },
         "Axes": {
             name: "myAxesSet",
-            type: "Thing.Axis.Nodes",
+            type: "Set.Axes",
             cls: "Set"
         },
         "Payload":{
             x: "merry Christmas",
         }
     }
-);
+)
+let y=x.getRoleObject("Payload");
+let z=x.getRoleObject("Identity");
+

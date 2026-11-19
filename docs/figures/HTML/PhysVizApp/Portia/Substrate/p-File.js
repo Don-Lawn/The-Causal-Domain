@@ -1,11 +1,11 @@
-// ps-FileHandler.js
-console.log ("Loading FileHandler");
+// ps-File.js
+console.log ("Loading File");
 import fs from 'fs';
 
 export  class File
 {
-    constructor (filename) {
-        this.filename = filename;
+    constructor (fileName) {
+        this.fileName = fileName;
     }
 
     getCurrentWorkingDirectory() {
@@ -13,11 +13,11 @@ export  class File
     }
     
     readText() {
-        return fs.readFileSync(this.filename, 'utf8');
+        return fs.readFileSync(this.fileName, 'utf8');
     }
 
     writeText(content) {
-        fs.writeFileSync(this.filename, content, 'utf8');
+        fs.writeFileSync(this.fileName, content, 'utf8');
     }
 
 }

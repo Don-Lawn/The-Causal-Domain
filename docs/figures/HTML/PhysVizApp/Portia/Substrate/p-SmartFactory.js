@@ -1,9 +1,7 @@
 // ps-SmartFactory.js
 console.log("Loading SmartFactory");
 import { JsonFile } from "./p-FileJson.js";
-import { Identity } from "./p-Identity.js";
 import { Aggregate } from "./p-Aggregate.js";
-import { Set } from "./p-Set.js";
 import { Registry } from "./p-Registry.js";
 import { AssertNotNull } from "./p-assertions.js";
 
@@ -20,17 +18,15 @@ export class SmartFactory {
     }
 
 
-    build( objInstructions) {
+    async build( objInstructions) {
         this.objInstructions = objInstructions;
         let result = new Aggregate(this.classInstructions, this.objInstructions);
-
-        let tmpPart;
 
         for (const [role, {cls, type, name, part}] of Object.entries(this.classInstructions.roles)) {
             if (part)
                 result.addPart (role, part);
             else if (cls)
-                result.addNewPart(role, cls, this.objInstructions[role]);
+                await result.addNewPart(role, cls, this.objInstructions[role]);
             else 
                 result.addPart(role, this.objInstructions[role]);
         }

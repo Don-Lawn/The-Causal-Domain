@@ -14,16 +14,14 @@ export class Aggregate   // not really the whole aggregate - just the part that 
     constructor(typeInstructions, objInstructions)
     {
         // add the parts Set immediately, so that addPart can use it to keep metadata specufied parts in.
-        this.parts = new Set();
-        // add the roleIndex immediately, so that addPart can use it to keep track of the parts in the aggregate.
-        this.roleIndex = new Index(typeInstructions.roles);  // map of role names to parts in the aggregate.
+        this.indexRoleToParts = new Index();
         
         this.typeInstructions = typeInstructions;
 
     }
 
     addPart(role, part) {
-        this.parts.addElement(role, part);
+        this.indexRoleToParts.addIndexEntry(role, part);
     }
 
 
@@ -31,10 +29,9 @@ export class Aggregate   // not really the whole aggregate - just the part that 
         const sourceFileName = Registry.getFile(cls);
         AssertNotNull (sourceFileName, 'Aggregate.addNewPart', `Class '${cls}' not found in metadata.roles for aggregate type '${cls}'`); 
 
-        let module = new JSModule(sourceFileName);
+        let module = new JSModule(sourceFileName, cls);
         await module.load();
-        const obj = module.createObject(this.typeInstructions);
-        this.roleIndex.addIndexEntry(role, obj);
+        const obj = module.createObject(objInstructions);
         this.addPart(role, obj);
     }
 
@@ -43,6 +40,6 @@ export class Aggregate   // not really the whole aggregate - just the part that 
     }
 
     getRoleObject(role) {   
-        return this.roleIndex.get(role);
+        return this.indexRoleToParts.findObjectByKey(role);
     }
 }
