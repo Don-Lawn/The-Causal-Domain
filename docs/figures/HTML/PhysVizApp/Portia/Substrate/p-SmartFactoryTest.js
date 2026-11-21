@@ -5,25 +5,10 @@ import { Registry } from "./p-Registry.js";
 
 Registry.initialise();
 
-const sf = new SmartFactory("Space");
+const sfThing = new SmartFactory("Thing");
+let Don = await sfThing.MakeBaseThing("Don", "Thing.Person.Man");
+let Dani = await sfThing.MakeBaseThing("Dani", "Thing.Person.Woman");
 
-let x = await sf.build(
-    {
-        "Identity": {
-            name: "MyTestSpace",
-            type: "Thing.Space",
-            cls: "Identity"
-        },
-        "Axes": {
-            name: "myAxesSet",
-            type: "Set.Axes",
-            cls: "Set"
-        },
-        "Payload":{
-            x: "merry Christmas",
-        }
-    }
-)
-let y=x.getRoleObject("Payload");
-let z=x.getRoleObject("Identity");
+
+
 

@@ -27,10 +27,40 @@ export class SmartFactory {
                 result.addPart (role, part);
             else if (cls)
                 await result.addNewPart(role, cls, this.objInstructions[role]);
-            else 
-                result.addPart(role, this.objInstructions[role]);
+            else if (this.objInstructions["Roles"] && this.objInstructions["Roles"][role])
+                result.addPart(role, this.objInstructions["Roles"][role]);
         }
 
         return result;
+    }
+
+
+    MakeBaseThing( name, type )
+    {   
+        let metadata = {
+            "Identity": {
+                name: name,
+                type: type,
+                cls: "Identity"
+            },
+        }; 
+        return this.build(metadata);   
+    }
+
+    MakeParentThing( name, type )
+    {   
+        let metadata = {
+            "Identity": {
+                name: name,
+                type: type,
+                cls: "Identity"
+            },
+            "Children": {
+                name: "Children",
+                type: "Set.Children",
+                cls: "Set"
+            }
+        };   
+        return this.build(metadata);
     }
 }

@@ -18,6 +18,9 @@ export class Aggregate   // not really the whole aggregate - just the part that 
         
         this.typeInstructions = typeInstructions;
 
+        this.incomingArcs = new Set();
+        this.outgoingArcs = new Set();
+
     }
 
     addPart(role, part) {

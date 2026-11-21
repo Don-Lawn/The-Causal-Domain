@@ -1,0 +1,14 @@
+{
+    "comment": "This file tells how to build a Space. It is not yet complete as I will add a bit at a time",
+    "roles": {
+        "Identity": {
+            "name": "someThing",
+            "type": "Thing",
+            "cls": "Identity"
+        },
+        "Host": {
+            "type": "Thing"
+        }
+        
+    }
+}
