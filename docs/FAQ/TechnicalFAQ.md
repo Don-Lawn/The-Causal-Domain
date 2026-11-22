@@ -28,7 +28,7 @@ The Q‑Toroid is the complete version of that idea.
 
 Tempo is the derivative of time:
 
-Θ=dtdT
+Θ=dt/dT
 
 It measures how fast a system moves through Q‑Depth. Energy density modifies Tempo, and Tempo determines:
 

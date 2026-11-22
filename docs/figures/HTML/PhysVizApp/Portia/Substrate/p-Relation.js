@@ -81,7 +81,7 @@ let marriageCls = await sfThing.build({
         name: "marriageCls", 
         type: "Relation.Cls.Marriage"  
     },
-    Roles :{
+    "Roles" :{
         Husband:Man,
         Wife:Woman
     }

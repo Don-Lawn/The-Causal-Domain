@@ -1,17 +1,59 @@
-# Welcome to MkDocs
+# The Causal Domain
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+Welcome to the Causal Domain project.
 
-## Commands
+The Causal Domain is an attempt to explain space, time, matter and energy as projections of a deeper wave-field reality.
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+It draws on recurring geometric patterns found within Special and General Relativity to develop a more intuitive and visualisable model of physical reality.
 
-## Project layout
+RR seeks to remain fully consistent with established physics and its mathematics while providing a deeper geometric account of their underlying causes.
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+Rather than replacing established physics, RR seeks to provide a geometric interpretation of the mechanisms from which familiar physical laws emerge.
+
+The project explores a network of interconnected ideas including:
+
+- The Causal Domain and Phenomenal Domain
+
+- Tempo and the nature of time
+
+- Energy-Mass Duality
+
+- Relational Relativity
+
+- The Q-Dimension
+
+- Ribbon Photons
+
+- Layered Symmetry
+
+- Cosmology and Redshift
+
+The project combines explanatory articles, mathematical notes, glossary entries, visual models and working papers into an evolving web of interconnected ideas.
+
+**New to the project? Start with the Beginner FAQ.**
+
+## [Start Here]
+
+If you are new to the project, the following path is recommended:
+
+[Beginner FAQ](FAQ/BeginnerFAQ.md)
+
+## Popular Topics
+
+- Q-Dimension
+- Ribbon Photon
+- Redshift Reinterpretation
+- Matter
+- Gravity
+- Cyclic Cosmology
+
+## Reference Material
+
+- [Technical FAQ](FAQ/TechnicalFAQ.md)
+- [Glossary](glossary/index.md)
+- Mathematics
+- [Figures and Visualisations](figures/MASTER-DIAGRAM-PLAN.md)
+
+## About This Project
+
+The Causal Domain is an ongoing exploration of a unified geometric framework linking cosmology, relativity, quantum phenomena, matter and energy through a common causal foundation. 
