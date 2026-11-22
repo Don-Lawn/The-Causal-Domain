@@ -1,14 +1,10 @@
 # **Layer Transitions (Lᵢ → Lᵢ₊₁)**
 
-*Full manuscript‑ready document*
-
-# **Layer Transitions (Lᵢ → Lᵢ₊₁)**
-
 ## **1. Overview**
 
 A **layer transition** occurs when the universe introduces a new **primary axis** Pi. This expands the dimensional structure of physical description and creates a new symmetry layer.
 
-Layer transitions are the “big steps” in the architecture of physics.
+Layer transitions are the “big steps” in the architecture of RR physics.
 
 ## **2. The Sequence of Transitions**
 

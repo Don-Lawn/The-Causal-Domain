@@ -164,3 +164,4 @@ The full documentation is organised into four entry pathways:
 - **Glossary** — definitions and conceptual anchors
 
 See the site’s landing page for details.
+

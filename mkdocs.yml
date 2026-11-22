@@ -18,6 +18,7 @@ nav:
 
   - Manuscript:
       - Overview: manuscript/index.md
+      - Manuscript Map: manuscript/manuscript_map.md
       - All Pages: manuscript/AllManuscriptPages.md
 
   - Glossary:

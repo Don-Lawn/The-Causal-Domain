@@ -1,3 +1,5 @@
+# All Diagrams
+
 ## Sample
 
 <figure>

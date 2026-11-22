@@ -1,4 +1,4 @@
-# **Layered Symmetry: The Foundational Architecture of Physics**
+# **Layered Symmetry: **
 
 ## **1. Introduction**
 
