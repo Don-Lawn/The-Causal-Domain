@@ -32,7 +32,7 @@ The project combines explanatory articles, mathematical notes, glossary entries,
 
 **New to the project? Start with the Beginner FAQ.**
 
-## [Start Here]
+## Start Here
 
 If you are new to the project, the following path is recommended:
 
