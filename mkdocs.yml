@@ -18,7 +18,7 @@ nav:
 
   - Manuscript:
       - Overview: manuscript/index.md
-      - All Pages: manuscript/
+      - All Pages: manuscript/AllManuscriptPages.md
 
   - Glossary:
       - Overview: glossary/index.md
@@ -26,7 +26,7 @@ nav:
 
   - Figures:
       - Overview: figures/index.md
-      - All Figures: figures/
+      - All Figures: manuscript/diagrams.md
 
   - Math:
       - Overview: math/index.md
