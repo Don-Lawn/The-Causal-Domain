@@ -8,7 +8,11 @@
         "Identity":"p-Identity.js",
         "Index":"p-Index.js",
         "InMemStore":"p-InMemStore.js",
-        "Set":"p-Set.js",
+        "Collection":"p-Collection.js",
         "SmartFactory":"p-SmartFactory.js",
-        "SmartPtr":"p-SmartPtr.js"
+        "SmartPtr":"p-SmartPtr.js",
+        "Relation":"p-Relation.js",
+        "RelCls": "p-Relation.js",
+        "ArcCls": "p-Relation.js",
+        "Vertex":"p-Vertex.js"
 }

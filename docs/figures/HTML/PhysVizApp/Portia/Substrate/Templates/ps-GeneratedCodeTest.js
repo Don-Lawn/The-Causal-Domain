@@ -11,7 +11,7 @@ let space = new Space( {
     outputFileName:"F:/Projects/PhysViz/Portia/Substrate/ps-Thing.Space.js",
     "type": "Thing.Space",
     "name": "myTestSpace",
-    "subRoles": ["Nodes","Arcs","Processes","Time","Meta"] 
+    "subAspects": ["Nodes","Arcs","Processes","Time","Meta"] 
     }); 
 
 let foundAxis = space.findThing("identity.name", "Nodes");

@@ -21,7 +21,7 @@ export class InMemStore {           // a bit like a Table in database.
     getObject(slot) {        // return the Node at the specified slot in the Axis.
         return this.Storage[slot];
     }
-    _setObject(slot, object) {  // set the object at the specified slot in the Axis.
+    _CollectionObject(slot, object) {  // Collection the object at the specified slot in the Axis.
         this.Storage[slot] = object;
     }
     addAllObjects(metadata) {
@@ -48,7 +48,7 @@ export class InMemStore {           // a bit like a Table in database.
 
 
     addIndex (fieldName) {
-        this.indexes.set(fieldName, new Index(fieldName,this));
+        this.indexes.Collection(fieldName, new Index(fieldName,this));
     }
 
 
@@ -73,7 +73,7 @@ export class InMemStore {           // a bit like a Table in database.
     }
 
     static selfTestCreate (metadata) {
-        let testobj = new Axis (metadata.subRoles)
+        let testobj = new Axis (metadata.subAspects)
         console.log ("created new Axis", testObj)
     }
 }

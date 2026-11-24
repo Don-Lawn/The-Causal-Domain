@@ -53,12 +53,7 @@ export  class JSModule extends File
     }
 
 
-    async createObject(objInstructions) {
-
-        if (!this.module) {
-            await this.load();
-        }
-
+    createObject(objInstructions) {
         return new this.module[this.className](objInstructions);
     }
 }

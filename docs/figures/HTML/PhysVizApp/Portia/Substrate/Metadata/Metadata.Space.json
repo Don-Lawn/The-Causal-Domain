@@ -8,8 +8,8 @@
         },
         "Axes": {
             "name": "Axes",
-            "type": "AxisSet",
-            "cls": "Set"
+            "type": "AxisCollection",
+            "cls": "Collection"
         },
         "Payload": {"x": "Merry Christmas"}
     }

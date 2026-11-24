@@ -1,24 +1,25 @@
-// ps-Set.js
-console.log("Loading Set");
+// p-Collection.js
+console.log("Loading Collection");
 
 import { Identity } from "./p-Identity.js";
 import { Index } from "./p-Index.js";
 import { AssertNotImplemented, AssertNotNull } from "./p-assertions.js";
 
-export class Set {           // a bit like a Table in database.
+export class Collection {           // a bit like a Table in database.
     constructor() { 
-        this.elements = new Map();  // the elements in the Set, keyed by identity fields
+        this.members = new Map();  // the elements in the Collection, keyed by identity fields
         this.indexes = new Map();
         this.indexIdentityFields();
+        this.usageCount=0;
     }
 
-    addElement(identity, element) {  // add the Element to the Set, and and index it accordingto identity
-        AssertNotNull (identity.id, 'Set.addElement', `Identity.id is null or undefined`);
-        this.elements.set(identity.id, element);
+    addMember(identity, member) {  // add the Element to the Collection, and index it according to identity
+        AssertNotNull (identity.id, 'Collection.addMember', `Identity.id is null or undefined`);
+        this.members.set(identity.id, member);
         for (const [fieldName, index] of this.indexes.entries()) {
-            const value = this._getFieldValue(element, fieldName);
+            const value = this._getFieldValue(member, fieldName);
             if (value)
-                index.addIndexEntry(value, element);
+                index.addIndexEntry(value, member);
         }
     }
 
@@ -38,10 +39,10 @@ export class Set {           // a bit like a Table in database.
 
 
     findThing (fieldName, key) {
-        // search for a thing in the Set that matches the criteria, and return it.
+        // search for a thing in the Collection that matches the criteria, and return it.
         const index = this.indexes.get(fieldName ?? "id");
-        AssertNotNull (index, 'Set.findThing', `No index found for fieldName: ${fieldName}`);
-        return index.map.get(key)   ;
+        AssertNotNull (index, 'Collection.findThing', `No index found for fieldName: ${fieldName}`);
+        return index.indexMap.get(key);
     }
 
     _getFieldValue(obj, path) {

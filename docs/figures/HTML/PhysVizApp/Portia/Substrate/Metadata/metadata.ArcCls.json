@@ -1,0 +1,14 @@
+{
+    "comment": "This file tells how to build a an ArcCls. It is not yet complete as I will add a bit at a time",
+    "aspects": {
+        "Identity": {
+            "name": "dummyName",
+            "type": "Vertex.ArcClass",
+            "cls": "Identity"
+        },
+        "ArcCls": {
+            "forwardName": "dummyForwardName",
+            "reverseName": "dummyReverseName"
+        }
+    }
+}

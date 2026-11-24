@@ -5,6 +5,20 @@ import { Registry } from "./p-Registry.js";
 
 Registry.initialise();
 
+const sfArcCls = new SmartFactory("ArcCls");
+let HusbandCls = await sfArcCls.build({
+    aspects: {
+        Identity: {
+            name:"HusbandCls", 
+            type:"Relation.Cls.Marriage.Husband",
+        },
+        ArcCls: {
+            forwardName: "Husband",
+            reverseName: "Marriage"
+        }
+    }
+});
+
 const sfThing = new SmartFactory("Thing");
 let Don = await sfThing.MakeBaseThing("Don", "Thing.Person.Man");
 let Dani = await sfThing.MakeBaseThing("Dani", "Thing.Person.Woman");

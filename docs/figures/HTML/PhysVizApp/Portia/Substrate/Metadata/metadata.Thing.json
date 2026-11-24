@@ -1,6 +1,6 @@
 {
     "comment": "This file tells how to build a Space. It is not yet complete as I will add a bit at a time",
-    "roles": {
+    "aspects": {
         "Identity": {
             "name": "someThing",
             "type": "Thing",

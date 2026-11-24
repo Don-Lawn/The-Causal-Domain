@@ -4,5 +4,7 @@
     "ListNode": "./Metadata/metadata.ListNode.json",
     "Person": "./Metadata/metadata.Person.json",
     "Space": "./Metadata/metadata.Space.json",
-    "Thing": "./Metadata/metadata.Thing.json"
+    "Thing": "./Metadata/metadata.Thing.json",
+    "RelCls": "./Metadata/metadata.RelCls.json",
+    "ArcCls": "./Metadata/metadata.ArcCls.json"
 }

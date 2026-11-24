@@ -9,16 +9,17 @@ export class Registry {
             return;
         }
 
-        Registry.classToCode = Registry.load("./metadata/metadata.factory.map.classToCode.json");
+        Registry.classToCode = Registry.load("./Metadata/metadata.factory.map.classToCode.json");
 
-        Registry.typeToInstructions = Registry.load("./metadata/metadata.factory.map.typeToInstructions.json");
+        Registry.typeToInstructions = Registry.load("./Metadata/metadata.factory.map.typeToInstructions.json");
 
         Registry.initialised = true;
     }
 
     static load(fileName) {
         const file = new JsonFile(fileName);
-        return file.deserialise(file.readText());
+        const myText = file.readText(fileName);
+        return file.deserialise(myText);
     }
 
     static getFile(part) {

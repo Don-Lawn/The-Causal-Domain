@@ -45,7 +45,7 @@ export default class %host% extends Thing{           // a bit like a Table in da
     get%guest%(slot) {        // return the %guest% at the specified slot in the %host%.
         return this.%guest%Storage[slot];
     }
-    _set%guest%(slot, %guest%) {  // set the %guest% at the specified slot in the %host%.
+    _Collection%guest%(slot, %guest%) {  // Collection the %guest% at the specified slot in the %host%.
         this.%guest%Storage[slot] = %guest%;
     }
     addAll%guest%(metadata) {
@@ -72,7 +72,7 @@ export default class %host% extends Thing{           // a bit like a Table in da
 
 
     addIndex (fieldName) {
-        this.indexes.set(fieldName, new Index(fieldName,this));
+        this.indexes.Collection(fieldName, new Index(fieldName,this));
     }
 
 
@@ -97,7 +97,7 @@ export default class %host% extends Thing{           // a bit like a Table in da
     }
 
     static selfTestCreate (metadata) {
-        let testobj = new %host% (metadata.subRoles)
+        let testobj = new %host% (metadata.subAspects)
         console.log ("created new %host%", testObj)
     }
 }

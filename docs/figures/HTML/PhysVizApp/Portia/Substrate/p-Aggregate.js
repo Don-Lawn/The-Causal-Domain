@@ -1,7 +1,7 @@
 // ps-Aggregate.js
 console.log("Loading Aggregate");
-import { Identity } from "./p-Identity.js";
-import { Set }  from "./p-Set.js";
+import { Collection }  from "./p-Collection.js";
+import { SmartPtr } from "./p-SmartPtr.js";
 import { Index } from "./p-Index.js";
 import { JSModule } from "./p-JSModule.js"; 
 import { Registry } from "./p-Registry.js";
@@ -13,36 +13,42 @@ export class Aggregate   // not really the whole aggregate - just the part that 
 {
     constructor(typeInstructions, objInstructions)
     {
-        // add the parts Set immediately, so that addPart can use it to keep metadata specufied parts in.
-        this.indexRoleToParts = new Index();
+        // add the parts Collection immediately, so that addPart can use it to keep metadata specufied parts in.
+        this.indexAspectToParts = new Index();
         
         this.typeInstructions = typeInstructions;
 
-        this.incomingArcs = new Set();
-        this.outgoingArcs = new Set();
+        this.incomingArcs = new Collection();
+        this.outgoingArcs = new Collection();
+
+        this.usageCount=0;
 
     }
 
-    addPart(role, part) {
-        this.indexRoleToParts.addIndexEntry(role, part);
+    addAspect(role, part) {
+        this.indexAspectToParts.addIndexEntry(role, part);
+        if (part.hostPtr)
+            part.hostPtr.setTarget(this);
+        else
+            part.hostPtr = new SmartPtr(part, "host", this);
     }
 
 
-    async addNewPart(role, cls, objInstructions) {
+    async addNewAspect(role, cls, objInstructions) {
         const sourceFileName = Registry.getFile(cls);
         AssertNotNull (sourceFileName, 'Aggregate.addNewPart', `Class '${cls}' not found in metadata.roles for aggregate type '${cls}'`); 
 
         let module = new JSModule(sourceFileName, cls);
         await module.load();
         const obj = module.createObject(objInstructions);
-        this.addPart(role, obj);
+        this.addAspect(role, obj);
     }
 
-    removePart(role, metadata) {
+    removeAspect(role, metadata) {
         // Implementation for adding a part to the aggregate
     }
 
-    getRoleObject(role) {   
-        return this.indexRoleToParts.findObjectByKey(role);
+    as(role) {   
+        return this.indexAspectToParts.findObjectByKey(role);
     }
 }

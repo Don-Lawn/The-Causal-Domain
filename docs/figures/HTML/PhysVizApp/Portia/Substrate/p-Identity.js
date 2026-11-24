@@ -13,5 +13,7 @@ export  class Identity
         this.versionNumber = metadata?.versionNumber ?? 1;
         this.type = metadata?.type ?? null;
         this.name = metadata?.name ?? null;
+        this.filename = metadata?.filename ?? null;
+        this.url    = metadata?.url ?? null;
     }
 }
