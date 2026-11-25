@@ -4,6 +4,7 @@ console.log("Loading Collection");
 import { Identity } from "./p-Identity.js";
 import { Index } from "./p-Index.js";
 import { AssertNotImplemented, AssertNotNull } from "./p-assertions.js";
+import { SmartPtr } from "./p-SmartPtr.js";
 
 export class Collection {           // a bit like a Table in database.
     constructor() { 
@@ -13,11 +14,15 @@ export class Collection {           // a bit like a Table in database.
         this.usageCount=0;
     }
 
-    addMember(identity, member) {  // add the Element to the Collection, and index it according to identity
+    addMember(member) {  // add the Element to the Collection, and index it according to identity
+        let identity = member.as("Identity");
         AssertNotNull (identity.id, 'Collection.addMember', `Identity.id is null or undefined`);
+        // link them up
         this.members.set(identity.id, member);
+        member.hostptr = new SmartPtr(member, "host", this.hostPtr.target)
+
         for (const [fieldName, index] of this.indexes.entries()) {
-            const value = this._getFieldValue(member, fieldName);
+            const value = Collection._getFieldValue(member, fieldName);
             if (value)
                 index.addIndexEntry(value, member);
         }
@@ -30,11 +35,11 @@ export class Collection {           // a bit like a Table in database.
     }
 
     indexIdentityFields ( ) {
-        this.indexField("identity.id");
-        this.indexField("identity.versionNumber");
-        this.indexField("identity.cls");
-        this.indexField("identity.type");
-        this.indexField("identity.name");
+        this.indexField("Identity.id");
+        this.indexField("Identity.versionNumber");
+        this.indexField("Identity.cls");
+        this.indexField("Identity.type");
+        this.indexField("Identity.name");
     }
 
 
@@ -45,14 +50,27 @@ export class Collection {           // a bit like a Table in database.
         return index.indexMap.get(key);
     }
 
-    _getFieldValue(obj, path) {
+    static _getFieldValue(obj, path) {
         let current = obj;
 
         for (const key of path.split('.')) {
             if (current == null) {
                 return undefined;
             }
-            current = current[key];
+            switch (current.constructor.name)
+            {
+                case "Aggregate":
+                    current = current.as(key);
+                    break;
+                case "Aspect":
+                    current = current[key];
+                    break;
+                case "SmartPtr":
+                    current = current.getTarget();
+                    break;
+                default:
+                    current = current[key];
+            }
         }
 
         return current;

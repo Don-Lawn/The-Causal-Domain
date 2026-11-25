@@ -9,7 +9,7 @@ export class BaseAspect {
     constructor(identity, cls, metadata, host) {
         this.AspectCls = cls;
         this.metadata = metadata;
-        this.host = host;
+        this.host = new SmartPtr (host);
     }
 
     as (aspectName) {

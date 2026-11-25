@@ -29,19 +29,28 @@ export class Relation extends Vertex{
         // add the reverse arc from target to relation.
         let fromArc = new Arc(target, cls, relation.host);
 
-        this.LinkRelationWithArcs(target, toArc, fromArc);
-        this.LinkVertexesWithArcs(this, target, toArc, fromArc);
+        Relation.LinkRelationWithArcs(this, target, toArc, fromArc);
+        Relation.LinkVerticesWithArcs(this, target, toArc, fromArc);
 
     }
 
-    LinkRelationWithArcs (target, arcForward, arcReverse) {
-        let relation = this;
+    static LinkVerticesDirectly (source, target, forwardRole, reverseRole) {      
+        // add the arc from relation to target.
+        let toArc = new Arc(source, forwardRole, target);
+        // add the reverse arc from target to relation.
+        let fromArc = new Arc(target, reverseRole, source);
+
+        Relation.LinkVerticesWithArcs (source, target, toArc, fromArc);
+    }
+
+    static LinkRelationWithArcs (relation, target, arcForward, arcReverse) {
         relation.outgoingArcs.addMember(arcForward); // add the arc to the relation's outgoing arcs
         target.incomingArcs.addMember(arcForward); // add the arc to the target's incoming arcs
         relation.incomingArcs.addMember(arcReverse); // add the arc to the relation's incoming arcs
         target.outgoingArcs.addMember(arcReverse); // add the arc to the target's outgoing arcs
     }
-    LinkVertexesWithArcs (source, target, arcForward, arcReverse) {
+    
+    static LinkVerticesWithArcs (source, target, arcForward, arcReverse) {
         source.outgoingArcs.addMember(arcForward); // add the arc to the source's outgoing arcs
         target.incomingArcs.addMember(arcForward); // add the arc to the target's incoming arcs
         source.incomingArcs.addMember(arcReverse); // add the arc to the source's incoming arcs

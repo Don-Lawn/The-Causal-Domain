@@ -56,29 +56,34 @@ export class SmartFactory {
     MakeBaseThing( name, type )
     {   
         let metadata = {
-            "Identity": {
-                name: name,
-                type: type,
-                cls: "Identity"
-            },
-        }; 
+            aspects: {
+                "Identity": {
+                    name: name,
+                    type: type,
+                    cls: "Identity"
+                } // end of Identity
+            } // end of aspects
+        }; // end of metadata
         return this.build(metadata);   
     }
 
     MakeParentThing( name, type )
     {   
         let metadata = {
-            "Identity": {
-                name: name,
-                type: type,
-                cls: "Identity"
-            },
-            "Children": {
-                name: "Children",
-                type: "Collection.Children",
-                cls: "Collection"
-            }
-        };   
+            aspects:{
+                "Identity": {
+                    name: name,
+                    type: type,
+                    cls: "Identity"
+                }, // end of Identity
+                "Children": {
+                    name: "Children",
+                    type: "Collection.Children",
+                    cls: "Collection"
+                } // end of Children
+            } // end of aspects
+        };   // end of metadata
+        
         return this.build(metadata);
     }
 }
