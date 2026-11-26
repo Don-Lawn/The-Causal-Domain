@@ -5,8 +5,10 @@ import { Collection } from "./p-Collection.js";
 import path from "path";
 
 export class SmartPtr {
-    constructor(host,role,target) {
-        this.host = host;
+    constructor(source,role,target) {
+        if (target.constructor.name !== "Aggregate") throw new Error("SmartPtr: target is must be an Aggregate");
+
+        this.source = source;
         this.role = role;
         this.target  = target;
         if (!target.usageCount)
@@ -18,7 +20,7 @@ export class SmartPtr {
 
     get() {
         if (! this.target) {
-            return this.host.container.findThing(this.targetIdentity);
+            return this.source.container.findThing(this.targetIdentity);
         } else {
             return this.target;
         }

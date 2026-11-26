@@ -6,10 +6,16 @@ import { SmartFactory } from "./p-SmartFactory.js";
 import { Registry } from "./p-Registry.js";
 
 export class BaseAspect {
-    constructor(identity, cls, metadata, host) {
+    constructor(cls, metadata) {
         this.AspectCls = cls;
         this.metadata = metadata;
-        this.host = new SmartPtr (host);
+    }
+
+    setHost(host) {
+        if (this.hostPtr)
+            this.hostPtr.setTarget(host);
+        else
+            this.hostPtr = new SmartPtr(this, "host", host);
     }
 
     as (aspectName) {

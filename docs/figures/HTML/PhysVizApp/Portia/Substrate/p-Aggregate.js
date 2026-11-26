@@ -27,10 +27,7 @@ export class Aggregate   // not really the whole aggregate - just the part that 
 
     addAspect(role, part) {
         this.indexAspectToParts.addIndexEntry(role, part);
-        if (part.hostPtr)
-            part.hostPtr.setTarget(this);
-        else
-            part.hostPtr = new SmartPtr(part, "host", this);
+        part.setHost(this);
     }
 
 

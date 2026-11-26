@@ -79,11 +79,11 @@ export class SmartFactory {
                 "Children": {
                     name: "Children",
                     type: "Collection.Children",
-                    cls: "Collection"
+                    cls: "Collection",
                 } // end of Children
             } // end of aspects
         };   // end of metadata
-        
+
         return this.build(metadata);
     }
 }

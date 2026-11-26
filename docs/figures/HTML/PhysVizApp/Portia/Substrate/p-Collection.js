@@ -5,9 +5,11 @@ import { Identity } from "./p-Identity.js";
 import { Index } from "./p-Index.js";
 import { AssertNotImplemented, AssertNotNull } from "./p-assertions.js";
 import { SmartPtr } from "./p-SmartPtr.js";
+import { BaseAspect } from "./p-BaseAspect.js";
 
-export class Collection {           // a bit like a Table in database.
-    constructor() { 
+export class Collection extends BaseAspect {           // a bit like a Table in database.
+    constructor(metadata = null ) { 
+        super("Collection", metadata);
         this.members = new Map();  // the elements in the Collection, keyed by identity fields
         this.indexes = new Map();
         this.indexIdentityFields();
@@ -18,8 +20,9 @@ export class Collection {           // a bit like a Table in database.
         let identity = member.as("Identity");
         AssertNotNull (identity.id, 'Collection.addMember', `Identity.id is null or undefined`);
         // link them up
-        this.members.set(identity.id, member);
-        member.hostptr = new SmartPtr(member, "host", this.hostPtr.target)
+        this.members.set(identity.id, member); 
+        let ch = member.as("Child");
+        ch.setParent(this);
 
         for (const [fieldName, index] of this.indexes.entries()) {
             const value = Collection._getFieldValue(member, fieldName);

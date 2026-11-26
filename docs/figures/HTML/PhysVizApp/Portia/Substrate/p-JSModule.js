@@ -41,6 +41,10 @@ export  class JSModule extends File
                     "Message:",
                     err.message
                 );
+
+                console.error(err.stack);
+
+                throw err;
             }
         }
         
