@@ -6,6 +6,7 @@ import { Index } from "./p-Index.js";
 import { AssertNotImplemented, AssertNotNull } from "./p-assertions.js";
 import { SmartPtr } from "./p-SmartPtr.js";
 import { BaseAspect } from "./p-BaseAspect.js";
+import { ListNav, CollectionIterator   } from "./p-BaseIterator.js";
 
 export class Collection extends BaseAspect {           // a bit like a Table in database.
     constructor(metadata = null ) { 
@@ -78,5 +79,8 @@ export class Collection extends BaseAspect {           // a bit like a Table in 
 
         return current;
     }
-}
 
+    getIterator() {
+        return new CollectionIterator(this);
+    }
+}

@@ -6,7 +6,7 @@ import { Index } from "./p-Index.js";
 import { JSModule } from "./p-JSModule.js"; 
 import { Registry } from "./p-Registry.js";
 import { AssertNotNull } from "./p-assertions.js";
-import { type } from "os";
+import { ListNav, BaseIterator } from "./p-BaseIterator.js";
 
 export class Aggregate   // not really the whole aggregate - just the part that acts as the facade and holds the other parts
 
@@ -47,5 +47,9 @@ export class Aggregate   // not really the whole aggregate - just the part that 
 
     as(role) {   
         return this.indexAspectToParts.findObjectByKey(role);
+    }
+
+    getAspectIterator () {
+        return this.indexAspectToParts.getIterator();
     }
 }

@@ -4,13 +4,19 @@ export class PropertySet {
 
         this.tree = {};
         this.flat = {};
+        let myData
+        if (data instanceof PropertySet) 
+            myData = data.tree        
+        else 
+            myData = data;     
 
-        if (this.isFlat(data)) {
-            this.flat = structuredClone(data);
+
+        if (this.isFlat(myData)) {
+            this.flat = structuredClone(myData);
             this.rebuildTree();
         }
         else {
-            this.tree = structuredClone(data);
+            this.tree = structuredClone(myData);
             this.rebuildFlat();
         }
     }
@@ -32,13 +38,22 @@ export class PropertySet {
     }
 
     merge(other) {
+        if (!other) return this;
+
+        let myOther;
+        if ((other instanceof PropertySet)) 
+            myOther = other
+        else 
+            myOther = new PropertySet(other);
+        
 
         this.flat = {
             ...this.flat,
-            ...other.flat
+            ...myOther.flat
         };
 
         this.rebuildTree();
+        return this;
     }
 
     static normalize(obj, prefix = "", result = {}) {

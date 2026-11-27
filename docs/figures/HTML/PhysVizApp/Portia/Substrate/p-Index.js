@@ -1,5 +1,6 @@
 // ps-Index.js
 console.log("Loading Index");
+import { IndexIterator } from "./p-BaseIterator.js";
 export  class Index {
     constructor (fieldName) {  
         this.fieldName = fieldName;
@@ -22,5 +23,7 @@ export  class Index {
         this.indexMap.clear();
     }
 
-
+    getIterator() {
+        return new IndexIterator(this);
+    }   
 }

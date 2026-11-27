@@ -40,20 +40,19 @@ export class SmartFactory {
         }
     }
 
-    async build( objInstructions) {
+    async build( objInstructions = null) {
         this.objInstructions = objInstructions;
         let result = new Aggregate(this.classInstructions, this.objInstructions);
         this.ps = new PropertySet (this.classInstructions);
-        this.objPs = new PropertySet (this.objInstructions);
-        this.ps.merge(this.objPs);
+        //this.objPs = new PropertySet (this.objInstructions);
+        this.ps.merge(objInstructions);
 
         await this.processInstructions(result, this.ps);
 
         return result;
     }
 
-
-    MakeBaseThing( name, type )
+    MakeChildThing( name, type, objinstructions=null )
     {   
         let metadata = {
             aspects: {
@@ -61,15 +60,31 @@ export class SmartFactory {
                     name: name,
                     type: type,
                     cls: "Identity"
-                } // end of Identity
+                }, // end of Identity
+                "Child":{ cls: "Child" }
             } // end of aspects
         }; // end of metadata
-        return this.build(metadata);   
+        return this.build(metadata.merge(objinstructions));
+    }
+    MakeBaseThing( name, type, objinstructions = null )
+    {   
+        let metadata = new PropertySet(
+        {
+            aspects: {
+                "Identity": {
+                    name: name,
+                    type: type,
+                    cls: "Identity"
+                } // end of Identity
+            } // end of aspects
+        }); // end of metadata
+    
+        return this.build(metadata.merge(objinstructions));
     }
 
-    MakeParentThing( name, type )
+    MakeParentThing( name, type, objinstructions = null )
     {   
-        let metadata = {
+        let metadata = new PropertySet({
             aspects:{
                 "Identity": {
                     name: name,
@@ -82,8 +97,8 @@ export class SmartFactory {
                     cls: "Collection",
                 } // end of Children
             } // end of aspects
-        };   // end of metadata
+        });   // end of metadata
 
-        return this.build(metadata);
+        return this.build(metadata.merge(objinstructions));
     }
 }
