@@ -1,0 +1,11 @@
+{
+    "comment": "This file tells how to build a Child capability. ",
+    "comment2": "in a Graph, a Child is something that points to vertexes via Arcs",
+    "aspects": {
+        "Child": {
+            "name": "Child",
+            "type": "Thing.Child",
+            "cls": "Collection"
+        }        
+    }
+}

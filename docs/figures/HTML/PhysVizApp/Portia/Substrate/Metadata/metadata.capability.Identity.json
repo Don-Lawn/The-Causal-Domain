@@ -1,11 +1,11 @@
 {
-    "comment": "This file tells how to build a Space. It is not yet complete as I will add a bit at a time",
+    "comment": "This file tells how to build an Identity capability. ",
+    "comment2": "All aggregates must have an Identity Aspect",
     "aspects": {
         "Identity": {
             "name": "someThing",
             "type": "Thing",
             "cls": "Identity"
         }
-        
     }
 }

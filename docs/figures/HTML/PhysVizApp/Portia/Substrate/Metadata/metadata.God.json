@@ -1,0 +1,9 @@
+{
+    "comment": "This file tells how to build an Odin Thing. All capabilities.",
+    "capabilities": [
+            "Identity",
+            "Node",
+            "Children",
+            "Child"
+    ]
+}

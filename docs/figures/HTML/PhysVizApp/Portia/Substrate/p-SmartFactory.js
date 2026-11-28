@@ -9,16 +9,10 @@ import { normalize } from "path";
 
 export class SmartFactory {
     constructor(type) {
-        this.instructionsFileName = Registry.getInstructions(type);
-        AssertNotNull (this.instructionsFileName, `SmartFactory - No file of instructions found for type: ${type} 
-            in file "./Metadata/metadata.factory.Map.typeToInstructions.json"`);
-        const fs = new JsonFile(this.instructionsFileName);
-        let txt = fs.readText();
-        this.classInstructions = fs.deserialise(txt);
+        this.classInstructions = Registry.loadType(type);
         AssertNotNull (this.classInstructions, `SmartFactory - No instructions found for type: ${type} 
             in file "./Metadata/metadata.factory.Map.typeToInstructions.json"`);
            
-        this.clsPs = new PropertySet (this.classInstructions);
     }
 
 

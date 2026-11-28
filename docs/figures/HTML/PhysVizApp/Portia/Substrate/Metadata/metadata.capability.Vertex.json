@@ -1,0 +1,11 @@
+{
+    "comment": "This file tells how to build a Node capability. ",
+    "comment2": "in a Graph,  a Node is something that is pointed to by an Arc, from a Relation",
+    "aspects": {
+        "Vertex": {
+            "name": "IncomingArcs",
+            "type": "Collection.Children",
+            "cls": "Collection"
+        }        
+    }
+}

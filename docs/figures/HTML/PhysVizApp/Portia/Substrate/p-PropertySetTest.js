@@ -1,8 +1,12 @@
-import { Registry } from "./p-Registry.js";
-import { RelCls } from "./p-Relation.js";
-import { SmartFactory } from "./p-SmartFactory.js";
+//import { Registry } from "./p-Registry.js";
+//import { SmartFactory } from "./p-SmartFactory.js";
+import { PropertySet } from "./p-propertySet.js";
 
-Registry.initialise();
+//Registry.initialise();
+
+
+// const nodePS = Registry.getInstructionsAsPS("Node");
+/*
 
 const sfThing = new SmartFactory("Thing");
 let Person = await sfThing.MakeBaseThing("Person", "Thing.Cls.Person");
@@ -33,3 +37,4 @@ let asRelation = marriageDonDani.as("Relation");
 console.log ("asRelation", asRelation);
 asRelation.LinkWithArcs(HusbandCls, Don);
 asRelation.LinkWithArcs(WifeCls, Dani);
+*/

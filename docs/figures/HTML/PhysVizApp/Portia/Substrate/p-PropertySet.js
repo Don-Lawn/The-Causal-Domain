@@ -1,3 +1,8 @@
+console.log("Loading PropertySet");
+
+import { Registry } from "./p-Registry.js";
+
+
 export class PropertySet {
 
     constructor(data = {}) {
@@ -23,8 +28,7 @@ export class PropertySet {
 
     isFlat(data) {
 
-        return Object.keys(data)
-            .some(key => key.includes("."));
+        return Object.keys(data).some(key => key.includes("."));
     }
 
     rebuildFlat() {
@@ -108,4 +112,28 @@ export class PropertySet {
 
         return result;
     }
+
+    LoadFromFile(capName) {
+        Registry.LoadFromFile
+        fh = new JsonFile (filePath);
+        const otherPs = new PropertySet(JSON.parse(fs.readFileSync(filePath, "utf-8")));
+        this.merge(otherPs);
+    }
+    
+    resolveCapabilities() {
+        do {
+            let caps = this.tree["capabilities"];      
+            
+            if (caps && caps.length > 0) {
+                for (const capName of caps) {
+                    const cap = Registry.loadType(capName);
+                    this.merge(cap);
+                    console.log(capName);
+                }
+                delete this.tree["capabilities"];
+            }
+        } while (this.tree["capabilities"] && this.tree["capabilities"].length > 0);
+    }
+    
 }
+console.log ("loaded PropertySet");

@@ -28,6 +28,7 @@ export class Aggregate   // not really the whole aggregate - just the part that 
     addAspect(role, part) {
         this.indexAspectToParts.addIndexEntry(role, part);
         part.setHost(this);
+        part.role = role;
     }
 
 

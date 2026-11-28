@@ -1,0 +1,8 @@
+{
+    "comment": "This file tells how to build a Node capability. ",
+    "comment2": "A node is something that can be a Vertex of a Relation, having both incoming and outgoing arcs",
+    "capabilities": [
+        "Vertex", 
+        "Relation"
+    ]
+}

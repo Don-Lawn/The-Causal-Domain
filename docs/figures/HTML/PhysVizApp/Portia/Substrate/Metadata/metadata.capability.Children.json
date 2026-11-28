@@ -1,0 +1,10 @@
+{
+    "comment": "This file tells how to build a Children capability. ",
+    "aspects": {
+        "Children": {
+            "name": "Children",
+            "type": "Collection.Children",
+            "cls": "Collection"
+        }        
+    }
+}

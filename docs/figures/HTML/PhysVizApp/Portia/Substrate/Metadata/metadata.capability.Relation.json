@@ -1,0 +1,11 @@
+{
+    "comment": "This file tells how to build a Relation capability. ",
+    "comment2": "in a Graph, a Relation is something that points to vertexes via Arcs",
+    "aspects": {
+        "Relation": {
+            "name": "OutgoingArcs",
+            "type": "Collection.Children",
+            "cls": "Collection"
+        }        
+    }
+}

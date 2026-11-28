@@ -6,5 +6,13 @@
     "Space": "./Metadata/metadata.Space.json",
     "Thing": "./Metadata/metadata.Thing.json",
     "RelCls": "./Metadata/metadata.RelCls.json",
-    "ArcCls": "./Metadata/metadata.ArcCls.json"
+    "ArcCls": "./Metadata/metadata.ArcCls.json",
+    "Node": "./Metadata/metadata.capability.Node.json",
+    "Vertex": "./Metadata/metadata.capability.Vertex.json",
+    "Relation": "./Metadata/metadata.capability.Relation.json",
+    "God": "./Metadata/metadata.God.json",
+    "Identity": "./Metadata/metadata.capability.Identity.json",
+    "Children": "./Metadata/metadata.capability.Children.json",
+    "Child": "./Metadata/metadata.capability.Child.json"
+    
 }
